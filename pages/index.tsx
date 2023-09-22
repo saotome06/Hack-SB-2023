@@ -25,17 +25,15 @@ export default function CameraApp() {
    * 写真の初期描画
    */
   if (canvasRef.current) {
-  
     const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
+    const context = canvas.getContext("2d");
     if (context) {
-      context.fillStyle = '#AAA';
+      context.fillStyle = "#AAA";
       context.fillRect(0, 0, canvas.width, canvas.height);
-      const photo = document.querySelector('#photo') as HTMLImageElement;
-      photo.src = canvas.toDataURL('image/png');
+      const photo = document.querySelector("#photo") as HTMLImageElement;
+      photo.src = canvas.toDataURL("image/png");
     }
   }
-
 
   /**
    * 写真の撮影描画
@@ -46,17 +44,11 @@ export default function CameraApp() {
       const canvas = canvasRef.current;
       canvas.width = drawSize.width;
       canvas.height = drawSize.height;
-      const context = canvas.getContext('2d');
+      const context = canvas.getContext("2d");
       if (context) {
-        context.drawImage(
-          videoRef.current,
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        );
-        const photo = document.querySelector('#photo') as HTMLImageElement;
-        photo.src = canvas.toDataURL('image/png');
+        context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+        const photo = document.querySelector("#photo") as HTMLImageElement;
+        photo.src = canvas.toDataURL("image/png");
         saveCanvasAsImage(canvas);
       }
     }
