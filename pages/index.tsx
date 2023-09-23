@@ -251,35 +251,34 @@ export default function FaceMesher() {
                   borderRadius: "10px",
                   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
                 }}
-              
-            ></video>
-            <canvas
-              ref={canvasRef}
-              id="output"
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                margin: "auto",
-                width: "95%",
-                height: "auto",
-                display: camButton ? "block" : "none",
-                borderRadius: "10px",
-                boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
-              }}
-            ></canvas>
-          </div>
-        </Box>
-      ) : (
-        <Card
-          imgSrc={dataURL}
-          data_face_mesh={data_face_mesh}
-          faceSrc={faceImageURL}
-        />
-      )}
-    </div>
+              ></video>
+              <canvas
+                ref={canvasRef}
+                id="output"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  margin: "auto",
+                  width: "95%",
+                  height: "auto",
+                  display: camButton ? "block" : "none",
+                  borderRadius: "10px",
+                  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+                }}
+              ></canvas>
+            </div>
+          </Box>
+        ) : (
+          <Card
+            imgSrc={dataURL}
+            data_face_mesh={data_face_mesh}
+            faceSrc={faceImageURL}
+          />
+        )}
+      </div>
     </>
   );
 }
