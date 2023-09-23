@@ -40,7 +40,6 @@ export default function Home() {
         model: "gpt-4",
       });
 
-      console.log(content);
       const answer = completion.choices[0].message?.content;
       const regex = /[^0-9]/g;
       const result = answer.replace(regex, "");
