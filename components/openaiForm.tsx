@@ -3,15 +3,55 @@ import { Box, Button, TextField } from "@mui/material";
 import OpenAI from "openai";
 
 export default function OpeaiForm(props) {
-  console.log(props.data_face_mesh);
+  //console.log(props.data_face_mesh);
   function Attack_Name_Button() {
     const [name, setname] = useState("");
     const [card_name, set_card_name] = useState("loading...");
     const [attack_score, set_attack_score] = useState(1000);
     const [inputFormOn, setinputFormOn] = useState(true);
     const [output_data, set_randomData] = useState("loading...");
-    // const [isLoadingText, setIsLoadingText] = useState(false);
-    // const [isLoadingAttackScore, setIsLoadingAttackScore] = useState(false);
+    const [smile_score, set_smile_score] = useState(1000);
+
+    async function sendPrompt_smile_score(prompt = "") {
+      if (prompt.length == 0) {
+        return;
+      }
+
+      const openai = new OpenAI({
+        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        dangerouslyAllowBrowser: true,
+      });
+
+      const content =
+        "ちょっとした謎々です。MediaPipeのFaceMeshを使って、顔の点群を取得しました。MOUTHは口、LEFT_EYE,RIGHT_EYEはそれぞれの目、LEFT_MAYU, RIGHT_MAYUはそれぞれの眉を表しています。この数値がどんな表情をしているのか推察してみてください。ちなみに、この数値は鼻の頭らへんの番号6からのユークリッド距離を100倍したものです．" +
+        prompt +
+        "口が結構重要だと思います。目指すべきは笑顔です。ですので、MOUTH、EYE、MAYUの3つの要素に着目して，どれぐらい笑顔かを0以上100以下の数値で評価してください。絶対に結果のみを示してください。注意書きや但し書きなどを書かないでください．";
+      //console.log(content);
+      const completion = await openai.chat.completions.create({
+        messages: [{ role: "user", content: content }],
+        model: "gpt-4",
+      });
+
+      const answer = completion.choices[0].message?.content;
+      const regex = /[^0-9]/g;
+      const result = answer.replace(regex, "");
+      let number = parseInt(result);
+
+      if (isNaN(number)) {
+        number = 1;
+      }
+      if (number >= 100) number = 100;
+      let random_Data =
+        number +
+        number *
+          0.1 *
+          Math.sqrt(-2 * Math.log(1 - Math.random())) *
+          Math.cos(2 * Math.PI * Math.random());
+      random_Data *= 100;
+      if (random_Data < 0) random_Data = 100;
+      set_smile_score(Math.round(random_Data));
+      console.log(answer, number, random_Data);
+    }
 
     async function sendPrompt(prompt = "") {
       const openai = new OpenAI({
@@ -34,8 +74,7 @@ export default function OpeaiForm(props) {
         prompt_base =
           "必殺技の名前を言うので，理論的で死ぬほど真面目腐ったの技の説明を100文字程度でしてください．";
       }
-      //   setIsLoadingText(true);
-      //   setIsLoadingAttackScore(true);
+
       const content = prompt_base + "技名[" + prompt + "]";
       const completion = await openai.chat.completions.create({
         messages: [{ role: "user", content: content }],
@@ -96,7 +135,6 @@ export default function OpeaiForm(props) {
       if (random_Data < 0) random_Data = 100;
       set_attack_score(Math.round(random_Data));
       console.log(number, random_Data);
-      //   setIsLoadingAttackScore(false);
     }
 
     const onChangeHandler0 = (e: any) => {
@@ -107,6 +145,7 @@ export default function OpeaiForm(props) {
       console.log(name);
       sendPrompt(name);
       sendPrompt_cal_attack_score(name);
+      sendPrompt_smile_score(props.data_face_mesh);
       setinputFormOn(false);
     };
 
@@ -210,7 +249,7 @@ export default function OpeaiForm(props) {
                 }}
               >
                 <p className="text-3xl font-bold underline">
-                  ATK/{attack_score}
+                  ATK/{Math.round(attack_score * 0.7 + smile_score * 0.3)}
                 </p>
               </Box>
             </Box>
