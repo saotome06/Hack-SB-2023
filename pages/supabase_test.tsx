@@ -59,6 +59,8 @@ export default function getStaticProps() {
           src: src,
         },
       ]);
+
+      setResponseBucket(src);
     }
   };
 
@@ -70,6 +72,7 @@ export default function getStaticProps() {
         <input type="file" onChange={handlePutClick} />
         {/* <Button onClick={handlePutClick}>追加</Button> */}
         <div>{response}</div>
+        <img src={responseBucket} width="25%" height="25%" />
       </main>
     </>
   );

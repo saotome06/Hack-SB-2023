@@ -33,16 +33,16 @@ export default async function uploadHandler(req, res) {
 
       const publicURL = await supabase.storage
         .from("image")
-        .getPublicUrl(fileName);
+        .getPublicUrl("test1.png");
 
       const src = publicURL.data.publicUrl;
 
-      console.log(`FileName: ${fileName}, publicURL: ${src}`);
+      console.log(`FileName: test1.png, publicURL: ${src}`);
 
       // DBにレコード作成
       await supabase.from("sample").insert([
         {
-          fileName: fileName,
+          fileName: "test1.png",
           src: src,
         },
       ]);
