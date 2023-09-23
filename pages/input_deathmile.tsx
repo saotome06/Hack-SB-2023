@@ -45,7 +45,7 @@ function Contact() {
       body: JSON.stringify(data),
     });
     if (response.status === 200) {
-      router.push("/deathmile");
+      router.push("/result_deathmile");
     } else {
       alert("正常に送信できませんでした");
     }
