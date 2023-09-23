@@ -13,7 +13,6 @@ export default function OpeaiForm() {
     // const [isLoadingAttackScore, setIsLoadingAttackScore] = useState(false);
 
     async function sendPrompt(prompt = "") {
-      
       const openai = new OpenAI({
         apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
         dangerouslyAllowBrowser: true,
@@ -61,7 +60,7 @@ export default function OpeaiForm() {
         .replace('"', "")
         .replace("「", "")
         .replace("」", "")
-        .replace("”", "");
+        .replace('"', "");
       console.log(answer1);
       set_card_name(answer1);
     }
@@ -71,7 +70,6 @@ export default function OpeaiForm() {
         apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
         dangerouslyAllowBrowser: true,
       });
-      console.log("start");
 
       const content =
         "技名[" +
@@ -82,14 +80,11 @@ export default function OpeaiForm() {
         model: "gpt-4",
       });
 
-      console.log(completion);
       const answer = completion.choices[0].message?.content;
-      console.log(answer);
-      console.log("end");
       const regex = /[^0-9]/g;
       const result = answer.replace(regex, "");
       let number = parseInt(result);
-      if(isNaN(number)) number = 100;
+      if (isNaN(number)) number = 100;
       let random_Data =
         Math.random() * 1000 +
         number +
@@ -130,40 +125,47 @@ export default function OpeaiForm() {
               }}
             >
               <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <TextField
-                value={name}
-                onChange={onChangeHandler0}
-                label="必殺技を入力してください"
-                variant="outlined"
-                style={{ marginBottom: "10px", width: "80%", color: "white" }}
-                placeholder="必殺技名を入力してください"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                  }
-                }}
-              />
-              <Button
-                onClick={handleClick}
-                variant="contained"
-                size="large"
                 style={{
-                  backgroundColor: "rgb(231, 76, 60)",
-                  color: "white",
-                  width: "80%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                 }}
               >
-                決定
-              </Button>
-            </div>
+                <TextField
+                  value={name}
+                  onChange={onChangeHandler0}
+                  label="必殺技を入力してください"
+                  variant="outlined"
+                  style={{ marginBottom: "10px", width: "80%", color: "white" }}
+                  placeholder="必殺技名を入力してください"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                    }
+                  }}
+                />
+                <Button
+                  onClick={handleClick}
+                  variant="contained"
+                  size="large"
+                  sx={{
+                    border: "None",
+                    padding: "10px",
+                    width: "80%",
+                    height: "60px",
+                    minWidth: "30px",
+                    backgroundColor: "rgb(231, 76, 60)",
+                    borderColor: "black",
+                    color: "white",
+                    borderRadius: "0.9rem",
+                    fontSize: "20px",
+                    cursor: "pointer",
+                  }}
+                >
+                  決定
+                </Button>
+              </div>
             </Box>
-            
           </form>
         ) : (
           <>
