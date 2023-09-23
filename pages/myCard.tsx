@@ -58,6 +58,7 @@ export default function MyCard() {
             backgroundColor: "#ddd",
             color: "black",
             boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
+            opacity: 0.8,
           }}
         >
           <Box
@@ -67,8 +68,9 @@ export default function MyCard() {
               padding: "5px",
               backgroundColor: "#ddd",
               color: "black",
-              width: "360px",
+              width: "330px",
               boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
+              opacity: 0.8,
             }}
           >
             <a>{myCardName}</a>

@@ -47,6 +47,7 @@ export default function Card(props) {
         }}
       >
         <OpeaiForm />
+        {/* <OpeaiForm data_face_mesh={props.data_face_mesh} /> */}
       </Box>
     </Box>
   );
