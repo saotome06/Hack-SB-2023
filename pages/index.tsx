@@ -9,7 +9,7 @@ import {
 } from "../common/constants";
 import { Box, Button } from "@mui/material";
 import Card from "../components/card";
-import { decode } from 'base64-arraybuffer';
+import { decode } from "base64-arraybuffer";
 import { createClient } from "@supabase/supabase-js";
 // import {
 //   LandmarkConnectionArray,
@@ -97,7 +97,7 @@ export default function FaceMesher() {
     dataURL = canvas.toDataURL();
 
     console.log(`dataURL: ${dataURL}`);
-    
+
     // 画像をアップロード
     const api_key = process.env.NEXT_PUBLIC_SUPABASE_KEY;
 
@@ -109,13 +109,13 @@ export default function FaceMesher() {
     // dataURLを,で分割
     const dataURL_split = dataURL.split(",");
     const dataURL_base64 = dataURL_split[1];
-    
+
     // 文字列をランダムに生成
     const fileName = Math.random().toString(32).substring(2) + ".png";
     console.log(`fileName: ${fileName}`);
     const { data: inputData, error } = await supabase.storage
       .from("image")
-      .upload(fileName,  decode(dataURL_base64), {
+      .upload(fileName, decode(dataURL_base64), {
         contentType: "image/png",
       });
     if (error) {
@@ -268,7 +268,11 @@ export default function FaceMesher() {
           </div>
         </Box>
       ) : (
-        <Card imgSrc={dataURL} data_face_mesh={data_face_mesh} faceSrc={faceImageURL}/>
+        <Card
+          imgSrc={dataURL}
+          data_face_mesh={data_face_mesh}
+          faceSrc={faceImageURL}
+        />
       )}
     </div>
   );

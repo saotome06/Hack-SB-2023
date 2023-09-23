@@ -14,7 +14,7 @@ export let myScoreSmile = 0;
 export let faceSrc = "";
 
 export default function OpeaiForm(props) {
-  faceSrc=props.faceSrc;
+  faceSrc = props.faceSrc;
   function Attack_Name_Button() {
     const [name, setname] = useState("");
     const [card_name, set_card_name] = useState("お待ちください");
