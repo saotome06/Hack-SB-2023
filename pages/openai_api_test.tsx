@@ -9,6 +9,45 @@ export default function Home() {
     const [output_data, set_randomData] = useState(
       "「ちょーすごいパーンチ」は、使用者が蓄積した集中力とエネルギーを一点に絞り、極限まで強化した拳を一瞬で放つ技。力の源は真剣勝負の熱量で、パンチが命中すれば周囲も巻き込むほどの衝撃波を生む。",
     );
+    const [face_pos,set_face_pos] = useState("{MOUTH:[58, 65, 87, 98, 58, 64, 71, 85, 83, 72, 68, 66, 98, 87, 86, 93, 86, 89, 87, 96, 78, 76, 58, 64, 69, 79, 77, 69, 67, 66, 98, 87, 84, 90, 82, 85, 86, 95, 73, 72], LEFT_EYE:[58, 61, 27, 49, 43, 37, 32, 28, 33, 39, 44, 51, 55, 54, 28, 58], RIGHT_EYE:[37, 39, 12, 32, 27, 22, 17, 14, 17, 22, 27, 32, 36, 35, 14, 38] LEFT_MAYU:[71, 55, 64, 25, 70, 42, 46, 60, 33, 33, 28], RIGHT_MAYU:[46, 39, 44, 19, 46, 32, 35, 47, 43, 27]}");
+    const [smile_score, set_smile_score] = useState(1000);
+
+
+
+    async function sendPrompt_smile_score(prompt = "") {
+      const openai = new OpenAI({
+        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        dangerouslyAllowBrowser: true,
+      });
+      console.log("start");
+
+      const content = "FaceMeshを利用して顔のキーポイントを検出しました．鼻の頭からの距離を測定します．顔の表情が変化した時に，普段の顔の状態からどれぐらい変化があるかのユークリッド距離を100倍した配列を与えます．MOUTHは口付近，LEFT_EYEは左目付近，RIGHT_EYEは右目付近，LEFT_MAYUは左眉付近，RIGHT_MAYUは右眉付近です．顔の表情がどれぐらい笑顔なのかを0以上100以下の数値で推定してください．文句言わずに数字だけ返してください．" + "[" + face_pos + "]";
+      console.log(content);
+      const completion = await openai.chat.completions.create({
+        messages: [{ role: "user", content: content }],
+        model: "gpt-4",
+      });
+
+      console.log(content);
+      const answer = completion.choices[0].message?.content;
+      const regex = /[^0-9]/g;
+      const result = answer.replace(regex, "");
+      const number = parseInt(result);
+      console.log("end");
+      set_smile_score(number);
+      let random_Data =
+        Math.random() * 1000 +
+        number +
+        number *
+          0.1 *
+          Math.sqrt(-2 * Math.log(1 - Math.random())) *
+          Math.cos(2 * Math.PI * Math.random());
+        random_Data *= 100;
+      if (random_Data < 0) random_Data = 100;
+      set_smile_score(Math.round(random_Data));
+      console.log(answer,number,random_Data);
+    }
+
 
     async function sendPrompt(prompt = "") {
       //console.log(process.env.NEXT_PUBLIC_OPENAI_API_KEY)
@@ -88,16 +127,39 @@ export default function Home() {
       setname(e.target.value);
     };
 
+    const onChangeHandler1 = (e: any) => {
+      set_face_pos(e.target.value);
+    };
+
     const handleClick = () => {
       console.log(name);
       sendPrompt(name);
       sendPrompt_cal_attack_score(name);
+      sendPrompt_smile_score();
     };
 
     return (
       <>
         <form>
           <div className="text-2xl">
+            face mesh:
+            <input
+              value={face_pos}
+              onChange={onChangeHandler1}
+              type="text"
+              name="face_pos"
+              placeholder="face_pos"
+              style={{
+                padding: "10px",
+                borderRadius: "5px",
+                border: "2px solid #ccc",
+                boxShadow: "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
+                fontSize: "22px",
+                width: "90%",
+                boxSizing: "border-box",
+                marginBottom: "10px",
+              }}
+            /><br></br>
             name:
             <input
               value={name}
@@ -144,6 +206,12 @@ export default function Home() {
         <p className="text-3xl font-bold underline"> {output_data}</p>
         <p className="text-3xl font-bold underline">
           attack score : {attack_score}
+        </p>
+        <p className="text-3xl font-bold underline">
+          face pos : {face_pos}
+        </p>
+        <p className="text-3xl font-bold underline">
+          smile score : {smile_score}
         </p>
       </>
     );
