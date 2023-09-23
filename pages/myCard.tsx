@@ -13,6 +13,7 @@ import {
 export default function MyCard() {
   console.log("myScoreAttackName:", myScoreAttackName);
   console.log("myScoreSmile:", myScoreSmile);
+
   return (
     <CardFrame
       imageURL={imageURL}

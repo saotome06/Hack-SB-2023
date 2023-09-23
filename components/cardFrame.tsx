@@ -34,7 +34,7 @@ export default function CardFrame(props) {
           opacity: 0.8,
         }}
       >
-        <a>{props.myCardName}</a>
+        <a>{props.myCardName.replace('"', "").replace('"', "")}</a>
       </Box>
       <img
         style={{
