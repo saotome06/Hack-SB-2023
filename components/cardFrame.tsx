@@ -36,16 +36,23 @@ export default function CardFrame(props) {
       >
         <a>{props.myCardName.replace('"', "").replace('"', "")}</a>
       </Box>
-      <img
-        style={{
-          width: "100%",
-          marginTop: "20px",
-          height: "auto",
-          borderRadius: "10px",
-          boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+      <Box
+        sx={{
+          height: "250px",
+          overflowY: "scroll",
         }}
-        src={props.cardImage}
-      />
+      >
+        <img
+          style={{
+            width: "100%",
+            marginTop: "20px",
+            height: "auto",
+            borderRadius: "10px",
+            boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+          }}
+          src={props.cardImage}
+        />
+      </Box>
       <Box
         sx={{
           textAlign: "left",
