@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import OpenAI from "openai";
-import styles from "../styles/loading.module.css";
 
 export default function OpeaiForm() {
   function Attack_Name_Button() {
