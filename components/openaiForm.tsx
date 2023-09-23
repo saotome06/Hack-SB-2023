@@ -138,6 +138,11 @@ export default function OpeaiForm() {
                 variant="outlined"
                 style={{ marginBottom: "10px", width: "80%", color: "white" }}
                 placeholder="必殺技名を入力してください"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                  }
+                }}
               />
               <Button
                 onClick={handleClick}
