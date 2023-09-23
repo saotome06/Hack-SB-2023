@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, TextField } from "@mui/material";
 import OpenAI from "openai";
 import styles from "../styles/loading.module.css";
+import axios from "axios";
 
 export default function Home() {
   function Attack_Name_Button() {
@@ -164,6 +165,60 @@ export default function Home() {
       setIsLoadingAttackScore(false);
     }
 
+    const [imageURLs, setImageURLs] = useState([]);
+    async function sendPrompt_create_image(prompt = "") {
+      if (prompt.length == 0) {
+        alert("name empty");
+        return;
+      }
+      /*
+      const openai = new OpenAI({
+        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        dangerouslyAllowBrowser: true,
+      });
+      
+      const content =
+        "必殺技名[" +
+        prompt +
+        "]をよく表した画像を作って．芸術的で抽象的でユーモアのある画像にして．";
+      const completion = await openai.image.completions.create({
+        messages: [{ role: "user", content: content }],
+        model: "gpt-4",
+      });
+
+      const answer = completion.choices[0].message?.content;
+      console.log(answer);
+      */
+      const content =
+        "必殺技，" +
+        prompt +
+        "をよく表した画像を作って．画像は非現実的，芸術的，抽象的な画像にして．";
+
+      try {
+        const response = await axios.post(
+          "https://api.openai.com/v1/images/generations",
+          {
+            model: "image-alpha-001",
+            prompt: content,
+            size: "256x256",
+            num_images: 1,
+            response_format: "url",
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
+            },
+          },
+        );
+        if (response.data && response.data.data) {
+          setImageURLs(response.data.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     const onChangeHandler0 = (e: any) => {
       setname(e.target.value);
     };
@@ -177,6 +232,7 @@ export default function Home() {
       sendPrompt(name);
       sendPrompt_cal_attack_score(name);
       sendPrompt_smile_score(face_pos);
+      sendPrompt_create_image(name);
     };
 
     return (
@@ -289,6 +345,24 @@ export default function Home() {
         <p className="text-4xl font-bold underline">
           attack score : {attack_score_by_name * 0.7 + smile_score * 0.3}
         </p>
+
+        <h1 className="text-5xl">create image</h1>
+        <div className="mx-4 my-2 p-4 flex-auto bg-white shadow rounded-md">
+          <p>生成結果：</p>
+          {imageURLs.length > 0 && (
+            <div className="flex">
+              {imageURLs.map((item, key) => (
+                <div className="mr-2" key={key}>
+                  <img
+                    key={key}
+                    src={item.url}
+                    alt={`generated image ${key}`}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </>
     );
   }
