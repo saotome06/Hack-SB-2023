@@ -3,6 +3,7 @@ import { Box, Button, TextField } from "@mui/material";
 import OpenAI from "openai";
 import axios from "axios";
 import { useRouter } from "next/router";
+import styles from "../styles/loading.module.css";
 
 export let imageURL = "";
 export let myName = "";
@@ -219,7 +220,7 @@ export default function OpeaiForm(props) {
     return (
       <>
         {inputFormOn ? (
-          <form>
+          <form className={styles.reflection}>
             <Box
               sx={{
                 fontSize: "30px",
@@ -273,7 +274,14 @@ export default function OpeaiForm(props) {
             </Box>
           </form>
         ) : (
-          <>カード生成中</>
+          <>
+            カード生成中
+            <div className={styles.loopings}>
+              <div className={styles.rhombus}></div>
+              <div className={styles.rhombus}></div>
+              <div className={styles.rhombus}></div>
+            </div>
+          </>
         )}
       </>
     );
