@@ -268,10 +268,7 @@ export default function Home() {
           </div>
         ) : (
           <p className="text-3xl font-bold underline">
-            attack score by name :{" "}
-            <font color="blue" size="5">
-              {attack_score_by_name}
-            </font>
+            attack score by name : {attack_score_by_name}
           </p>
         )}
 
@@ -282,25 +279,15 @@ export default function Home() {
             <div className={styles.rhombus}></div>
           </div>
         ) : (
-          <p className="text-3xl font-bold underline">
-            <font color="black" size="6">
-              {output_data}
-            </font>
-          </p>
+          <p className="text-3xl font-bold underline">{output_data}</p>
         )}
         <p className="text-3xl font-bold underline">face pos : {face_pos}</p>
         <p className="text-3xl font-bold underline">
-          smile score :{" "}
-          <font color="blue" size="5">
-            {smile_score}
-          </font>
+          smile score : {smile_score}
         </p>
 
         <p className="text-4xl font-bold underline">
-          attack score :{" "}
-          <font color="red" size="5">
-            {attack_score_by_name * 0.7 + smile_score * 0.3}
-          </font>
+          attack score : {attack_score_by_name * 0.7 + smile_score * 0.3}
         </p>
       </>
     );
