@@ -4,7 +4,8 @@ import OpenAI from "openai";
 
 export default function OpeaiForm() {
   function Attack_Name_Button() {
-    const [name, setname] = useState("ちょーすごいパーンチ");
+    const [name, setname] = useState("ちょうすごいパーンチ");
+    const [card_name, set_card_name] = useState("超すごい人");
     const [attack_score, set_attack_score] = useState(1000);
     const [inputFormOn, setinputFormOn] = useState(true);
     const [output_data, set_randomData] = useState(
@@ -37,7 +38,7 @@ export default function OpeaiForm() {
           "必殺技の名前を言うので，理論的で死ぬほど真面目腐ったの技の説明を100文字程度でしてください．";
       }
       console.log(p);
-      const content = prompt_base + "技名[" + prompt + "]";
+      const content = prompt_base + "必殺技名: " + prompt + "";
       const completion = await openai.chat.completions.create({
         messages: [{ role: "user", content: content }],
         model: "gpt-4",
@@ -46,8 +47,28 @@ export default function OpeaiForm() {
       console.log(completion);
       const answer = completion.choices[0].message?.content;
       console.log(answer);
-      console.log("end");
       set_randomData(answer);
+      const content1 =
+        "必殺技名，必殺技の説明，顔写真の画像の情報があります．これらの情報の特徴をよく表したセンスあるいい感じの名前を考えてください．名前は5文字以上20文字以内です．返答は名前のみ返してください．使う情報は以下のとおりです\n" +
+        "必殺技名: " +
+        prompt +
+        "，必殺技の説明: " +
+        answer;
+      const completion1 = await openai.chat.completions.create({
+        messages: [{ role: "user", content: content1 }],
+        model: "gpt-4",
+      });
+      const answer1 = completion1.choices[0].message?.content;
+      answer1
+        .replace("[", "")
+        .replace("]", "")
+        .replace('"', "")
+        .replace("「", "")
+        .replace("」", "");
+      console.log(answer1);
+      set_card_name(answer1);
+
+      console.log("end");
     }
 
     async function sendPrompt_cal_attack_score(prompt = "") {
@@ -134,14 +155,35 @@ export default function OpeaiForm() {
               sx={{
                 padding: "5px",
                 margin: "auto",
-                border: "3px solid black",
                 fontSize: "20px",
+                backgroundColor: "#ddd",
+                color: "black",
+                boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
               }}
             >
-              <p className="text-3xl font-bold underline">【必殺技】</p>
-              <p className="text-3xl font-bold underline">{name}</p>
-              <p className="text-3xl font-bold underline">【効果】</p>
-              <p className="text-3xl font-bold underline"> {output_data}</p>
+              <Box
+                sx={{
+                    position: "absolute",
+                    top: 15,
+                    padding: "5px",
+                    backgroundColor: "#ddd",
+                    color: "black",
+                    width: "310px",
+                    boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
+                }}
+              >
+                <a>{card_name}</a>
+              </Box>
+              <Box
+                sx={{
+                    fontSize: "15px",
+                }}
+              >
+                <p className="text-3xl font-bold underline">【必殺技】</p>
+                <p className="text-3xl font-bold underline">{name}</p>
+                <p className="text-3xl font-bold underline">【効果】</p>
+                <p className="text-3xl font-bold underline"> {output_data}</p>
+              </Box>
               <Box
                 sx={{
                   borderTop: "3px solid white",

@@ -18,13 +18,14 @@ export default function Card(props) {
         borderRadius: "10px",
         // boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
         boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px black",
-        backgroundImage: "url('https://yazirusis.com/mate_image/fusion01.png')",
+        // backgroundImage: "url('https://yazirusis.com/mate_image/fusion01.png')",
+        backgroundImage: "url(https://source.unsplash.com/random/800x200)",
       }}
     >
       <img
         style={{
           width: "100%",
-          marginTop: "10px",
+          marginTop: "40px",
           height: "auto",
           borderRadius: "10px",
           boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
