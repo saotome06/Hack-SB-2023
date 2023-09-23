@@ -5,17 +5,21 @@ import {
   myDeteil,
   myName,
   myScore,
+  myScoreAttackName,
+  myScoreSmile,
 } from "../components/openaiForm";
 import { Box } from "@mui/material";
 
 export default function MyCard() {
+  console.log("myScoreAttackName:", myScoreAttackName);
+  console.log("myScoreSmile:", myScoreSmile);
   return (
     <Box
       sx={{
         // fontFamily: card_font,
         border: "1px solid black",
         margin: "auto",
-        width: "90%",
+        width: "80%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -30,10 +34,24 @@ export default function MyCard() {
         maxWidth: "375px",
       }}
     >
+      <Box
+        sx={{
+          fontSize: "30px",
+          top: 15,
+          padding: "4px",
+          backgroundColor: "#ddd",
+          color: "black",
+          width: "95%",
+          boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
+          opacity: 0.8,
+        }}
+      >
+        <a>{myCardName}</a>
+      </Box>
       <img
         style={{
           width: "100%",
-          marginTop: "40px",
+          marginTop: "20px",
           height: "auto",
           borderRadius: "10px",
           boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
@@ -60,20 +78,6 @@ export default function MyCard() {
             opacity: 0.8,
           }}
         >
-          <Box
-            sx={{
-              position: "absolute",
-              top: 15,
-              padding: "5px",
-              backgroundColor: "#ddd",
-              color: "black",
-              width: "330px",
-              boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
-              opacity: 0.8,
-            }}
-          >
-            <a>{myCardName}</a>
-          </Box>
           <Box
             sx={{
               fontSize: "15px",
