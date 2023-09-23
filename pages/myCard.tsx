@@ -30,6 +30,7 @@ export default function MyCard() {
           attack_power: myScore,
         }),
       });
+      console.log(response);
     }
     fetchSmileCardRanking();
   }, []);
