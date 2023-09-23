@@ -376,7 +376,15 @@ export default function FaceMesher() {
       {!flagURL ? (
         <>
           <button onClick={startCamera}>カメラを起動</button>
-          <video ref={videoRef} width="600" height="400" autoPlay></video>
+          <video
+            ref={videoRef}
+            width="600"
+            height="400"
+            id="video"
+            autoPlay
+            muted
+            playsInline
+          ></video>
           <button onClick={processCameraFrame}>写真を撮る</button>
           <canvas ref={canvasRef} id="output"></canvas>
         </>
