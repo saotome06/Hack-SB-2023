@@ -8,9 +8,15 @@ export default function AttackPowerRanking() {
 
   useEffect(() => {
     async function fetchSmileCardRanking() {
-      const response = await axios.get('../lib/smile_card');
-      console.log(response.data.data);
-      setSmileCards(response.data.data);
+
+    // get時の処理
+      const response = await fetch("/api/smile_card", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response);
     }
     fetchSmileCardRanking();
   }, []);
@@ -51,4 +57,6 @@ export default function AttackPowerRanking() {
       </table>
     </div>
   );
+  
+  console.log("AttackPowerRanking");
 }
