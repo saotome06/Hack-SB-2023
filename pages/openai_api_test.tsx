@@ -122,10 +122,11 @@ export default function Home() {
                 marginBottom: "10px",
               }}
             /> */}
-            <TextField 
-            variant="outlined" 
-            required label="必殺技名"
-            onChange={onChangeHandler0}
+            <TextField
+              variant="outlined"
+              required
+              label="必殺技名"
+              onChange={onChangeHandler0}
             />
             <Button
               className="alertButton"
