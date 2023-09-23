@@ -39,10 +39,10 @@ export default function AttackPowerRanking() {
       const response = await fetch("/api/upload_smile_card", {
         method: "POST",
         headers: {
-          "Content-Type": " multipart/form-data",
+          'Content-Type': 'image/png',
         },
         // req.path,req.fileに値を渡す
-        body: JSON.stringify({ path: '/public/image/1.jpg', file: '1.jpg' }),
+        body: JSON.stringify({ path: 'public/image/KanColle-200511-21575695.png'}),
       });
 
     }
