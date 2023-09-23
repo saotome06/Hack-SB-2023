@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import OpenAI from "openai";
 
 export default function Home() {
   function Attack_Name_Button() {
-    const [name, setname] = useState("ちょーすごいパーンチ");
+    const [name, setname] = useState("");
     const [attack_score, set_attack_score] = useState(1000);
     const [output_data, set_randomData] = useState(
       "「ちょーすごいパーンチ」は、使用者が蓄積した集中力とエネルギーを一点に絞り、極限まで強化した拳を一瞬で放つ技。力の源は真剣勝負の熱量で、パンチが命中すれば周囲も巻き込むほどの衝撃波を生む。",
     );
+    const [isLoadingText, setIsLoadingText] = useState(false);
+    const [isLoadingAttackScore, setIsLoadingAttackScore] = useState(false);
 
     async function sendPrompt(prompt = "") {
       //console.log(process.env.NEXT_PUBLIC_OPENAI_API_KEY)
@@ -36,6 +38,8 @@ export default function Home() {
           "必殺技の名前を言うので，理論的で死ぬほど真面目腐ったの技の説明を100文字程度でしてください．";
       }
       console.log(p);
+      setIsLoadingText(true);
+      setIsLoadingAttackScore(true);
       const content = prompt_base + "技名[" + prompt + "]";
       const completion = await openai.chat.completions.create({
         messages: [{ role: "user", content: content }],
@@ -45,6 +49,7 @@ export default function Home() {
       console.log(completion);
       const answer = completion.choices[0].message?.content;
       console.log(answer);
+      setIsLoadingText(false);
       console.log("end");
       set_randomData(answer);
     }
@@ -82,6 +87,7 @@ export default function Home() {
       if (random_Data < 0) random_Data = 100;
       set_attack_score(Math.round(random_Data));
       console.log(number, random_Data);
+      setIsLoadingAttackScore(false);
     }
 
     const onChangeHandler0 = (e: any) => {
@@ -99,12 +105,12 @@ export default function Home() {
         <form>
           <div className="text-2xl">
             name:
-            <input
+            {/* <input
               value={name}
               onChange={onChangeHandler0}
               type="text"
               name="name"
-              placeholder="name"
+              placeholder="必殺技名を入力"
               style={{
                 padding: "10px",
                 borderRadius: "5px",
@@ -115,6 +121,11 @@ export default function Home() {
                 boxSizing: "border-box",
                 marginBottom: "10px",
               }}
+            /> */}
+            <TextField 
+            variant="outlined" 
+            required label="必殺技名"
+            onChange={onChangeHandler0}
             />
             <Button
               className="alertButton"
@@ -140,11 +151,21 @@ export default function Home() {
             </Button>
           </div>
         </form>
-        <p className="text-3xl font-bold underline">name : {name}</p>
-        <p className="text-3xl font-bold underline"> {output_data}</p>
-        <p className="text-3xl font-bold underline">
-          attack score : {attack_score}
-        </p>
+        <p className="text-3xl font-bold underline">必殺技名 : {name}</p>
+
+        {isLoadingAttackScore ? (
+          <p>Loading...</p>
+        ) : (
+          <p className="text-3xl font-bold underline">
+            attack score : {attack_score}
+          </p>
+        )}
+
+        {isLoadingText ? (
+          <p>Loading...</p>
+        ) : (
+          <p className="text-3xl font-bold underline">{output_data}</p>
+        )}
       </>
     );
   }
