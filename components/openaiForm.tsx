@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import OpenAI from "openai";
 import axios from "axios";
@@ -137,6 +137,10 @@ export default function OpeaiForm() {
       sendPrompt_create_image(name);
     };
 
+    useEffect(() => {
+      myCardName != "" ? goMyCard() : console.log("wait");
+    }, [myCardName]);
+
     async function sendPrompt_create_image(prompt = "") {
       if (prompt.length == 0) {
         alert("name empty");
@@ -182,9 +186,9 @@ export default function OpeaiForm() {
             },
           },
         );
-        if (response.data && response.data.data && myCardName !== "") {
-          goMyCard();
+        if (response.data && response.data.data) {
           imageURL = response.data.data[0].url;
+          myCardName != "" ? goMyCard() : console.log("wait");
         }
       } catch (error) {
         console.error(error);
