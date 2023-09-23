@@ -36,7 +36,7 @@ export default async function handler(req, res) {
       model: "gpt-4",
     });
     const answer = completion.choices[0].message?.content;
-    console.log(answer);
+    //console.log(answer);
     return answer;
   }
 
@@ -67,7 +67,7 @@ export default async function handler(req, res) {
         Math.sqrt(-2 * Math.log(1 - Math.random())) *
         Math.cos(2 * Math.PI * Math.random());
     if (isNaN(random_Data) || random_Data < 0) random_Data = 100;
-    console.log(Math.round(random_Data));
+    //console.log(Math.round(random_Data));
     return Math.round(random_Data);
   }
 
