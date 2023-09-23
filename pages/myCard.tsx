@@ -16,8 +16,7 @@ export default function MyCard() {
   // 3秒間待機
   setTimeout(() => {
     console.log("3秒経過");
-  }
-  , 3000);
+  }, 3000);
 
   console.log("myScoreAttackName:", myScoreAttackName);
   console.log("myScoreSmile:", myScoreSmile);
