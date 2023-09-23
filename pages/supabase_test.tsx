@@ -6,6 +6,7 @@ export default function getStaticProps() {
   console.log("Start Contact");
 
   const [response, setResponse] = useState("");
+  const [responseBucket, setResponseBucket] = useState("");
   const api_key = process.env.NEXT_PUBLIC_SUPABASE_KEY;
   const bearer = process.env.NEXT_PUBLIC_SUPABASE_BEARER;
 
@@ -29,7 +30,7 @@ export default function getStaticProps() {
     const avatarFile = event.target.files[0];
     const fileName = avatarFile.name;
     console.log(`fileName: ${fileName}`);
-    const { data, error } = await supabase.storage
+    const { data: inputData, error } = await supabase.storage
       .from("image")
       .upload(fileName, avatarFile, {
         cacheControl: "3600",
@@ -40,8 +41,24 @@ export default function getStaticProps() {
       console.log(error);
       alert("アップロードに失敗しました");
     } else {
-      console.log(data);
+      console.log(inputData);
       alert("アップロードに成功しました");
+
+      const publicURL = await supabase.storage
+        .from("image")
+        .getPublicUrl(fileName);
+
+      const src = publicURL.data.publicUrl;
+
+      console.log(`FileName: ${fileName}, publicURL: ${src}`);
+
+      // DBにレコード作成
+      await supabase.from("sample").insert([
+        {
+          fileName: fileName,
+          src: src,
+        },
+      ]);
     }
   };
 
@@ -57,3 +74,8 @@ export default function getStaticProps() {
     </>
   );
 }
+
+// storage の key から bucket 名を取り除く
+export const removeBucketPath = (key: string, bucketName: string) => {
+  return key.slice(bucketName.length + 1); // "/"の分だけ加算している
+};
