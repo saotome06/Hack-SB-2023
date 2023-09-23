@@ -1,4 +1,5 @@
 ## 最低機能要件のシーケンス図
+
 ```mermaid
 sequenceDiagram
     User->>Application: スマートフォンのブラウザでアプリケーションを開く
