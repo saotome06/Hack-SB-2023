@@ -272,12 +272,12 @@ export default function OpeaiForm(props) {
           </form>
         ) : (
           <>
-          カード生成中
-          <div className={styles.loopings}>
-            <div className={styles.rhombus}></div>
-            <div className={styles.rhombus}></div>
-            <div className={styles.rhombus}></div>
-          </div>
+            カード生成中
+            <div className={styles.loopings}>
+              <div className={styles.rhombus}></div>
+              <div className={styles.rhombus}></div>
+              <div className={styles.rhombus}></div>
+            </div>
           </>
         )}
       </>

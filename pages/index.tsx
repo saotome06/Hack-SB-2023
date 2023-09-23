@@ -9,7 +9,7 @@ import {
 } from "../common/constants";
 import { Box, Button } from "@mui/material";
 import Card from "../components/card";
-import Navbar from '../components/Navbar'
+import Navbar from "../components/Navbar";
 // import {
 //   LandmarkConnectionArray,
 //   drawConnectors,
@@ -119,113 +119,115 @@ export default function FaceMesher() {
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        maxWidth: "80%",
-        margin: "auto",
-      }}
-    >
+    <>
       <Navbar />
-      <h1 className="text-5xl font-bold underline">Title Title</h1>
-      {!flagURL ? (
-        <Box>
-          {camButton ? (
-            <Button
-              style={{
-                border: "1px solid black",
-                padding: "10px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                textAlign: "center",
-                margin: "auto",
-                width: "70%",
-                marginTop: "50%",
-                zIndex: 100,
-              }}
-              color="primary"
-              variant="contained"
-              onClick={startCamera}
-            >
-              カメラを起動
-            </Button>
-          ) : (
-            <>
-              <Box
-                sx={{
-                  position: "fixed",
-                  bottom: 0,
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "80%",
+          margin: "auto",
+        }}
+      >
+        <h1 className="text-5xl font-bold underline">Title Title</h1>
+        {!flagURL ? (
+          <Box>
+            {camButton ? (
+              <Button
+                style={{
+                  border: "1px solid black",
+                  padding: "10px",
                   display: "flex",
                   justifyContent: "center",
-                  width: "100%",
-                  backgroundColor: "white",
-                  padding: "10px",
+                  alignItems: "center",
+                  textAlign: "center",
                   margin: "auto",
-                  maxWidth: "375px",
+                  width: "70%",
+                  marginTop: "50%",
+                  zIndex: 100,
                 }}
+                color="primary"
+                variant="contained"
+                onClick={startCamera}
               >
-                <Button
+                カメラを起動
+              </Button>
+            ) : (
+              <>
+                <Box
                   sx={{
+                    position: "fixed",
+                    bottom: 0,
+                    display: "flex",
+                    justifyContent: "center",
                     width: "100%",
+                    backgroundColor: "white",
                     padding: "10px",
                     margin: "auto",
-                    zIndex: 100,
+                    maxWidth: "375px",
                   }}
-                  variant="contained"
-                  color="primary"
-                  onClick={processCameraFrame}
                 >
-                  笑顔カードを作成する
-                </Button>
-              </Box>
-            </>
-          )}
-          <div
-            style={{
-              position: "relative",
-              width: "100%",
-              display: camButton ? "none" : "block",
-            }}
-          >
-            <video
-              ref={videoRef}
-              id="video"
-              autoPlay
-              muted
-              playsInline
+                  <Button
+                    sx={{
+                      width: "100%",
+                      padding: "10px",
+                      margin: "auto",
+                      zIndex: 100,
+                    }}
+                    variant="contained"
+                    color="primary"
+                    onClick={processCameraFrame}
+                  >
+                    笑顔カードを作成する
+                  </Button>
+                </Box>
+              </>
+            )}
+            <div
               style={{
-                margin: "auto",
+                position: "relative",
                 width: "100%",
-                height: "auto",
-                padding: "10px",
-                maxWidth: "375px",
-                borderRadius: "10px",
-                boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+                display: camButton ? "none" : "block",
               }}
-            ></video>
-            <canvas
-              ref={canvasRef}
-              id="output"
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                margin: "auto",
-                width: "95%",
-                height: "auto",
-                display: camButton ? "block" : "none",
-                borderRadius: "10px",
-                boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
-              }}
-            ></canvas>
-          </div>
-        </Box>
-      ) : (
-        <Card imgSrc={dataURL} data_face_mesh={data_face_mesh} />
-      )}
-    </div>
+            >
+              <video
+                ref={videoRef}
+                id="video"
+                autoPlay
+                muted
+                playsInline
+                style={{
+                  margin: "auto",
+                  width: "100%",
+                  height: "auto",
+                  padding: "10px",
+                  maxWidth: "375px",
+                  borderRadius: "10px",
+                  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+                }}
+              ></video>
+              <canvas
+                ref={canvasRef}
+                id="output"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  margin: "auto",
+                  width: "95%",
+                  height: "auto",
+                  display: camButton ? "block" : "none",
+                  borderRadius: "10px",
+                  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+                }}
+              ></canvas>
+            </div>
+          </Box>
+        ) : (
+          <Card imgSrc={dataURL} data_face_mesh={data_face_mesh} />
+        )}
+      </div>
+    </>
   );
 }
