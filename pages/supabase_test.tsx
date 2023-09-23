@@ -1,14 +1,8 @@
 import { Button } from "@mui/base";
-import { createClient } from "@supabase/supabase-js";
 import { useState } from "react";
 
 function SuperbaseTest() {
   console.log("Start Contact");
-
-  const supabaseUrl = "https://zogqrpdjhulkzbvpuwud.supabase.co";
-  const supabaseKey =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvZ3FycGRqaHVsa3pidnB1d3VkIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTU0NDk2NjEsImV4cCI6MjAxMTAyNTY2MX0.WkuRxW54YkUu71BTudV56pV_sV_Qwl3AJa8AkKqx_Yk";
-  const supabase = createClient(supabaseUrl, supabaseKey);
 
   const [response, setResponse] = useState("");
 
