@@ -1,274 +1,26 @@
 import { useRef, useState } from "react";
-import { Box, Button } from "@mui/material";
-// import {
-//   LandmarkConnectionArray,
-//   drawConnectors,
-//   drawLandmarks,
-// } from "@mediapipe/drawing_utils";
-
-// let FaceLandmarker: {
-//   FACE_LANDMARKS_TESSELATION: LandmarkConnectionArray | undefined;
-// };
-// if (typeof window !== "undefined") {
-//   FaceLandmarker = require("@mediapipe/tasks-vision").FaceLandmarker;
-// }
+import { Box } from "@mui/material";
+import {
+  REF_POINT,
+  MOUTH_INDEX,
+  L_EYE_INDEX,
+  L_MAYU_INDEX,
+  R_EYE_INDEX,
+  R_MAYU_INDEX,
+} from "../common/constants";
 
 let FaceMesh: new (arg0: { locateFile: (file: any) => string }) => any;
 if (typeof window !== "undefined") {
   FaceMesh = require("@mediapipe/face_mesh").FaceMesh;
 }
 
-// function range(start: number, end: number) {
-//   return Array.from({ length: end - start }, (_, i) => start + i);
-// }
-
-const base_point = 6;
-// const left_eye_indices = range(33, 46);
-// const right_eye_indices = range(263, 276);
-// const mouth_indices = [...range(0, 17), ...range(61, 69)];
-// const eyebrow_indices = [...range(17, 33), ...range(246, 263)];
-
-// const __FACEMESH_CONTOURS = [
-//   [178, 87],
-//   [181, 84],
-//   [82, 13],
-//   [283, 282],
-//   [136, 172],
-//   [381, 382],
-//   [105, 66],
-//   [311, 310],
-//   [70, 63],
-//   [300, 293],
-//   [87, 14],
-//   [39, 37],
-//   [382, 362],
-//   [145, 153],
-//   [160, 159],
-//   [251, 389],
-//   [282, 295],
-//   [159, 158],
-//   [296, 336],
-//   [334, 296],
-//   [148, 176],
-//   [80, 81],
-//   [144, 145],
-//   [67, 109],
-//   [52, 65],
-//   [390, 373],
-//   [263, 249],
-//   [153, 154],
-//   [46, 53],
-//   [374, 380],
-//   [246, 161],
-//   [310, 415],
-//   [276, 283],
-//   [267, 269],
-//   [387, 386],
-//   [61, 146],
-//   [317, 402],
-//   [78, 191],
-//   [380, 381],
-//   [377, 152],
-//   [191, 80],
-//   [249, 390],
-//   [466, 388],
-//   [158, 157],
-//   [293, 334],
-//   [375, 291],
-//   [66, 107],
-//   [93, 234],
-//   [37, 0],
-//   [163, 144],
-//   [400, 377],
-//   [84, 17],
-//   [314, 405],
-//   [13, 312],
-//   [373, 374],
-//   [270, 409],
-//   [365, 379],
-//   [157, 173],
-//   [312, 311],
-//   [318, 324],
-//   [378, 400],
-//   [324, 308],
-//   [332, 284],
-//   [356, 454],
-//   [63, 105],
-//   [21, 54],
-//   [384, 398],
-//   [162, 21],
-//   [288, 397],
-//   [173, 133],
-//   [263, 466],
-//   [386, 385],
-//   [33, 7],
-//   [61, 185],
-//   [161, 160],
-//   [132, 93],
-//   [103, 67],
-//   [53, 52],
-//   [78, 95],
-//   [91, 181],
-//   [321, 375],
-//   [454, 323],
-//   [0, 267],
-//   [323, 361],
-//   [176, 149],
-//   [155, 133],
-//   [409, 291],
-//   [295, 285],
-//   [109, 10],
-//   [14, 317],
-//   [234, 127],
-//   [379, 378],
-//   [88, 178],
-//   [95, 88],
-//   [40, 39],
-//   [284, 251],
-//   [17, 314],
-//   [415, 308],
-//   [185, 40],
-//   [385, 384],
-//   [338, 297],
-//   [297, 332],
-//   [152, 148],
-//   [81, 82],
-//   [7, 163],
-//   [389, 356],
-//   [398, 362],
-//   [154, 155],
-//   [33, 246],
-//   [361, 288],
-//   [65, 55],
-//   [269, 270],
-//   [405, 321],
-//   [397, 365],
-//   [149, 150],
-//   [146, 91],
-//   [172, 58],
-//   [10, 338],
-//   [54, 103],
-//   [150, 136],
-//   [388, 387],
-//   [58, 132],
-//   [127, 162],
-//   [402, 318],
-// ];
-
-const MOUTH = [
-  [80, 81],
-  [311, 310],
-  [178, 87],
-  [181, 84],
-  [181, 84],
-  [82, 13],
-  [87, 14],
-  [39, 37],
-  [310, 415],
-  [267, 269],
-  [61, 146],
-  [317, 402],
-  [78, 191],
-  [191, 80],
-  [375, 291],
-  [37, 0],
-  [84, 17],
-  [314, 405],
-  [13, 312],
-  [270, 409],
-  [312, 311],
-  [318, 324],
-  [324, 308],
-  [61, 185],
-  [78, 95],
-  [91, 181],
-  [321, 375],
-  [0, 267],
-  [409, 291],
-  [14, 317],
-  [88, 178],
-  [95, 88],
-  [40, 39],
-  [17, 314],
-  [415, 308],
-  [185, 40],
-  [81, 82],
-  [269, 270],
-  [405, 321],
-  [146, 91],
-  [402, 318],
-];
-
-const L_EYE = [
-  [145, 153],
-  [160, 159],
-  [159, 158],
-  [144, 145],
-  [153, 154],
-  [246, 161],
-  [158, 157],
-  [163, 144],
-  [173, 133],
-  [33, 7],
-  [161, 160],
-  [155, 133],
-  [7, 163],
-  [154, 155],
-  [33, 246],
-];
-const L_MAYU = [
-  [105, 66],
-  [52, 65],
-  [46, 53],
-  [66, 107],
-  [157, 173],
-  [63, 105],
-  [53, 52],
-  [65, 55],
-];
-
-const R_EYE = [
-  [381, 382],
-  [382, 362],
-  [390, 373],
-  [263, 249],
-  [374, 380],
-  [387, 386],
-  [380, 381],
-  [249, 390],
-  [466, 388],
-  [373, 374],
-  [384, 398],
-  [263, 466],
-  [386, 385],
-  [398, 362],
-  [388, 387],
-  [385, 384],
-];
-const R_MAYU = [
-  [283, 282],
-  [300, 293],
-  [282, 295],
-  [296, 336],
-  [334, 296],
-  [276, 283],
-  [293, 334],
-  [295, 285],
-];
-
-const MOUTH_INDEX = Array.from(new Set(MOUTH.flat())).sort((a, b) => a - b);
-const L_EYE_INDEX = Array.from(new Set(L_EYE.flat())).sort((a, b) => a - b);
-const L_MAYU_INDEX = Array.from(new Set(L_MAYU.flat())).sort((a, b) => a - b);
-const R_EYE_INDEX = Array.from(new Set(R_EYE.flat())).sort((a, b) => a - b);
-const R_MAYU_INDEX = Array.from(new Set(R_MAYU.flat())).sort((a, b) => a - b);
 let dataURL = "";
 
 export default function FaceMesher() {
-  // const [landmarks, setLandmarks] = useState([]);
+  // const [distances, setDistances] = useState("");
+  const [flagURL, setflagURL] = useState(false);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  const [flagURL, setflagURL] = useState(false);
-  const [camButton, setcamButton] = useState(true);
 
   const startCamera = async () => {
     if (
@@ -280,91 +32,67 @@ export default function FaceMesher() {
       videoRef.current.srcObject = stream;
       videoRef.current.play();
     }
-    setcamButton(false);
+  };
+
+  const calculateDistances = (landmarks, canvas) => {
+    const refPointX = landmarks[REF_POINT].x * canvas.width;
+    const refPointY = landmarks[REF_POINT].y * canvas.height;
+
+    // インデックスの配列に基づいて距離を計算する関数
+    const computeDistanceForIndices = (indices) => {
+      return indices.map((index) => {
+        const pointX = landmarks[index].x * canvas.width;
+        const pointY = landmarks[index].y * canvas.height;
+        return Math.round(
+          Math.sqrt((pointX - refPointX) ** 2 + (pointY - refPointY) ** 2),
+        );
+      });
+    };
+
+    const mouthDistances = computeDistanceForIndices(MOUTH_INDEX);
+    const lEyeDistances = computeDistanceForIndices(L_EYE_INDEX);
+    const rEyeDistances = computeDistanceForIndices(R_EYE_INDEX);
+    const lMayuDistances = computeDistanceForIndices(L_MAYU_INDEX);
+    const rMayuDistances = computeDistanceForIndices(R_MAYU_INDEX);
+
+    return `{MOUTH:[${mouthDistances.join(
+      ", ",
+    )}], LEFT_EYE:[${lEyeDistances.join(
+      ", ",
+    )}], RIGHT_EYE:[${rEyeDistances.join(
+      ", ",
+    )}] LEFT_MAYU:[${lMayuDistances.join(
+      ", ",
+    )}], RIGHT_MAYU:[${rMayuDistances.join(", ")}]}`;
   };
 
   const processCameraFrame = async () => {
     const canvas = canvasRef.current;
     const video = videoRef.current;
-    console.log(canvas);
     const ctx = canvas.getContext("2d");
+
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
+
     ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
     dataURL = canvas.toDataURL();
-    console.log(dataURL);
     setflagURL(true);
+
     const faceMesh = new FaceMesh({
       locateFile: (file: any) => {
         return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
       },
     });
 
-    // useEffect(() => {
-    //   setflagURL(true);
-    // }, [dataURL]);
-
     faceMesh.onResults((results: { multiFaceLandmarks: any }) => {
       if (results.multiFaceLandmarks) {
         for (const landmarks of results.multiFaceLandmarks) {
-          const ctx = canvasRef.current.getContext("2d");
-
-          ctx.arc(
-            landmarks[base_point].x * canvas.width,
-            landmarks[base_point].y * canvas.height,
-            2,
-            0,
-            2 * Math.PI,
-          );
-          ctx.fillStyle = "#00FF00";
-          ctx.fill();
-
-          // 各インデックス配列をループして特徴点を描画
-          // for (const index of [...left_eye_indices, ...right_eye_indices, ...mouth_indices, ...eyebrow_indices]) {
-          for (const index of [
-            ...MOUTH_INDEX,
-            ...L_EYE_INDEX,
-            ...R_EYE_INDEX,
-            ...L_MAYU_INDEX,
-            ...R_MAYU_INDEX,
-          ]) {
-            const point = landmarks[index];
-            ctx.beginPath();
-            //ctx.arc(point.x, point.y, 2, 0, 2 * Math.PI);
-            ctx.arc(
-              point.x * canvas.width,
-              point.y * canvas.height,
-              2,
-              0,
-              2 * Math.PI,
-            );
-            ctx.fillStyle = "#FF0000";
-            ctx.fill();
-          }
+          const distancesStr = calculateDistances(landmarks, canvas);
+          // setDistances(distancesStr);
+          console.log(distancesStr);
         }
       }
     });
-
-    // faceMesh.onResults((results: { multiFaceLandmarks: any; }) => {
-    //   if (results.multiFaceLandmarks) {
-    //     for (const landmarks of results.multiFaceLandmarks) {
-    //       const ctx = canvasRef.current.getContext('2d');
-
-    //       // ペアごとにランドマークをループして線で結びます
-    //       for (const pair of FACEMESH_CONTOURS) {
-    //         const start = landmarks[pair[0]];
-    //         const end = landmarks[pair[1]];
-
-    //         ctx.beginPath();
-    //         ctx.moveTo(start.x * canvas.width, start.y * canvas.height);
-    //         ctx.lineTo(end.x * canvas.width, end.y * canvas.height);
-    //         ctx.strokeStyle = '#FF0000';
-    //         ctx.lineWidth = 1;
-    //         ctx.stroke();
-    //       }
-    //     }
-    //   }
-    // });
 
     try {
       await faceMesh.send({ image: canvas });
@@ -374,62 +102,10 @@ export default function FaceMesher() {
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        margin: "auto",
-      }}
-    >
+    <div>
       {!flagURL ? (
-        <Box>
-          {camButton ? (
-            <Button
-              style={{
-                border: "1px solid black",
-                padding: "10px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                textAlign: "center",
-                margin: "auto",
-                width: "70%",
-                marginTop: "50%",
-                zIndex: 100,
-              }}
-              color="primary"
-              variant="contained"
-              onClick={startCamera}
-            >
-              カメラを起動
-            </Button>
-          ) : (
-            <>
-              <Box
-                sx={{
-                  position: "fixed",
-                  bottom: 0,
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "100%",
-                  backgroundColor: "white",
-                  padding: "10px",
-                }}
-              >
-                <Button
-                  sx={{
-                    width: "60%",
-                    padding: "10px",
-                    margin: "auto",
-                  }}
-                  variant="contained"
-                  color="primary"
-                  onClick={processCameraFrame}
-                >
-                  笑顔カードを作成する
-                </Button>
-              </Box>
-            </>
-          )}
+        <>
+          <button onClick={startCamera}>カメラを起動</button>
           <video
             ref={videoRef}
             width="600"
@@ -438,62 +114,43 @@ export default function FaceMesher() {
             autoPlay
             muted
             playsInline
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              margin: "auto",
-              width: "80%",
-              height: "80%",
-              display: camButton ? "none" : "block",
-            }}
           ></video>
+          <button onClick={processCameraFrame}>写真を撮る</button>
           <canvas ref={canvasRef} id="output"></canvas>
-        </Box>
+        </>
       ) : (
-        <Box
-          sx={{
-            border: "1px solid black",
-            margin: "auto",
-            width: "90%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-            padding: "20px",
-            borderRadius: "10px",
-            boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
-          }}
-        >
-          <img
-            style={{
-              width: "100%",
-              marginTop: "10px",
-              height: "auto",
-              borderRadius: "10px",
-              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
-            }}
-            src={dataURL}
-          />
+        <>
           <Box
             sx={{
-              textAlign: "left",
-              width: "100%",
-              marginTop: "20px",
+              border: "1px solid black",
+              // padding: '10px',
+              // display: 'flex',
+              // justifyContent: 'center',
+              // alignItems: 'center',
+              // textAlign: 'center',
+              // margin: 'auto',
+              // width: '70%',
+              // height: 'auto',
+              // marginTop: '20px',
             }}
           >
-            <h1 style={{ fontSize: "24px", marginBottom: "10px" }}>スコア</h1>
-            <p style={{ fontSize: "18px", marginBottom: "20px" }}>
-              1000000000000000000000000000000
-            </p>
-            <h1 style={{ fontSize: "24px", marginBottom: "10px" }}>効果</h1>
-            <p style={{ fontSize: "18px", marginBottom: "20px" }}>
-              ああああああああああああああああああああああ
-            </p>
+            <img
+              style={{
+                padding: "10px",
+                justifyContent: "center",
+                alignItems: "center",
+                textAlign: "center",
+                width: "600",
+                height: "400",
+              }}
+              src={dataURL}
+            />
+            <h1>スコア</h1>
+            <p>100000000000000000000000000000000000</p>
+            <h1>効果</h1>
+            <p>ああああああああああああああああああああああ</p>
           </Box>
-        </Box>
+        </>
       )}
     </div>
   );
