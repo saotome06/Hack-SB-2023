@@ -31,8 +31,11 @@ export default function Home() {
       console.log("start");
 
       const content =
-        "FaceMeshを利用して顔のキーポイントを検出し，目，口周りの特定の座標を取り出しました．鼻の頭からの距離が測定されています．測定したユークリッド距離を100倍した配列以下で与えます．MOUTHは口付近，LEFT_EYEは左目付近，RIGHT_EYEは右目付近，LEFT_MAYUは左眉付近，RIGHT_MAYUは右眉付近です．顔の表情がどれぐらい笑顔なのかを0以上100以下の数値で推定してください．10文字以内で答えてください．数字のみを返してください．\n" +
-        prompt;
+        "ちょっとした謎々です。MediaPipeのFaceMeshを使って、顔の点群を取得しました。MOUTHは口、LEFT_EYE,RIGHT_EYEはそれぞれの目、LEFT_MAYU, RIGHT_MAYUはそれぞれの眉を表しています。この数値がどんな表情をしているのか推察してみてください。ちなみに、この数値は鼻の頭らへんの番号6からのユークリッド距離を100倍したものです．"
+        +
+        prompt
+        +
+        "口が結構重要だと思います。目指すべきは笑顔です。ですので、それぞれを100点とした時のMOUTH、EYE、MAYUの3つの要素で笑顔度を示してください。最後の3行は絶対に結果のみを示してください。注意書きや但し書きなどを書かないでください．";
       console.log(content);
       const completion = await openai.chat.completions.create({
         messages: [{ role: "user", content: content }],
@@ -171,28 +174,10 @@ export default function Home() {
         alert("name empty");
         return;
       }
-      /*
-      const openai = new OpenAI({
-        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-        dangerouslyAllowBrowser: true,
-      });
-      
-      const content =
-        "必殺技名[" +
-        prompt +
-        "]をよく表した画像を作って．芸術的で抽象的でユーモアのある画像にして．";
-      const completion = await openai.image.completions.create({
-        messages: [{ role: "user", content: content }],
-        model: "gpt-4",
-      });
-
-      const answer = completion.choices[0].message?.content;
-      console.log(answer);
-      */
       const content =
         "必殺技，" +
         prompt +
-        "をよく表した画像を作って．画像は非現実的，芸術的，抽象的な画像にして．";
+        "をよく表した画像を作って．画像は抽象的，連続的で滑らかなユーモアのある画像にして．特に色合いが大切です．";
 
       try {
         const response = await axios.post(
