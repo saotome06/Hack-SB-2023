@@ -13,6 +13,7 @@ import { Box } from "@mui/material";
 export default function MyCard() {
   console.log("myScoreAttackName:", myScoreAttackName);
   console.log("myScoreSmile:", myScoreSmile);
+
   return (
     <Box
       sx={{
@@ -47,7 +48,7 @@ export default function MyCard() {
           opacity: 0.8,
         }}
       >
-        <a>{myCardName}</a>
+        <a>{myCardName.replace('"', "").replace('"', "")}</a>
       </Box>
       <img
         style={{
