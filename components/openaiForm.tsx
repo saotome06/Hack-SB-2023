@@ -61,6 +61,7 @@ export default function OpeaiForm(props) {
       random_Data *= 100;
       if (random_Data < 0) random_Data = 100;
       myScore += 0.2 * Math.round(random_Data);
+      myScore = Math.floor(myScore);
       myScoreSmile = Math.round(random_Data);
       console.log(answer, number, random_Data);
     }
@@ -114,9 +115,7 @@ export default function OpeaiForm(props) {
         .replace("]", "")
         .replace('"', "")
         .replace("「", "")
-        .replace("」", "")
-        .replace('"', "")
-        .replace('"', "");
+        .replace("」", "");
       console.log(answer1);
       await set_card_name(answer1);
       myCardName = answer1;
@@ -151,6 +150,7 @@ export default function OpeaiForm(props) {
       if (random_Data < 0) random_Data = 100;
       await set_attack_score(Math.round(random_Data));
       myScore += 0.8 * Math.round(random_Data);
+      myScore = Math.floor(myScore);
       myScoreAttackName = Math.round(random_Data);
       console.log(number, random_Data);
       //   setIsLoadingAttackScore(false);
@@ -162,6 +162,7 @@ export default function OpeaiForm(props) {
     };
 
     const handleClick = () => {
+      console.log(name);
       sendPrompt(name);
       myScore = 0.0;
       sendPrompt_cal_attack_score(name);
