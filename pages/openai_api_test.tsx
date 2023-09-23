@@ -49,22 +49,49 @@ export default function Home() {
       set_randomData(answer);
     }
 
+    async function sendPrompt_cal_attack_score(prompt = "") {
+      const openai = new OpenAI({
+        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        dangerouslyAllowBrowser: true,
+      });
+      console.log("start");
+
+      const content =
+        "技名[" +
+        prompt +
+        "]の表現がどれぐらい強そうな印象を与えられているのかを10以上10000以下の数値で評価してください．";
+      const completion = await openai.chat.completions.create({
+        messages: [{ role: "user", content: content }],
+        model: "gpt-4",
+      });
+
+      console.log(completion);
+      const answer = completion.choices[0].message?.content;
+      console.log(answer);
+      console.log("end");
+      const regex = /[^0-9]/g;
+      const result = answer.replace(regex, "");
+      const number = parseInt(result);
+      let random_Data =
+        Math.random() * 1000 +
+        number +
+        number *
+          0.1 *
+          Math.sqrt(-2 * Math.log(1 - Math.random())) *
+          Math.cos(2 * Math.PI * Math.random());
+      if (random_Data < 0) random_Data = 100;
+      set_attack_score(Math.round(random_Data));
+      console.log(number, random_Data);
+    }
+
     const onChangeHandler0 = (e: any) => {
       setname(e.target.value);
     };
 
     const handleClick = () => {
-      let random_Data =
-        Math.random() * 1000 +
-        100 +
-        100.0 *
-          Math.sqrt(-2 * Math.log(1 - Math.random())) *
-          Math.cos(2 * Math.PI * Math.random());
-      if (random_Data < 0) random_Data = 100;
-      set_attack_score(random_Data);
-
       console.log(name);
       sendPrompt(name);
+      sendPrompt_cal_attack_score(name);
     };
 
     return (
