@@ -13,6 +13,8 @@ export default function Home() {
       "{MOUTH:[58, 65, 87, 98, 58, 64, 71, 85, 83, 72, 68, 66, 98, 87, 86, 93, 86, 89, 87, 96, 78, 76, 58, 64, 69, 79, 77, 69, 67, 66, 98, 87, 84, 90, 82, 85, 86, 95, 73, 72], LEFT_EYE:[58, 61, 27, 49, 43, 37, 32, 28, 33, 39, 44, 51, 55, 54, 28, 58], RIGHT_EYE:[37, 39, 12, 32, 27, 22, 17, 14, 17, 22, 27, 32, 36, 35, 14, 38] LEFT_MAYU:[71, 55, 64, 25, 70, 42, 46, 60, 33, 33, 28], RIGHT_MAYU:[46, 39, 44, 19, 46, 32, 35, 47, 43, 27]}",
     );
     const [smile_score, set_smile_score] = useState(1000);
+    const [isLoadingText, setIsLoadingText] = useState(false);
+    const [isLoadingAttackScore, setIsLoadingAttackScore] = useState(false);
 
     async function sendPrompt_smile_score(prompt = "") {
       const openai = new OpenAI({

@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import Contact from "./SpecialMoveForm";
+import Contact from "../pages/components/SpecialMoveForm";
 
 export default function Card(props) {
   return (
