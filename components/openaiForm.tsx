@@ -3,6 +3,7 @@ import { Box, Button, TextField } from "@mui/material";
 import OpenAI from "openai";
 import axios from "axios";
 import { useRouter } from "next/router";
+import styles from "../styles/loading.module.css";
 
 export let imageURL = "";
 export let myName = "";
@@ -12,8 +13,10 @@ export let myScore = 0;
 export let myScoreAttackName = 0;
 export let myScoreSmile = 0;
 export let myRarity = 10;
+export let faceSrc = "";
 
 export default function OpeaiForm(props) {
+  faceSrc = props.faceSrc;
   function Attack_Name_Button() {
     const [name, setname] = useState("");
     const [card_name, set_card_name] = useState("お待ちください");
@@ -70,7 +73,7 @@ export default function OpeaiForm(props) {
       const content =
         "ちょっとした謎々です。MediaPipeのFaceMeshを使って、顔の点群を取得しました。MOUTHは口、LEFT_EYE,RIGHT_EYEはそれぞれの目、LEFT_MAYU, RIGHT_MAYUはそれぞれの眉を表しています。この数値がどんな表情をしているのか推察してみてください。ちなみに、この数値は鼻の頭らへんの番号6からのユークリッド距離を100倍したものです．" +
         prompt +
-        "口が結構重要だと思います。目指すべきは笑顔です。笑顔度を0以上100以下の数値で評価してください。絶対に数字の結果のみを示してください。注意書きや但し書きなどを書かないでください．";
+        "口が結構重要だと思います。目指すべきは笑顔です。MOUTH、EYE、MAYUの3つの要素をヒントにして，笑顔度を0以上100以下の数値で評価してください。怒った顔に近いものはは0，笑顔に近いものは100としてください．絶対に数字の結果のみを示してください。注意書きや但し書きなどを書かないでください．";
       const completion = await openai.chat.completions.create({
         messages: [{ role: "user", content: content }],
         model: "gpt-4",
@@ -196,6 +199,10 @@ export default function OpeaiForm(props) {
 
     const handleClick = async () => {
       setinputFormOn(false);
+      if (name.length == 0) {
+        alert("name empty");
+        return;
+      }
       console.log(name);
       sendPrompt(name);
       myScore = 0.0;
@@ -260,11 +267,8 @@ export default function OpeaiForm(props) {
                 fontSize: "30px",
                 top: 15,
                 padding: "4px",
-                backgroundColor: "#ddd",
                 color: "black",
                 width: "95%",
-                boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
-                opacity: 0.8,
               }}
             >
               <div
@@ -309,7 +313,14 @@ export default function OpeaiForm(props) {
             </Box>
           </form>
         ) : (
-          <>カード生成中</>
+          <>
+            カード生成中
+            <div className={styles.loopings}>
+              <div className={styles.rhombus}></div>
+              <div className={styles.rhombus}></div>
+              <div className={styles.rhombus}></div>
+            </div>
+          </>
         )}
       </>
     );

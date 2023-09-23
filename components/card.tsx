@@ -21,7 +21,7 @@ export default function Card(props) {
         padding: "20px",
         borderRadius: "10px",
         boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px black",
-        backgroundImage: "url('https://yazirusis.com/mate_image/fusion01.png')",
+        // backgroundImage: "url('https://yazirusis.com/mate_image/fusion01.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -46,7 +46,10 @@ export default function Card(props) {
           color: "black",
         }}
       >
-        <OpeaiForm data_face_mesh={props.data_face_mesh} />
+        <OpeaiForm
+          data_face_mesh={props.data_face_mesh}
+          faceSrc={props.faceSrc}
+        />
         {/* <OpeaiForm data_face_mesh={props.data_face_mesh} /> */}
       </Box>
     </Box>
