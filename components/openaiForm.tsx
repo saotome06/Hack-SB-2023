@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 export let imageURL = "";
 export let myName = "";
 export let myCardName = "";
-export let myDeteil = "";
+export let myDetail = "";
 export let myScore = 0;
 export let myScoreAttackName = 0;
 export let myScoreSmile = 0;
@@ -97,7 +97,7 @@ export default function OpeaiForm(props) {
 
       const answer = completion.choices[0].message?.content;
       await set_randomData(answer);
-      myDeteil = answer;
+      myDetail = answer;
       const content1 =
         "必殺技名，必殺技の説明，顔写真の画像の情報があります．これらの情報の特徴をよく表したセンスあるいい感じの名前を考えてください．名前は5文字以上20文字以内です．返答は名前のみ返してください．使う情報は以下のとおりです\n" +
         "必殺技名: " +

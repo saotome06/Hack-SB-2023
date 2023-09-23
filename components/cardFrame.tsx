@@ -7,7 +7,7 @@ export default function CardFrame(props) {
         // fontFamily: card_font,
         border: "1px solid black",
         margin: "auto",
-        width: "90%",
+        width: "80%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -15,22 +15,36 @@ export default function CardFrame(props) {
         padding: "20px",
         borderRadius: "10px",
         boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px black",
-        backgroundImage: `url(${props.backgroundURL})`,
+        backgroundImage: `url(${props.imageURL})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         maxWidth: "375px",
       }}
     >
+      <Box
+        sx={{
+          fontSize: "30px",
+          top: 15,
+          padding: "4px",
+          backgroundColor: "#ddd",
+          color: "black",
+          width: "95%",
+          boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
+          opacity: 0.8,
+        }}
+      >
+        <a>{props.myCardName}</a>
+      </Box>
       <img
         style={{
           width: "100%",
-          marginTop: "40px",
+          marginTop: "20px",
           height: "auto",
           borderRadius: "10px",
           boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
         }}
-        src={props.imgURL}
+        src={props.cardImage}
       />
       <Box
         sx={{
@@ -54,27 +68,13 @@ export default function CardFrame(props) {
         >
           <Box
             sx={{
-              position: "absolute",
-              top: 15,
-              padding: "5px",
-              backgroundColor: "#ddd",
-              color: "black",
-              width: "330px",
-              boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
-              opacity: 0.8,
-            }}
-          >
-            <a>{props.cardName}</a>
-          </Box>
-          <Box
-            sx={{
               fontSize: "15px",
             }}
           >
             <p className="text-3xl font-bold underline">【必殺技】</p>
-            <p className="text-3xl font-bold underline">{props.deathblow}</p>
+            <p className="text-3xl font-bold underline">{props.myName}</p>
             <p className="text-3xl font-bold underline">【効果】</p>
-            <p className="text-3xl font-bold underline"> {props.effect}</p>
+            <p className="text-3xl font-bold underline"> {props.myDetail}</p>
           </Box>
           <Box
             sx={{
@@ -82,7 +82,7 @@ export default function CardFrame(props) {
               textAlign: "right",
             }}
           >
-            <p className="text-3xl font-bold underline">ATK/{props.score}</p>
+            <p className="text-3xl font-bold underline">ATK/{props.myScore}</p>
           </Box>
         </Box>
       </Box>
