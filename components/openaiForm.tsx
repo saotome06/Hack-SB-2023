@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import OpenAI from "openai";
+import styles from "../styles/loading.module.css";
 
 export default function OpeaiForm() {
   function Attack_Name_Button() {
@@ -10,6 +11,8 @@ export default function OpeaiForm() {
     const [output_data, set_randomData] = useState(
       "「ちょーすごいパーンチ」は、使用者が蓄積した集中力とエネルギーを一点に絞り、極限まで強化した拳を一瞬で放つ技。力の源は真剣勝負の熱量で、パンチが命中すれば周囲も巻き込むほどの衝撃波を生む。",
     );
+    const [isLoadingText, setIsLoadingText] = useState(false);
+    const [isLoadingAttackScore, setIsLoadingAttackScore] = useState(false);
 
     async function sendPrompt(prompt = "") {
       //console.log(process.env.NEXT_PUBLIC_OPENAI_API_KEY)
@@ -37,6 +40,8 @@ export default function OpeaiForm() {
           "必殺技の名前を言うので，理論的で死ぬほど真面目腐ったの技の説明を100文字程度でしてください．";
       }
       console.log(p);
+      setIsLoadingText(true);
+      setIsLoadingAttackScore(true);
       const content = prompt_base + "技名[" + prompt + "]";
       const completion = await openai.chat.completions.create({
         messages: [{ role: "user", content: content }],
@@ -48,6 +53,7 @@ export default function OpeaiForm() {
       console.log(answer);
       console.log("end");
       set_randomData(answer);
+      setIsLoadingText(false);
     }
 
     async function sendPrompt_cal_attack_score(prompt = "") {
@@ -83,6 +89,7 @@ export default function OpeaiForm() {
       if (random_Data < 0) random_Data = 100;
       set_attack_score(Math.round(random_Data));
       console.log(number, random_Data);
+      setIsLoadingAttackScore(false);
     }
 
     const onChangeHandler0 = (e: any) => {
@@ -141,16 +148,34 @@ export default function OpeaiForm() {
               <p className="text-3xl font-bold underline">【必殺技】</p>
               <p className="text-3xl font-bold underline">{name}</p>
               <p className="text-3xl font-bold underline">【効果】</p>
-              <p className="text-3xl font-bold underline"> {output_data}</p>
+              {isLoadingText ? (
+                // <div className={styles.loopings}>
+                //   <div className={styles.rhombus}></div>
+                //   <div className={styles.rhombus}></div>
+                //   <div className={styles.rhombus}></div>
+                // </div>
+                <p>Loading...</p>
+              ) : (
+                <p className="text-3xl font-bold underline">{output_data}</p>
+              )}
               <Box
                 sx={{
                   borderTop: "3px solid white",
                   textAlign: "right",
                 }}
               >
-                <p className="text-3xl font-bold underline">
-                  ATK/{attack_score}
-                </p>
+                {isLoadingAttackScore ? (
+                  // <div className={styles.loopings}>
+                  //   <div className={styles.rhombus}></div>
+                  //   <div className={styles.rhombus}></div>
+                  //   <div className={styles.rhombus}></div>
+                  // </div>
+                  <p>Loading...</p>
+                ) : (
+                  <p className="text-3xl font-bold underline">
+                    ATK/{attack_score}
+                  </p>
+                )}
               </Box>
             </Box>
           </>
