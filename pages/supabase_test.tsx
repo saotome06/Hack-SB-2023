@@ -1,7 +1,6 @@
 import { Button } from "@mui/base";
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
-import { string } from "yup";
 
 export default function getStaticProps() {
   console.log("Start Contact");
