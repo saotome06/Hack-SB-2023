@@ -31,10 +31,8 @@ export default function Home() {
       console.log("start");
 
       const content =
-        "ちょっとした謎々です。MediaPipeのFaceMeshを使って、顔の点群を取得しました。MOUTHは口、LEFT_EYE,RIGHT_EYEはそれぞれの目、LEFT_MAYU, RIGHT_MAYUはそれぞれの眉を表しています。この数値がどんな表情をしているのか推察してみてください。ちなみに、この数値は鼻の頭らへんの番号6からのユークリッド距離を100倍したものです．"
-        +
-        prompt
-        +
+        "ちょっとした謎々です。MediaPipeのFaceMeshを使って、顔の点群を取得しました。MOUTHは口、LEFT_EYE,RIGHT_EYEはそれぞれの目、LEFT_MAYU, RIGHT_MAYUはそれぞれの眉を表しています。この数値がどんな表情をしているのか推察してみてください。ちなみに、この数値は鼻の頭らへんの番号6からのユークリッド距離を100倍したものです．" +
+        prompt +
         "口が結構重要だと思います。目指すべきは笑顔です。ですので、それぞれを100点とした時のMOUTH、EYE、MAYUの3つの要素で笑顔度を示してください。最後の3行は絶対に結果のみを示してください。注意書きや但し書きなどを書かないでください．";
       console.log(content);
       const completion = await openai.chat.completions.create({
