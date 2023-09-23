@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 // import {
 //   LandmarkConnectionArray,
 //   drawConnectors,
@@ -268,6 +268,7 @@ export default function FaceMesher() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [flagURL, setflagURL] = useState(false);
+  const [camButton, setcamButton] = useState(true);
 
   const startCamera = async () => {
     if (
@@ -279,6 +280,7 @@ export default function FaceMesher() {
       videoRef.current.srcObject = stream;
       videoRef.current.play();
     }
+    setcamButton(false);
   };
 
   const processCameraFrame = async () => {
@@ -372,10 +374,62 @@ export default function FaceMesher() {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        width: "100%",
+        margin: "auto",
+      }}
+    >
       {!flagURL ? (
-        <>
-          <button onClick={startCamera}>カメラを起動</button>
+        <Box>
+          {camButton ? (
+            <Button
+              style={{
+                border: "1px solid black",
+                padding: "10px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                textAlign: "center",
+                margin: "auto",
+                width: "70%",
+                marginTop: "50%",
+                zIndex: 100,
+              }}
+              color="primary"
+              variant="contained"
+              onClick={startCamera}
+            >
+              カメラを起動
+            </Button>
+          ) : (
+            <>
+              <Box
+                sx={{
+                  position: "fixed",
+                  bottom: 0,
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                  backgroundColor: "white",
+                  padding: "10px",
+                }}
+              >
+                <Button
+                  sx={{
+                    width: "60%",
+                    padding: "10px",
+                    margin: "auto",
+                  }}
+                  variant="contained"
+                  color="primary"
+                  onClick={processCameraFrame}
+                >
+                  笑顔カードを作成する
+                </Button>
+              </Box>
+            </>
+          )}
           <video
             ref={videoRef}
             width="600"
@@ -384,40 +438,61 @@ export default function FaceMesher() {
             autoPlay
             muted
             playsInline
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              margin: "auto",
+              width: "80%",
+              height: "80%",
+              display: camButton ? "none" : "block",
+            }}
           ></video>
-          <button onClick={processCameraFrame}>写真を撮る</button>
           <canvas ref={canvasRef} id="output"></canvas>
-        </>
+        </Box>
       ) : (
         <Box
           sx={{
             border: "1px solid black",
-            // padding: '10px',
-            // display: 'flex',
-            // justifyContent: 'center',
-            // alignItems: 'center',
-            // textAlign: 'center',
-            // margin: 'auto',
-            // width: '70%',
-            // height: 'auto',
-            // marginTop: '20px',
+            margin: "auto",
+            width: "90%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+            padding: "20px",
+            borderRadius: "10px",
+            boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
           }}
         >
           <img
             style={{
-              padding: "10px",
-              justifyContent: "center",
-              alignItems: "center",
-              textAlign: "center",
               width: "100%",
+              marginTop: "10px",
               height: "auto",
+              borderRadius: "10px",
+              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
             }}
             src={dataURL}
           />
-          <h1>スコア</h1>
-          <p>100000000000000000000000000000000000</p>
-          <h1>効果</h1>
-          <p>ああああああああああああああああああああああ</p>
+          <Box
+            sx={{
+              textAlign: "left",
+              width: "100%",
+              marginTop: "20px",
+            }}
+          >
+            <h1 style={{ fontSize: "24px", marginBottom: "10px" }}>スコア</h1>
+            <p style={{ fontSize: "18px", marginBottom: "20px" }}>
+              1000000000000000000000000000000
+            </p>
+            <h1 style={{ fontSize: "24px", marginBottom: "10px" }}>効果</h1>
+            <p style={{ fontSize: "18px", marginBottom: "20px" }}>
+              ああああああああああああああああああああああ
+            </p>
+          </Box>
         </Box>
       )}
     </div>
