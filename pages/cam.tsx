@@ -12,6 +12,9 @@ import React from "react";
 let FaceMesh: new (arg0: { locateFile: (file: any) => string }) => any;
 if (typeof window !== "undefined") {
   FaceMesh = require("@mediapipe/face_mesh").FaceMesh;
+let FaceMesh: new (arg0: { locateFile: (file: any) => string }) => any;
+if (typeof window !== "undefined") {
+  FaceMesh = require("@mediapipe/face_mesh").FaceMesh;
 }
 
 // function range(start: number, end: number) {
