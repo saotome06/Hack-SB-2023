@@ -11,6 +11,7 @@ export let myDetail = "";
 export let myScore = 0;
 export let myScoreAttackName = 0;
 export let myScoreSmile = 0;
+export let myRarity = 10;
 
 export default function OpeaiForm(props) {
   function Attack_Name_Button() {
@@ -19,10 +20,42 @@ export default function OpeaiForm(props) {
     const [attack_score, set_attack_score] = useState(1000);
     const [inputFormOn, setinputFormOn] = useState(true);
     const [output_data, set_randomData] = useState("お待ちください");
+    const [rarity, setrarity] = useState(10);
     const router = useRouter();
     const goMyCard = () => {
       router.push("/myCard");
     };
+
+    async function sendPrompt_rarity(prompt, prompt2) {
+      if (prompt.length == 0) {
+        return;
+      }
+
+      const openai = new OpenAI({
+        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        dangerouslyAllowBrowser: true,
+      });
+      console.log("start");
+      const score = prompt * 0.7 + prompt2 * 0.3;
+
+      const content =
+        "0~10000を範囲とした際に" +
+        score +
+        "の値で0~5段階でレア度を評価してください。高ければ高いほど良いとします。レア度の数値（一桁の数字）のみを答えてください";
+      console.log(content);
+      const completion = await openai.chat.completions.create({
+        messages: [{ role: "user", content: content }],
+        model: "gpt-4",
+      });
+
+      const answer = completion.choices[0].message?.content;
+      console.log(score);
+      console.log(answer);
+      const answerInt = parseInt(answer);
+      await setrarity(answerInt);
+      myRarity = answerInt;
+      return answerInt;
+    }
 
     async function sendPrompt_smile_score(prompt = "") {
       if (prompt.length == 0) {
@@ -161,18 +194,24 @@ export default function OpeaiForm(props) {
       myName = e.target.value;
     };
 
-    const handleClick = () => {
+    const handleClick = async () => {
+      setinputFormOn(false);
       console.log(name);
       sendPrompt(name);
       myScore = 0.0;
-      sendPrompt_cal_attack_score(name);
-      sendPrompt_smile_score(props.data_face_mesh);
-      sendPrompt_create_image(name);
-      setinputFormOn(false);
+      await sendPrompt_cal_attack_score(name);
+      await sendPrompt_smile_score(props.data_face_mesh);
+      await sendPrompt_create_image(name);
+      await sendPrompt_rarity(myScoreSmile, attack_score);
+      console.log("rarityMYYYYYYYYY:", myRarity);
     };
 
     useEffect(() => {
       myCardName != "" ? goMyCard() : console.log("wait");
+      console.log(sendPrompt_rarity(myScoreSmile, attack_score));
+      console.log("rarity:", myScoreSmile);
+      console.log("rarity:", attack_score);
+      console.log("rarity:", rarity);
     }, [myCardName]);
 
     async function sendPrompt_create_image(prompt = "") {
@@ -205,7 +244,7 @@ export default function OpeaiForm(props) {
         );
         if (response.data && response.data.data) {
           imageURL = response.data.data[0].url;
-          myCardName != "" ? goMyCard() : console.log("wait");
+          myRarity != 10 ? goMyCard() : console.log("wait");
         }
       } catch (error) {
         console.error(error);
@@ -264,6 +303,7 @@ export default function OpeaiForm(props) {
                   {attack_score}
                   {output_data}
                   {card_name}
+                  {rarity}
                 </Box>
               </div>
             </Box>

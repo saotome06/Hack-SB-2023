@@ -9,6 +9,7 @@ export default function Home() {
     const [name, setname] = useState("ちょうすごいパーンチ");
     const [attack_score_by_name, set_attack_score_by_name] = useState(1000);
     const [card_name, set_card_name] = useState("超すごい人");
+    const [rarity, setrarity] = useState(1);
     const [output_data, set_randomData] = useState(
       "「ちょーすごいパーンチ」は、使用者が蓄積した集中力とエネルギーを一点に絞り、極限まで強化した拳を一瞬で放つ技。力の源は真剣勝負の熱量で、パンチが命中すれば周囲も巻き込むほどの衝撃波を生む。",
     );
@@ -18,6 +19,35 @@ export default function Home() {
     const [smile_score, set_smile_score] = useState(1000);
     const [isLoadingText, setIsLoadingText] = useState(false);
     const [isLoadingAttackScore, setIsLoadingAttackScore] = useState(false);
+
+    async function sendPrompt_rarity(prompt, prompt2) {
+      if (prompt.length == 0) {
+        return;
+      }
+
+      const openai = new OpenAI({
+        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        dangerouslyAllowBrowser: true,
+      });
+      console.log("start");
+      const score = prompt * 0.7 + prompt2 * 0.3;
+
+      const content =
+        "0~10000を範囲とした際に" +
+        score +
+        "の値で0~5段階でレア度を評価してください。高ければ高いほど良いとします。レア度の数値（一桁の数字）のみを答えてください";
+      console.log(content);
+      const completion = await openai.chat.completions.create({
+        messages: [{ role: "user", content: content }],
+        model: "gpt-4",
+      });
+
+      const answer = completion.choices[0].message?.content;
+      console.log(score);
+      console.log(answer);
+      const answerInt = parseInt(answer);
+      setrarity(answerInt);
+    }
 
     async function sendPrompt_smile_score(prompt = "") {
       if (prompt.length == 0) {
@@ -214,6 +244,7 @@ export default function Home() {
       sendPrompt_cal_attack_score(name);
       sendPrompt_smile_score(face_pos);
       sendPrompt_create_image(name);
+      sendPrompt_rarity(smile_score, attack_score_by_name);
     };
 
     return (
@@ -326,6 +357,7 @@ export default function Home() {
         <p className="text-4xl font-bold underline">
           attack score : {attack_score_by_name * 0.7 + smile_score * 0.3}
         </p>
+        <p>レアリティ :{rarity}</p>
 
         <h1 className="text-5xl">create image</h1>
         <div className="mx-4 my-2 p-4 flex-auto bg-white shadow rounded-md">
