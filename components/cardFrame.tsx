@@ -1,7 +1,11 @@
 import { Box } from "@mui/material";
+import Navbar from './Navbar'
 
 export default function CardFrame(props) {
   return (
+    <>
+    <Navbar />
+    <br></br>
     <Box
       sx={{
         // fontFamily: card_font,
@@ -94,5 +98,7 @@ export default function CardFrame(props) {
         </Box>
       </Box>
     </Box>
+    </>
+    
   );
 }

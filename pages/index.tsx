@@ -9,6 +9,7 @@ import {
 } from "../common/constants";
 import { Box, Button } from "@mui/material";
 import Card from "../components/card";
+import Navbar from '../components/Navbar'
 // import {
 //   LandmarkConnectionArray,
 //   drawConnectors,
@@ -121,10 +122,12 @@ export default function FaceMesher() {
     <div
       style={{
         width: "100%",
-        maxWidth: "375px",
+        maxWidth: "80%",
         margin: "auto",
       }}
     >
+      <Navbar />
+      <h1 className="text-5xl font-bold underline">Title Title</h1>
       {!flagURL ? (
         <Box>
           {camButton ? (
