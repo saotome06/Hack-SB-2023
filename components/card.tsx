@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import Contact from "./SpecialMoveForm";
+import OpeaiForm from "./openaiForm";
 
 export default function Card(props) {
   return (
@@ -34,15 +35,7 @@ export default function Card(props) {
           marginTop: "20px",
         }}
       >
-        <h1 style={{ fontSize: "24px", marginBottom: "10px" }}>スコア</h1>
-        <p style={{ fontSize: "18px", marginBottom: "20px" }}>
-          1000000000000000000000000000000
-        </p>
-        <h1 style={{ fontSize: "24px", marginBottom: "10px" }}>効果</h1>
-        <p style={{ fontSize: "18px", marginBottom: "20px" }}>
-          ああああああああああああああああああああああ
-        </p>
-        <Contact />
+        <OpeaiForm />
       </Box>
     </Box>
   );
