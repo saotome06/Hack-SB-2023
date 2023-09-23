@@ -116,6 +116,7 @@ export default function FaceMesher() {
   const [distances, setDistances] = useState("");
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  // const imgRef = useRef(null);
 
   const startCamera = async () => {
     if (
@@ -127,6 +128,38 @@ export default function FaceMesher() {
       videoRef.current.srcObject = stream;
       videoRef.current.play();
     }
+  };
+
+  const calculateDistances = (landmarks, canvas) => {
+    const refPointX = landmarks[REF_POINT].x * canvas.width;
+    const refPointY = landmarks[REF_POINT].y * canvas.height;
+
+    // インデックスの配列に基づいて距離を計算する関数
+    const computeDistanceForIndices = (indices) => {
+      return indices.map((index) => {
+        const pointX = landmarks[index].x * canvas.width;
+        const pointY = landmarks[index].y * canvas.height;
+        return Math.round(
+          Math.sqrt((pointX - refPointX) ** 2 + (pointY - refPointY) ** 2),
+        );
+      });
+    };
+
+    const mouthDistances = computeDistanceForIndices(MOUTH_INDEX);
+    const lEyeDistances = computeDistanceForIndices(L_EYE_INDEX);
+    const rEyeDistances = computeDistanceForIndices(R_EYE_INDEX);
+    const lMayuDistances = computeDistanceForIndices(L_MAYU_INDEX);
+    const rMayuDistances = computeDistanceForIndices(R_MAYU_INDEX);
+
+    return `{MOUTH:[${mouthDistances.join(
+      ", ",
+    )}], LEFT_EYE:[${lEyeDistances.join(
+      ", ",
+    )}], RIGHT_EYE:[${rEyeDistances.join(
+      ", ",
+    )}] LEFT_MAYU:[${lMayuDistances.join(
+      ", ",
+    )}], RIGHT_MAYU:[${rMayuDistances.join(", ")}]}`;
   };
 
   const processCameraFrame = async () => {
@@ -143,38 +176,6 @@ export default function FaceMesher() {
       },
     });
 
-    const calculateDistances = (landmarks) => {
-      const refPointX = landmarks[REF_POINT].x * canvas.width;
-      const refPointY = landmarks[REF_POINT].y * canvas.height;
-
-      // インデックスの配列に基づいて距離を計算する関数
-      const computeDistanceForIndices = (indices) => {
-        return indices.map((index) => {
-          const pointX = landmarks[index].x * canvas.width;
-          const pointY = landmarks[index].y * canvas.height;
-          return Math.round(
-            Math.sqrt((pointX - refPointX) ** 2 + (pointY - refPointY) ** 2),
-          );
-        });
-      };
-
-      const mouthDistances = computeDistanceForIndices(MOUTH_INDEX);
-      const lEyeDistances = computeDistanceForIndices(L_EYE_INDEX);
-      const rEyeDistances = computeDistanceForIndices(R_EYE_INDEX);
-      const lMayuDistances = computeDistanceForIndices(L_MAYU_INDEX);
-      const rMayuDistances = computeDistanceForIndices(R_MAYU_INDEX);
-
-      return `{MOUTH:[${mouthDistances.join(
-        ", ",
-      )}], LEFT_EYE:[${lEyeDistances.join(
-        ", ",
-      )}], RIGHT_EYE:[${rEyeDistances.join(
-        ", ",
-      )}] LEFT_MAYU:[${lMayuDistances.join(
-        ", ",
-      )}], RIGHT_MAYU:[${rMayuDistances.join(", ")}]}`;
-    };
-
     faceMesh.onResults((results: { multiFaceLandmarks: any }) => {
       if (results.multiFaceLandmarks) {
         for (const landmarks of results.multiFaceLandmarks) {
@@ -187,7 +188,7 @@ export default function FaceMesher() {
           ctx.fillStyle = "#00FF00";
           ctx.fill();
 
-          const distancesStr = calculateDistances(landmarks);
+          const distancesStr = calculateDistances(landmarks, canvas);
           setDistances(distancesStr);
 
           // 各インデックス配列をループして特徴点を描画
