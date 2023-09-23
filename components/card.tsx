@@ -1,5 +1,7 @@
 import { Box } from "@mui/material";
-import Contact from "../pages/components/SpecialMoveForm";
+import OpeaiForm from "./openaiForm";
+
+// const card_font = "ヒラギノ明朝 ProN";
 
 export default function Card(props) {
   return (
@@ -14,7 +16,9 @@ export default function Card(props) {
         textAlign: "center",
         padding: "20px",
         borderRadius: "10px",
-        boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+        // boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+        boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px black",
+        backgroundImage: "url('https://yazirusis.com/mate_image/fusion01.png')",
       }}
     >
       <img
@@ -32,17 +36,11 @@ export default function Card(props) {
           textAlign: "left",
           width: "100%",
           marginTop: "20px",
+          fontWeight: "bold",
+          color: "white",
         }}
       >
-        <h1 style={{ fontSize: "24px", marginBottom: "10px" }}>スコア</h1>
-        <p style={{ fontSize: "18px", marginBottom: "20px" }}>
-          1000000000000000000000000000000
-        </p>
-        <h1 style={{ fontSize: "24px", marginBottom: "10px" }}>効果</h1>
-        <p style={{ fontSize: "18px", marginBottom: "20px" }}>
-          ああああああああああああああああああああああ
-        </p>
-        <Contact />
+        <OpeaiForm />
       </Box>
     </Box>
   );
