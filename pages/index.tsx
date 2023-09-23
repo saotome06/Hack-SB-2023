@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { Box } from "@mui/material";
 import {
   REF_POINT,
   MOUTH_INDEX,
@@ -8,6 +7,20 @@ import {
   R_EYE_INDEX,
   R_MAYU_INDEX,
 } from "../common/constants";
+import { Box, Button } from "@mui/material";
+import Card from "../components/card";
+// import {
+//   LandmarkConnectionArray,
+//   drawConnectors,
+//   drawLandmarks,
+// } from "@mediapipe/drawing_utils";
+
+// let FaceLandmarker: {
+//   FACE_LANDMARKS_TESSELATION: LandmarkConnectionArray | undefined;
+// };
+// if (typeof window !== "undefined") {
+//   FaceLandmarker = require("@mediapipe/tasks-vision").FaceLandmarker;
+// }
 
 let FaceMesh: new (arg0: { locateFile: (file: any) => string }) => any;
 if (typeof window !== "undefined") {
@@ -19,6 +32,7 @@ let dataURL = "";
 export default function FaceMesher() {
   // const [distances, setDistances] = useState("");
   const [flagURL, setflagURL] = useState(false);
+  const [camButton, setcamButton] = useState(true);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -32,6 +46,7 @@ export default function FaceMesher() {
       videoRef.current.srcObject = stream;
       videoRef.current.play();
     }
+    setcamButton(false);
   };
 
   const calculateDistances = (landmarks, canvas) => {
@@ -102,55 +117,110 @@ export default function FaceMesher() {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        width: "100%",
+        maxWidth: "375px",
+        margin: "auto",
+      }}
+    >
       {!flagURL ? (
-        <>
-          <button onClick={startCamera}>カメラを起動</button>
-          <video
-            ref={videoRef}
-            width="600"
-            height="400"
-            id="video"
-            autoPlay
-            muted
-            playsInline
-          ></video>
-          <button onClick={processCameraFrame}>写真を撮る</button>
-          <canvas ref={canvasRef} id="output"></canvas>
-        </>
-      ) : (
-        <>
-          <Box
-            sx={{
-              border: "1px solid black",
-              // padding: '10px',
-              // display: 'flex',
-              // justifyContent: 'center',
-              // alignItems: 'center',
-              // textAlign: 'center',
-              // margin: 'auto',
-              // width: '70%',
-              // height: 'auto',
-              // marginTop: '20px',
-            }}
-          >
-            <img
+        <Box>
+          {camButton ? (
+            <Button
               style={{
+                border: "1px solid black",
                 padding: "10px",
+                display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 textAlign: "center",
-                width: "600",
-                height: "400",
+                margin: "auto",
+                width: "70%",
+                marginTop: "50%",
+                zIndex: 100,
               }}
-              src={dataURL}
-            />
-            <h1>スコア</h1>
-            <p>100000000000000000000000000000000000</p>
-            <h1>効果</h1>
-            <p>ああああああああああああああああああああああ</p>
-          </Box>
-        </>
+              color="primary"
+              variant="contained"
+              onClick={startCamera}
+            >
+              カメラを起動
+            </Button>
+          ) : (
+            <>
+              <Box
+                sx={{
+                  position: "fixed",
+                  bottom: 0,
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                  backgroundColor: "white",
+                  padding: "10px",
+                  margin: "auto",
+                  maxWidth: "375px",
+                }}
+              >
+                <Button
+                  sx={{
+                    width: "100%",
+                    padding: "10px",
+                    margin: "auto",
+                    zIndex: 100,
+                  }}
+                  variant="contained"
+                  color="primary"
+                  onClick={processCameraFrame}
+                >
+                  笑顔カードを作成する
+                </Button>
+              </Box>
+            </>
+          )}
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              display: camButton ? "none" : "block",
+            }}
+          >
+            <video
+              ref={videoRef}
+              id="video"
+              autoPlay
+              muted
+              playsInline
+              style={{
+                margin: "auto",
+                width: "100%",
+                height: "auto",
+                padding: "10px",
+                maxWidth: "375px",
+                borderRadius: "10px",
+                boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+              }}
+            ></video>
+            <canvas
+              ref={canvasRef}
+              id="output"
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                margin: "auto",
+                width: "95%",
+                height: "auto",
+                display: camButton ? "block" : "none",
+                borderRadius: "10px",
+                boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+              }}
+            ></canvas>
+          </div>
+        </Box>
+      ) : (
+        <Card imgSrc={dataURL} />
       )}
     </div>
   );
