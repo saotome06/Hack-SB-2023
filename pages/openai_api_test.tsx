@@ -72,7 +72,6 @@ export default function Home() {
         dangerouslyAllowBrowser: true,
       });
       console.log("start");
-      
       const p = Math.random();
       let prompt_base = "";
       if (p <= 0.1) {
