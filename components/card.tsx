@@ -3,7 +3,10 @@ import OpeaiForm from "./openaiForm";
 
 const card_font = "ヒラギノ明朝 ProN";
 
+export let cardImage = "";
+
 export default function Card(props) {
+  cardImage = props.imgSrc;
   return (
     <Box
       sx={{
@@ -17,7 +20,6 @@ export default function Card(props) {
         textAlign: "center",
         padding: "20px",
         borderRadius: "10px",
-        // boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
         boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px black",
         backgroundImage: "url('https://yazirusis.com/mate_image/fusion01.png')",
         backgroundSize: "cover",
