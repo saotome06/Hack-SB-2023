@@ -36,9 +36,11 @@ function Contact() {
     resolver: yupResolver(schema),
   });
 
+  console.log("2 Contact");
+
   // フォーム送信時の処理（バリデーションOKな時に実行される）
   const onSubmit: SubmitHandler<ContactForm> = async (data) => {
-    const response = await fetch("api", {
+    const response = await fetch("/api", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +48,7 @@ function Contact() {
       body: JSON.stringify(data),
     });
     if (response.status === 200) {
-      router.push("/result_deathmile");
+      router.push("/");
     } else {
       alert("正常に送信できませんでした");
     }

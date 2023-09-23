@@ -7,9 +7,11 @@ export const config = {
 };
 
 export default function handler(req, res) {
-  console.log("受付開始");
+  console.log("API Start");
+  console.log(req.body);
   if (req.method === "POST") {
-    return res.status(200).json({ message: "OK" });
+    const data = req.body;
+    return res.status(200).json(data.name);
   }
 }
 
