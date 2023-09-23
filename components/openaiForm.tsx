@@ -37,7 +37,7 @@ export default function OpeaiForm(props) {
       const content =
         "ちょっとした謎々です。MediaPipeのFaceMeshを使って、顔の点群を取得しました。MOUTHは口、LEFT_EYE,RIGHT_EYEはそれぞれの目、LEFT_MAYU, RIGHT_MAYUはそれぞれの眉を表しています。この数値がどんな表情をしているのか推察してみてください。ちなみに、この数値は鼻の頭らへんの番号6からのユークリッド距離を100倍したものです．" +
         prompt +
-        "口が結構重要だと思います。目指すべきは笑顔です。笑顔度を0以上100以下の数値で評価してください。絶対に数字の結果のみを示してください。注意書きや但し書きなどを書かないでください．";
+        "口が結構重要だと思います。目指すべきは笑顔です。MOUTH、EYE、MAYUの3つの要素をヒントにして，笑顔度を0以上100以下の数値で評価してください。怒った顔に近いものはは0，笑顔に近いものは100としてください．絶対に数字の結果のみを示してください。注意書きや但し書きなどを書かないでください．";
       const completion = await openai.chat.completions.create({
         messages: [{ role: "user", content: content }],
         model: "gpt-4",
@@ -162,6 +162,10 @@ export default function OpeaiForm(props) {
     };
 
     const handleClick = () => {
+      if (name.length == 0) {
+        alert("name empty");
+        return;
+      }
       console.log(name);
       sendPrompt(name);
       myScore = 0.0;
