@@ -1,30 +1,11 @@
-"use client";
-
-import { useRef } from "react";
-// import {
-//   LandmarkConnectionArray,
-//   drawConnectors,
-//   drawLandmarks,
-// } from "@mediapipe/drawing_utils";
-
-// let FaceLandmarker: {
-//   FACE_LANDMARKS_TESSELATION: LandmarkConnectionArray | undefined;
-// };
-// if (typeof window !== "undefined") {
-//   FaceLandmarker = require("@mediapipe/tasks-vision").FaceLandmarker;
-// }
+import { useRef, useState } from "react";
 
 let FaceMesh: new (arg0: { locateFile: (file: any) => string }) => any;
 if (typeof window !== "undefined") {
   FaceMesh = require("@mediapipe/face_mesh").FaceMesh;
 }
 
-// function range(start: number, end: number) {
-//   return Array.from({ length: end - start }, (_, i) => start + i);
-// }
-
 const REF_POINT = 6;
-
 const MOUTH = [
   [80, 81],
   [311, 310],
@@ -68,7 +49,6 @@ const MOUTH = [
   [146, 91],
   [402, 318],
 ];
-
 const L_EYE = [
   [145, 153],
   [160, 159],
@@ -96,7 +76,6 @@ const L_MAYU = [
   [53, 52],
   [65, 55],
 ];
-
 const R_EYE = [
   [381, 382],
   [382, 362],
@@ -134,6 +113,7 @@ const R_MAYU_INDEX = Array.from(new Set(R_MAYU.flat())).sort((a, b) => a - b);
 
 export default function FaceMesher() {
   // const [landmarks, setLandmarks] = useState([]);
+  const [distances, setDistances] = useState("");
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -152,7 +132,6 @@ export default function FaceMesher() {
   const processCameraFrame = async () => {
     const canvas = canvasRef.current;
     const video = videoRef.current;
-    console.log(canvas);
     const ctx = canvas.getContext("2d");
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
@@ -164,20 +143,52 @@ export default function FaceMesher() {
       },
     });
 
+    const calculateDistances = (landmarks) => {
+      const refPointX = landmarks[REF_POINT].x * canvas.width;
+      const refPointY = landmarks[REF_POINT].y * canvas.height;
+
+      // インデックスの配列に基づいて距離を計算する関数
+      const computeDistanceForIndices = (indices) => {
+        return indices.map((index) => {
+          const pointX = landmarks[index].x * canvas.width;
+          const pointY = landmarks[index].y * canvas.height;
+          return Math.round(
+            Math.sqrt((pointX - refPointX) ** 2 + (pointY - refPointY) ** 2)
+          );
+        });
+      };
+
+      const mouthDistances = computeDistanceForIndices(MOUTH_INDEX);
+      const lEyeDistances = computeDistanceForIndices(L_EYE_INDEX);
+      const rEyeDistances = computeDistanceForIndices(R_EYE_INDEX);
+      const lMayuDistances = computeDistanceForIndices(L_MAYU_INDEX);
+      const rMayuDistances = computeDistanceForIndices(R_MAYU_INDEX);
+
+      return `{MOUTH:[${mouthDistances.join(
+        ", ",
+      )}], LEFT_EYE:[${lEyeDistances.join(
+        ", ",
+      )}], RIGHT_EYE:[${rEyeDistances.join(
+        ", ",
+      )}] LEFT_MAYU:[${lMayuDistances.join(
+        ", ",
+      )}], RIGHT_MAYU:[${rMayuDistances.join(", ")}]}`;
+    };
+
     faceMesh.onResults((results: { multiFaceLandmarks: any }) => {
       if (results.multiFaceLandmarks) {
         for (const landmarks of results.multiFaceLandmarks) {
           const ctx = canvasRef.current.getContext("2d");
 
-          ctx.arc(
-            landmarks[REF_POINT].x * canvas.width,
-            landmarks[REF_POINT].y * canvas.height,
-            2,
-            0,
-            2 * Math.PI,
-          );
+          const refPointX = landmarks[REF_POINT].x * canvas.width;
+          const refPointY = landmarks[REF_POINT].y * canvas.height;
+
+          ctx.arc(refPointX, refPointY, 2, 0, 2 * Math.PI);
           ctx.fillStyle = "#00FF00";
           ctx.fill();
+
+          const distancesStr = calculateDistances(landmarks);
+          setDistances(distancesStr);
 
           // 各インデックス配列をループして特徴点を描画
           for (const index of [
@@ -188,17 +199,15 @@ export default function FaceMesher() {
             ...R_MAYU_INDEX,
           ]) {
             const point = landmarks[index];
+            const pointX = point.x * canvas.width;
+            const pointY = point.y * canvas.height;
+
             ctx.beginPath();
-            ctx.arc(
-              point.x * canvas.width,
-              point.y * canvas.height,
-              2,
-              0,
-              2 * Math.PI,
-            );
+            ctx.arc(pointX, pointY, 2, 0, 2 * Math.PI);
             ctx.fillStyle = "#FF0000";
             ctx.fill();
           }
+          // console.log(distances);
         }
       }
     });
@@ -224,6 +233,7 @@ export default function FaceMesher() {
       ></video>
       <button onClick={processCameraFrame}>写真を撮る</button>
       <canvas ref={canvasRef} id="output"></canvas>
+      <div>{distances}</div>
     </div>
   );
 }
