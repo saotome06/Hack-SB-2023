@@ -4,12 +4,13 @@ import OpenAI from "openai";
 
 export default function Home() {
   function Attack_Name_Button() {
-    const [name, setname] = useState("すごいパンチ");
+    const [name, setname] = useState("ちょーすごいパーンチ");
     const [attack_score, set_attack_score] = useState(1000);
-    const [output_data, set_randomData] = useState("name");
+    const [output_data, set_randomData] = useState(
+      "「ちょーすごいパーンチ」は、使用者が蓄積した集中力とエネルギーを一点に絞り、極限まで強化した拳を一瞬で放つ技。力の源は真剣勝負の熱量で、パンチが命中すれば周囲も巻き込むほどの衝撃波を生む。",
+    );
 
     async function sendPrompt(prompt = "") {
-      console.log(prompt);
       //console.log(process.env.NEXT_PUBLIC_OPENAI_API_KEY)
       //.env.local に NEXT_PUBLIC_OPENAI_API_KEY=xxxxxxxxxxxxxxを入れる
 
@@ -19,10 +20,23 @@ export default function Home() {
       });
       console.log("start");
 
-      const content =
-        "必殺技の名前を言うので，技の説明を30文字程度でしてください．技名[" +
-        prompt +
-        "]";
+      const p = Math.random();
+      let prompt_base = "";
+      if (p <= 0.1) {
+        prompt_base =
+          "必殺技の名前を言うので，ごく普通の面白みのない技の説明を100文字程度でしてください．";
+      } else if (p <= 0.6) {
+        prompt_base =
+          "必殺技の名前を言うので，ユーモア溢れる厨二病全開の技の説明を100文字程度でしてください．";
+      } else if (p <= 0.7) {
+        prompt_base =
+          "必殺技の名前を言うので，3歳児が考えたレベルの技の説明を100文字程度でしてください．";
+      } else {
+        prompt_base =
+          "必殺技の名前を言うので，理論的で死ぬほど真面目腐ったの技の説明を100文字程度でしてください．";
+      }
+      console.log(p);
+      const content = prompt_base + "技名[" + prompt + "]";
       const completion = await openai.chat.completions.create({
         messages: [{ role: "user", content: content }],
         model: "gpt-4",
@@ -40,11 +54,13 @@ export default function Home() {
     };
 
     const handleClick = () => {
-      const random_Data =
-        10000.0 +
-        10.0 *
+      let random_Data =
+        Math.random() * 1000 +
+        100 +
+        100.0 *
           Math.sqrt(-2 * Math.log(1 - Math.random())) *
           Math.cos(2 * Math.PI * Math.random());
+      if (random_Data < 0) random_Data = 100;
       set_attack_score(random_Data);
 
       console.log(name);
