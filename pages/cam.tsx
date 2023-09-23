@@ -153,7 +153,7 @@ export default function FaceMesher() {
           const pointX = landmarks[index].x * canvas.width;
           const pointY = landmarks[index].y * canvas.height;
           return Math.round(
-            Math.sqrt((pointX - refPointX) ** 2 + (pointY - refPointY) ** 2)
+            Math.sqrt((pointX - refPointX) ** 2 + (pointY - refPointY) ** 2),
           );
         });
       };
@@ -207,7 +207,6 @@ export default function FaceMesher() {
             ctx.fillStyle = "#FF0000";
             ctx.fill();
           }
-          // console.log(distances);
         }
       }
     });
