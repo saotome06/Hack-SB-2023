@@ -8,6 +8,9 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mediapipe/drawing_utils": "^0.3.1675466124",
+    "@mediapipe/face_mesh": "^0.4.1633559619",
+    "@mediapipe/tasks-vision": "^0.10.6",
     "@mui/icons-material": "^5.14.3",
     "@mui/material": "^5.14.4",
     "date-fns": "^2.30.0",
