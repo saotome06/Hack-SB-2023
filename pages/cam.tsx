@@ -1,6 +1,11 @@
+"use client";
+
 import { useRef } from "react";
-import React from "react";
-// import { LandmarkConnectionArray } from "@mediapipe/drawing_utils";
+// import {
+//   LandmarkConnectionArray,
+//   drawConnectors,
+//   drawLandmarks,
+// } from "@mediapipe/drawing_utils";
 
 // let FaceLandmarker: {
 //   FACE_LANDMARKS_TESSELATION: LandmarkConnectionArray | undefined;
@@ -9,9 +14,6 @@ import React from "react";
 //   FaceLandmarker = require("@mediapipe/tasks-vision").FaceLandmarker;
 // }
 
-let FaceMesh: new (arg0: { locateFile: (file: any) => string }) => any;
-if (typeof window !== "undefined") {
-  FaceMesh = require("@mediapipe/face_mesh").FaceMesh;
 let FaceMesh: new (arg0: { locateFile: (file: any) => string }) => any;
 if (typeof window !== "undefined") {
   FaceMesh = require("@mediapipe/face_mesh").FaceMesh;
