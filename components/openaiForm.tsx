@@ -5,22 +5,18 @@ import OpenAI from "openai";
 export default function OpeaiForm() {
   function Attack_Name_Button() {
     const [name, setname] = useState("");
-    const [card_name, set_card_name] = useState("お待ちください");
+    const [card_name, set_card_name] = useState("loading...");
     const [attack_score, set_attack_score] = useState(1000);
     const [inputFormOn, setinputFormOn] = useState(true);
-    const [output_data, set_randomData] = useState("お待ちください");
+    const [output_data, set_randomData] = useState("loading...");
     // const [isLoadingText, setIsLoadingText] = useState(false);
     // const [isLoadingAttackScore, setIsLoadingAttackScore] = useState(false);
 
     async function sendPrompt(prompt = "") {
-      //console.log(process.env.NEXT_PUBLIC_OPENAI_API_KEY)
-      //.env.local に NEXT_PUBLIC_OPENAI_API_KEY=xxxxxxxxxxxxxxを入れる
-
       const openai = new OpenAI({
         apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
         dangerouslyAllowBrowser: true,
       });
-      console.log("start");
 
       const p = Math.random();
       let prompt_base = "";
@@ -37,7 +33,6 @@ export default function OpeaiForm() {
         prompt_base =
           "必殺技の名前を言うので，理論的で死ぬほど真面目腐ったの技の説明を100文字程度でしてください．";
       }
-      console.log(p);
       //   setIsLoadingText(true);
       //   setIsLoadingAttackScore(true);
       const content = prompt_base + "技名[" + prompt + "]";
@@ -46,9 +41,7 @@ export default function OpeaiForm() {
         model: "gpt-4",
       });
 
-      console.log(completion);
       const answer = completion.choices[0].message?.content;
-      console.log(answer);
       set_randomData(answer);
       const content1 =
         "必殺技名，必殺技の説明，顔写真の画像の情報があります．これらの情報の特徴をよく表したセンスあるいい感じの名前を考えてください．名前は5文字以上20文字以内です．返答は名前のみ返してください．使う情報は以下のとおりです\n" +
@@ -66,11 +59,10 @@ export default function OpeaiForm() {
         .replace("]", "")
         .replace('"', "")
         .replace("「", "")
-        .replace("」", "");
+        .replace("」", "")
+        .replace('"', "");
       console.log(answer1);
       set_card_name(answer1);
-
-      console.log("end");
     }
 
     async function sendPrompt_cal_attack_score(prompt = "") {
@@ -78,7 +70,6 @@ export default function OpeaiForm() {
         apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
         dangerouslyAllowBrowser: true,
       });
-      console.log("start");
 
       const content =
         "技名[" +
@@ -89,13 +80,11 @@ export default function OpeaiForm() {
         model: "gpt-4",
       });
 
-      console.log(completion);
       const answer = completion.choices[0].message?.content;
-      console.log(answer);
-      console.log("end");
       const regex = /[^0-9]/g;
       const result = answer.replace(regex, "");
-      const number = parseInt(result);
+      let number = parseInt(result);
+      if (isNaN(number)) number = 100;
       let random_Data =
         Math.random() * 1000 +
         number +
@@ -124,39 +113,59 @@ export default function OpeaiForm() {
       <>
         {inputFormOn ? (
           <form>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+            <Box
+              sx={{
+                padding: "5px",
+                margin: "auto",
+                fontSize: "20px",
+                backgroundColor: "white",
+                opacity: 0.8,
+                color: "black",
+                boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
               }}
             >
-              <TextField
-                value={name}
-                onChange={onChangeHandler0}
-                label="必殺技を入力してください"
-                variant="outlined"
-                style={{ marginBottom: "10px", width: "80%", color: "white" }}
-                placeholder="必殺技名を入力してください"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                  }
-                }}
-              />
-              <Button
-                onClick={handleClick}
-                variant="contained"
-                size="large"
+              <div
                 style={{
-                  backgroundColor: "rgb(231, 76, 60)",
-                  color: "white",
-                  width: "80%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                 }}
               >
-                決定
-              </Button>
-            </div>
+                <TextField
+                  value={name}
+                  onChange={onChangeHandler0}
+                  label="必殺技を入力してください"
+                  variant="outlined"
+                  style={{ marginBottom: "10px", width: "80%", color: "white" }}
+                  placeholder="必殺技名を入力してください"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                    }
+                  }}
+                />
+                <Button
+                  onClick={handleClick}
+                  variant="contained"
+                  size="large"
+                  sx={{
+                    border: "None",
+                    padding: "10px",
+                    width: "80%",
+                    height: "60px",
+                    minWidth: "30px",
+                    backgroundColor: "rgb(231, 76, 60)",
+                    borderColor: "black",
+                    color: "white",
+                    borderRadius: "0.9rem",
+                    fontSize: "20px",
+                    cursor: "pointer",
+                  }}
+                >
+                  決定
+                </Button>
+              </div>
+            </Box>
           </form>
         ) : (
           <>
@@ -165,20 +174,20 @@ export default function OpeaiForm() {
                 padding: "5px",
                 margin: "auto",
                 fontSize: "20px",
-                backgroundColor: "#ddd",
+                backgroundColor: "white",
+                opacity: 0.7,
                 color: "black",
-                boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
+                boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px black",
               }}
             >
               <Box
                 sx={{
                   position: "absolute",
-                  top: 15,
-                  padding: "5px",
-                  backgroundColor: "#ddd",
-                  color: "black",
-                  width: "310px",
-                  boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
+                  top: 20,
+                  backgroundColor: "white",
+                  opacity: 0.7,
+                  width: "325px",
+                  boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px black",
                 }}
               >
                 <a>{card_name}</a>
@@ -195,7 +204,7 @@ export default function OpeaiForm() {
               </Box>
               <Box
                 sx={{
-                  borderTop: "3px solid white",
+                  borderTop: "1px solid black",
                   textAlign: "right",
                 }}
               >
