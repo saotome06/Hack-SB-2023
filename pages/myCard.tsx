@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { cardImage } from "../components/card";
 import CardFrame from "../components/cardFrame";
 import {
@@ -8,11 +9,34 @@ import {
   myScore,
   myScoreAttackName,
   myScoreSmile,
+  faceSrc,
 } from "../components/openaiForm";
 
 export default function MyCard() {
   console.log("myScoreAttackName:", myScoreAttackName);
   console.log("myScoreSmile:", myScoreSmile);
+
+  useEffect(() => {
+    async function fetchSmileCardRanking() {
+      const response = await fetch("/api/insert_smile_column", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          smile_score: myScoreSmile,
+          card_name: myCardName,
+          special_attack_name: myName,
+          description: myDetail,
+          attack_power: myScore,
+          background_url: imageURL,
+          face_image_path: faceSrc,
+        }),
+      });
+      console.log(response);
+    }
+    fetchSmileCardRanking();
+  }, []);
 
   return (
     <CardFrame
