@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
-import Contact from "../pages/components/SpecialMoveForm";
+import OpeaiForm from "./openaiForm";
 
-const card_font = "ヒラギノ明朝 ProN";
+// const card_font = "ヒラギノ明朝 ProN";
 
 export default function Card(props) {
   return (
@@ -36,45 +36,11 @@ export default function Card(props) {
           textAlign: "left",
           width: "100%",
           marginTop: "20px",
+          fontWeight: "bold",
+          color: "white",
         }}
       >
-        <h1
-          style={{
-            fontFamily: card_font,
-            fontSize: "24px",
-            marginBottom: "10px",
-          }}
-        >
-          スコア
-        </h1>
-        <p
-          style={{
-            fontFamily: card_font,
-            fontSize: "18px",
-            marginBottom: "20px",
-          }}
-        >
-          1000000000000000000000000000000
-        </p>
-        <h1
-          style={{
-            fontFamily: card_font,
-            fontSize: "24px",
-            marginBottom: "10px",
-          }}
-        >
-          効果
-        </h1>
-        <p
-          style={{
-            fontFamily: card_font,
-            fontSize: "18px",
-            marginBottom: "20px",
-          }}
-        >
-          ああああああああああああああああああああああ
-        </p>
-        <Contact />
+        <OpeaiForm />
       </Box>
     </Box>
   );

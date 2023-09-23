@@ -112,7 +112,7 @@ export default function OpeaiForm() {
                 onChange={onChangeHandler0}
                 label="必殺技を入力してください"
                 variant="outlined"
-                style={{ marginBottom: "10px", width: "80%" }}
+                style={{ marginBottom: "10px", width: "80%", color: "white" }}
               />
               <Button
                 onClick={handleClick}
@@ -132,7 +132,7 @@ export default function OpeaiForm() {
           <>
             <Box
               sx={{
-                // padding: "20px",
+                padding: "5px",
                 margin: "auto",
                 border: "3px solid black",
                 fontSize: "20px",
@@ -142,9 +142,16 @@ export default function OpeaiForm() {
               <p className="text-3xl font-bold underline">{name}</p>
               <p className="text-3xl font-bold underline">【効果】</p>
               <p className="text-3xl font-bold underline"> {output_data}</p>
-              <p className="text-3xl font-bold underline">
-                attack score : {attack_score}
-              </p>
+              <Box
+                sx={{
+                  borderTop: "3px solid white",
+                  textAlign: "right",
+                }}
+              >
+                <p className="text-3xl font-bold underline">
+                  ATK/{attack_score}
+                </p>
+              </Box>
             </Box>
           </>
         )}
