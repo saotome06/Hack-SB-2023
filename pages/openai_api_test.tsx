@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import OpenAI from "openai";
 
 export default function Home() {
   function Attack_Name_Button() {
-    const [name, setname] = useState("ちょーすごいパーンチ");
+    const [name, setname] = useState("");
     const [attack_score, set_attack_score] = useState(1000);
     const [output_data, set_randomData] = useState(
       "「ちょーすごいパーンチ」は、使用者が蓄積した集中力とエネルギーを一点に絞り、極限まで強化した拳を一瞬で放つ技。力の源は真剣勝負の熱量で、パンチが命中すれば周囲も巻き込むほどの衝撃波を生む。",
@@ -13,6 +13,8 @@ export default function Home() {
       "{MOUTH:[58, 65, 87, 98, 58, 64, 71, 85, 83, 72, 68, 66, 98, 87, 86, 93, 86, 89, 87, 96, 78, 76, 58, 64, 69, 79, 77, 69, 67, 66, 98, 87, 84, 90, 82, 85, 86, 95, 73, 72], LEFT_EYE:[58, 61, 27, 49, 43, 37, 32, 28, 33, 39, 44, 51, 55, 54, 28, 58], RIGHT_EYE:[37, 39, 12, 32, 27, 22, 17, 14, 17, 22, 27, 32, 36, 35, 14, 38] LEFT_MAYU:[71, 55, 64, 25, 70, 42, 46, 60, 33, 33, 28], RIGHT_MAYU:[46, 39, 44, 19, 46, 32, 35, 47, 43, 27]}",
     );
     const [smile_score, set_smile_score] = useState(1000);
+    const [isLoadingText, setIsLoadingText] = useState(false);
+    const [isLoadingAttackScore, setIsLoadingAttackScore] = useState(false);
 
     async function sendPrompt_smile_score(prompt = "") {
       const openai = new OpenAI({
@@ -78,6 +80,8 @@ export default function Home() {
           "必殺技の名前を言うので，理論的で死ぬほど真面目腐ったの技の説明を100文字程度でしてください．";
       }
       console.log(p);
+      setIsLoadingText(true);
+      setIsLoadingAttackScore(true);
       const content = prompt_base + "技名[" + prompt + "]";
       const completion = await openai.chat.completions.create({
         messages: [{ role: "user", content: content }],
@@ -87,6 +91,7 @@ export default function Home() {
       console.log(completion);
       const answer = completion.choices[0].message?.content;
       console.log(answer);
+      setIsLoadingText(false);
       console.log("end");
       set_randomData(answer);
     }
@@ -124,6 +129,7 @@ export default function Home() {
       if (random_Data < 0) random_Data = 100;
       set_attack_score(Math.round(random_Data));
       console.log(number, random_Data);
+      setIsLoadingAttackScore(false);
     }
 
     const onChangeHandler0 = (e: any) => {
@@ -165,12 +171,12 @@ export default function Home() {
             />
             <br></br>
             name:
-            <input
+            {/* <input
               value={name}
               onChange={onChangeHandler0}
               type="text"
               name="name"
-              placeholder="name"
+              placeholder="必殺技名を入力"
               style={{
                 padding: "10px",
                 borderRadius: "5px",
@@ -181,6 +187,12 @@ export default function Home() {
                 boxSizing: "border-box",
                 marginBottom: "10px",
               }}
+            /> */}
+            <TextField
+              variant="outlined"
+              required
+              label="必殺技名"
+              onChange={onChangeHandler0}
             />
             <Button
               className="alertButton"
@@ -206,11 +218,21 @@ export default function Home() {
             </Button>
           </div>
         </form>
-        <p className="text-3xl font-bold underline">name : {name}</p>
-        <p className="text-3xl font-bold underline"> {output_data}</p>
-        <p className="text-3xl font-bold underline">
-          attack score : {attack_score}
-        </p>
+        <p className="text-3xl font-bold underline">必殺技名 : {name}</p>
+
+        {isLoadingAttackScore ? (
+          <p>Loading...</p>
+        ) : (
+          <p className="text-3xl font-bold underline">
+            attack score : {attack_score}
+          </p>
+        )}
+
+        {isLoadingText ? (
+          <p>Loading...</p>
+        ) : (
+          <p className="text-3xl font-bold underline">{output_data}</p>
+        )}
         <p className="text-3xl font-bold underline">face pos : {face_pos}</p>
         <p className="text-3xl font-bold underline">
           smile score : {smile_score}
