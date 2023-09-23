@@ -7,7 +7,6 @@ function SuperbaseTest() {
   const [response, setResponse] = useState("");
 
   const handleClick = async () => {
-    // ここにAPIをたたく処理を実装
     const url =
       "https://zogqrpdjhulkzbvpuwud.supabase.co/rest/v1/smile_cards?select=*";
     const headers = {
