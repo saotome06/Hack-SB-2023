@@ -24,7 +24,7 @@ export default function CardFrame(props) {
     >
       <Box
         sx={{
-          fontSize: "30px",
+          fontSize: "20px",
           top: 15,
           padding: "4px",
           backgroundColor: "#ddd",
@@ -32,27 +32,23 @@ export default function CardFrame(props) {
           width: "95%",
           boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
           opacity: 0.8,
+          fontWeight: "bold",
         }}
       >
         <a>{props.myCardName.replace('"', "").replace('"', "")}</a>
       </Box>
-      <Box
-        sx={{
+      <img
+        style={{
+          width: "290px",
+          marginTop: "10px",
           height: "250px",
-          overflowY: "scroll",
+          objectFit: "cover",
+          borderRadius: "10px",
+          boxShadow:
+            "0px 0px 20px rgba(0, 0, 0, 0.4), 0px 0px 10px rgba(0, 0, 0, 0.2)",
         }}
-      >
-        <img
-          style={{
-            width: "100%",
-            marginTop: "20px",
-            height: "auto",
-            borderRadius: "10px",
-            boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
-          }}
-          src={props.cardImage}
-        />
-      </Box>
+        src={props.cardImage}
+      />
       <Box
         sx={{
           textAlign: "left",
@@ -75,18 +71,20 @@ export default function CardFrame(props) {
         >
           <Box
             sx={{
-              fontSize: "15px",
+              fontSize: "13px",
             }}
           >
-            <p className="text-3xl font-bold underline">【必殺技】</p>
-            <p className="text-3xl font-bold underline">{props.myName}</p>
-            <p className="text-3xl font-bold underline">【効果】</p>
+            <p className="text-3xl font-bold underline">
+              【必殺技】{props.myName}
+            </p>
             <p className="text-3xl font-bold underline"> {props.myDetail}</p>
           </Box>
           <Box
             sx={{
               borderTop: "3px solid white",
               textAlign: "right",
+              fontSize: "13px",
+              fontWeight: "bold",
             }}
           >
             <p className="text-3xl font-bold underline">ATK/{props.myScore}</p>
