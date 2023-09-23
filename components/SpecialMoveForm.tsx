@@ -50,7 +50,7 @@ function Contact() {
     if (response.status === 200) {
       router.push("/");
     } else {
-      alert("正常に送信できませんでした");
+      console.log("正常に送信できませんでした");
     }
   };
 
