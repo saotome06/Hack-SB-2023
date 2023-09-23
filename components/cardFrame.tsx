@@ -39,7 +39,7 @@ export default function CardFrame(props) {
       </Box>
       <img
         style={{
-          width: "290px",
+          width: "300px",
           marginTop: "10px",
           height: "250px",
           objectFit: "cover",
