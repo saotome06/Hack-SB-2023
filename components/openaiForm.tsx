@@ -163,20 +163,20 @@ export default function OpeaiForm() {
             >
               <Box
                 sx={{
-                    position: "absolute",
-                    top: 15,
-                    padding: "5px",
-                    backgroundColor: "#ddd",
-                    color: "black",
-                    width: "310px",
-                    boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
+                  position: "absolute",
+                  top: 15,
+                  padding: "5px",
+                  backgroundColor: "#ddd",
+                  color: "black",
+                  width: "310px",
+                  boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
                 }}
               >
                 <a>{card_name}</a>
               </Box>
               <Box
                 sx={{
-                    fontSize: "15px",
+                  fontSize: "15px",
                 }}
               >
                 <p className="text-3xl font-bold underline">【必殺技】</p>
