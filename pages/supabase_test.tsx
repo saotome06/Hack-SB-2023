@@ -12,8 +12,6 @@ function SuperbaseTest() {
     const url =
       "https://zogqrpdjhulkzbvpuwud.supabase.co/rest/v1/smile_cards?select=*";
 
-    console.log(api_key);
-    console.log(bearer);
     const headers = {
       apikey: api_key,
       Authorization: `Bearer ${bearer}`,
