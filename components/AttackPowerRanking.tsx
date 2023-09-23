@@ -1,8 +1,9 @@
 // ../lib/smile_card.jsを呼び出して、ランキングを表示するページ
 // このファイルは、pages/index.tsxから呼び出される
 
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+// import axios from "axios";
+// import { set } from "date-fns";
+import { useEffect, useState } from "react";
 export default function AttackPowerRanking() {
   // const [smileCards, setSmileCards] = useState([]);
 
@@ -32,19 +33,21 @@ export default function AttackPowerRanking() {
   //   fetchSmileCardRanking();
   // }, []);
   const [smileCards, setSmileCards] = useState([]);
+  setSmileCards([]);
 
   useEffect(() => {
     async function fetchSmileCardRanking() {
       // get時の処理
-      const response = await fetch("/api/upload_smile_card", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'image/png',
-        },
-        // req.path,req.fileに値を渡す
-        body: JSON.stringify({ path: 'public/image/KanColle-200511-21575695.png'}),
-      });
-
+      // const response = await fetch("/api/upload_smile_card", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "image/png",
+      //   },
+      //   // req.path,req.fileに値を渡す
+      //   body: JSON.stringify({
+      //     path: "public/image/KanColle-200511-21575695.png",
+      //   }),
+      // });
     }
     fetchSmileCardRanking();
   }, []);
@@ -82,5 +85,4 @@ export default function AttackPowerRanking() {
       </table>
     </div>
   );
-  
 }

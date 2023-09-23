@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    node: true,
   },
   extends: [
     "eslint:recommended",
@@ -13,6 +14,7 @@ module.exports = {
     {
       env: {
         node: true,
+        browser: true,
       },
       files: [".eslintrc.{js,cjs}", "*.css"],
       parserOptions: {
@@ -32,5 +34,7 @@ module.exports = {
     "no-unused-vars": "off",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off"
   },
 };
