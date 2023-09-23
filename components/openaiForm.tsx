@@ -141,7 +141,8 @@ export default function OpeaiForm() {
                 padding: "5px",
                 margin: "auto",
                 border: "3px solid black",
-                fontSize: "20px",
+                fontSize: "17px",
+                backgroundColor: "rgba(203, 169, 148, 0.85)",
               }}
             >
               <p className="text-3xl font-bold underline">【必殺技】</p>

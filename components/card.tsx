@@ -1,12 +1,13 @@
 import { Box } from "@mui/material";
 import OpeaiForm from "./openaiForm";
 
-// const card_font = "ヒラギノ明朝 ProN";
+const card_font = "ヒラギノ明朝 ProN";
 
 export default function Card(props) {
   return (
     <Box
       sx={{
+        fontFamily: card_font,
         border: "1px solid black",
         margin: "auto",
         width: "90%",
@@ -19,6 +20,9 @@ export default function Card(props) {
         // boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
         boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px black",
         backgroundImage: "url('https://yazirusis.com/mate_image/fusion01.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <img
@@ -37,7 +41,7 @@ export default function Card(props) {
           width: "100%",
           marginTop: "20px",
           fontWeight: "bold",
-          color: "white",
+          color: "black",
         }}
       >
         <OpeaiForm />
