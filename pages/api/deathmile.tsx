@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import bodyParser from "body-parser";
 import OpenAI from "openai";
 
