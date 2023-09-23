@@ -21,13 +21,6 @@ export default function getStaticProps() {
   };
 
   const handlePutClick = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const url = "https://zogqrpdjhulkzbvpuwud.supabase.co/object/image";
-    const headers = {
-      apikey: api_key,
-      Authorization: `Bearer ${bearer}`,
-      "Content-Type": "multipart/form-data",
-    };
-
     const supabase = createClient(
       "https://zogqrpdjhulkzbvpuwud.supabase.co",
       api_key,
@@ -43,6 +36,13 @@ export default function getStaticProps() {
         upsert: false,
         contentType: "image/png",
       });
+    if (error) {
+      console.log(error);
+      alert("アップロードに失敗しました");
+    } else {
+      console.log(data);
+      alert("アップロードに成功しました");
+    }
   };
 
   return (
