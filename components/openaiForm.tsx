@@ -4,14 +4,13 @@ import OpenAI from "openai";
 
 export default function OpeaiForm() {
   function Attack_Name_Button() {
-    const [name, setname] = useState("ちょーすごいパーンチ");
+    const [name, setname] = useState("");
+    const [card_name, set_card_name] = useState("お待ちください");
     const [attack_score, set_attack_score] = useState(1000);
     const [inputFormOn, setinputFormOn] = useState(true);
-    const [output_data, set_randomData] = useState(
-      "「ちょーすごいパーンチ」は、使用者が蓄積した集中力とエネルギーを一点に絞り、極限まで強化した拳を一瞬で放つ技。力の源は真剣勝負の熱量で、パンチが命中すれば周囲も巻き込むほどの衝撃波を生む。",
-    );
-    const [isLoadingText, setIsLoadingText] = useState(false);
-    const [isLoadingAttackScore, setIsLoadingAttackScore] = useState(false);
+    const [output_data, set_randomData] = useState("お待ちください");
+    // const [isLoadingText, setIsLoadingText] = useState(false);
+    // const [isLoadingAttackScore, setIsLoadingAttackScore] = useState(false);
 
     async function sendPrompt(prompt = "") {
       //console.log(process.env.NEXT_PUBLIC_OPENAI_API_KEY)
@@ -39,8 +38,8 @@ export default function OpeaiForm() {
           "必殺技の名前を言うので，理論的で死ぬほど真面目腐ったの技の説明を100文字程度でしてください．";
       }
       console.log(p);
-      setIsLoadingText(true);
-      setIsLoadingAttackScore(true);
+      //   setIsLoadingText(true);
+      //   setIsLoadingAttackScore(true);
       const content = prompt_base + "技名[" + prompt + "]";
       const completion = await openai.chat.completions.create({
         messages: [{ role: "user", content: content }],
@@ -50,9 +49,28 @@ export default function OpeaiForm() {
       console.log(completion);
       const answer = completion.choices[0].message?.content;
       console.log(answer);
-      console.log("end");
       set_randomData(answer);
-      setIsLoadingText(false);
+      const content1 =
+        "必殺技名，必殺技の説明，顔写真の画像の情報があります．これらの情報の特徴をよく表したセンスあるいい感じの名前を考えてください．名前は5文字以上20文字以内です．返答は名前のみ返してください．使う情報は以下のとおりです\n" +
+        "必殺技名: " +
+        prompt +
+        "，必殺技の説明: " +
+        answer;
+      const completion1 = await openai.chat.completions.create({
+        messages: [{ role: "user", content: content1 }],
+        model: "gpt-4",
+      });
+      const answer1 = completion1.choices[0].message?.content;
+      answer1
+        .replace("[", "")
+        .replace("]", "")
+        .replace('"', "")
+        .replace("「", "")
+        .replace("」", "");
+      console.log(answer1);
+      set_card_name(answer1);
+
+      console.log("end");
     }
 
     async function sendPrompt_cal_attack_score(prompt = "") {
@@ -88,7 +106,7 @@ export default function OpeaiForm() {
       if (random_Data < 0) random_Data = 100;
       set_attack_score(Math.round(random_Data));
       console.log(number, random_Data);
-      setIsLoadingAttackScore(false);
+      //   setIsLoadingAttackScore(false);
     }
 
     const onChangeHandler0 = (e: any) => {
@@ -119,6 +137,7 @@ export default function OpeaiForm() {
                 label="必殺技を入力してください"
                 variant="outlined"
                 style={{ marginBottom: "10px", width: "80%", color: "white" }}
+                placeholder="必殺技名を入力してください"
               />
               <Button
                 onClick={handleClick}
@@ -140,42 +159,44 @@ export default function OpeaiForm() {
               sx={{
                 padding: "5px",
                 margin: "auto",
-                border: "3px solid black",
-                fontSize: "17px",
-                backgroundColor: "rgba(203, 169, 148, 0.85)",
+                fontSize: "20px",
+                backgroundColor: "#ddd",
+                color: "black",
+                boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
               }}
             >
-              <p className="text-3xl font-bold underline">【必殺技】</p>
-              <p className="text-3xl font-bold underline">{name}</p>
-              <p className="text-3xl font-bold underline">【効果】</p>
-              {isLoadingText ? (
-                // <div className={styles.loopings}>
-                //   <div className={styles.rhombus}></div>
-                //   <div className={styles.rhombus}></div>
-                //   <div className={styles.rhombus}></div>
-                // </div>
-                <p>Loading...</p>
-              ) : (
-                <p className="text-3xl font-bold underline">{output_data}</p>
-              )}
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: 15,
+                  padding: "5px",
+                  backgroundColor: "#ddd",
+                  color: "black",
+                  width: "310px",
+                  boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
+                }}
+              >
+                <a>{card_name}</a>
+              </Box>
+              <Box
+                sx={{
+                  fontSize: "15px",
+                }}
+              >
+                <p className="text-3xl font-bold underline">【必殺技】</p>
+                <p className="text-3xl font-bold underline">{name}</p>
+                <p className="text-3xl font-bold underline">【効果】</p>
+                <p className="text-3xl font-bold underline"> {output_data}</p>
+              </Box>
               <Box
                 sx={{
                   borderTop: "3px solid white",
                   textAlign: "right",
                 }}
               >
-                {isLoadingAttackScore ? (
-                  // <div className={styles.loopings}>
-                  //   <div className={styles.rhombus}></div>
-                  //   <div className={styles.rhombus}></div>
-                  //   <div className={styles.rhombus}></div>
-                  // </div>
-                  <p>Loading...</p>
-                ) : (
-                  <p className="text-3xl font-bold underline">
-                    ATK/{attack_score}
-                  </p>
-                )}
+                <p className="text-3xl font-bold underline">
+                  ATK/{attack_score}
+                </p>
               </Box>
             </Box>
           </>

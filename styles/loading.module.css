@@ -1,4 +1,5 @@
-.loopings, .loopings * {
+.loopings,
+.loopings * {
   box-sizing: border-box;
 }
 
