@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import OpenAI from "openai";
 
-export default function OpeaiForm() {
+export default function OpeaiForm(props) {
+  console.log(props.data_face_mesh);
   function Attack_Name_Button() {
     const [name, setname] = useState("");
     const [card_name, set_card_name] = useState("loading...");

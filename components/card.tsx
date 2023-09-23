@@ -44,7 +44,7 @@ export default function Card(props) {
           color: "black",
         }}
       >
-        <OpeaiForm />
+        <OpeaiForm data_face_mesh={props.data_face_mesh} />
       </Box>
     </Box>
   );
