@@ -1,6 +1,7 @@
 import { Button } from "@mui/base";
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
+import { string } from "yup";
 
 export default function getStaticProps() {
   console.log("Start Contact");
@@ -59,6 +60,8 @@ export default function getStaticProps() {
           src: src,
         },
       ]);
+
+      setResponseBucket(src);
     }
   };
 
@@ -70,6 +73,7 @@ export default function getStaticProps() {
         <input type="file" onChange={handlePutClick} />
         {/* <Button onClick={handlePutClick}>追加</Button> */}
         <div>{response}</div>
+        <img src={responseBucket} width="25%" height="25%" />
       </main>
     </>
   );
