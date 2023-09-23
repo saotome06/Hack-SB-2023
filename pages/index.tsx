@@ -28,6 +28,7 @@ if (typeof window !== "undefined") {
 }
 
 let dataURL = "";
+let data_face_mesh = "";
 
 export default function FaceMesher() {
   // const [distances, setDistances] = useState("");
@@ -91,7 +92,6 @@ export default function FaceMesher() {
 
     ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
     dataURL = canvas.toDataURL();
-    setflagURL(true);
 
     const faceMesh = new FaceMesh({
       locateFile: (file: any) => {
@@ -102,9 +102,9 @@ export default function FaceMesher() {
     faceMesh.onResults((results: { multiFaceLandmarks: any }) => {
       if (results.multiFaceLandmarks) {
         for (const landmarks of results.multiFaceLandmarks) {
-          const distancesStr = calculateDistances(landmarks, canvas);
+          data_face_mesh = calculateDistances(landmarks, canvas);
           // setDistances(distancesStr);
-          console.log(distancesStr);
+          // console.log(data_face_mesh);
         }
       }
     });
@@ -114,6 +114,7 @@ export default function FaceMesher() {
     } catch (error) {
       console.error("Error processing the image:", error);
     }
+    setflagURL(true);
   };
 
   return (
@@ -220,7 +221,7 @@ export default function FaceMesher() {
           </div>
         </Box>
       ) : (
-        <Card imgSrc={dataURL} />
+        <Card imgSrc={dataURL} data_face_mesh={data_face_mesh} />
       )}
     </div>
   );
