@@ -1,5 +1,18 @@
 import { useRef, useState } from "react";
 import { Box, Button } from "@mui/material";
+import AttackPowerRanking from '../components/AttackPowerRanking';
+
+const HomePage = () => {
+  return (
+    <div>
+      <h1>Attack Power Ranking</h1>
+      <AttackPowerRanking />
+    </div>
+  );
+};
+export default HomePage;
+
+
 // import {
 //   LandmarkConnectionArray,
 //   drawConnectors,
@@ -263,7 +276,7 @@ const R_EYE_INDEX = Array.from(new Set(R_EYE.flat())).sort((a, b) => a - b);
 const R_MAYU_INDEX = Array.from(new Set(R_MAYU.flat())).sort((a, b) => a - b);
 let dataURL = "";
 
-export default function FaceMesher() {
+export  function FaceMesher() {
   // const [landmarks, setLandmarks] = useState([]);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
