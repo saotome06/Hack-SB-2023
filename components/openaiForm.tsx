@@ -222,17 +222,14 @@ export default function OpeaiForm(props) {
     return (
       <>
         {inputFormOn ? (
-          <form className={styles.reflection}>
+          <form>
             <Box
               sx={{
                 fontSize: "30px",
                 top: 15,
                 padding: "4px",
-                backgroundColor: "#ddd",
                 color: "black",
                 width: "95%",
-                boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px white",
-                opacity: 0.8,
               }}
             >
               <div
