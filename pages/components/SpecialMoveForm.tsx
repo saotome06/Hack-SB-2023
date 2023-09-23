@@ -40,7 +40,7 @@ function Contact() {
 
   // フォーム送信時の処理（バリデーションOKな時に実行される）
   const onSubmit: SubmitHandler<ContactForm> = async (data) => {
-    const response = await fetch("/api", {
+    const response = await fetch("/api/deathmile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
