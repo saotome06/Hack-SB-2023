@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { error } from "console";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -19,12 +20,14 @@ export default async function insertHandler(req, res) {
       },
     ]);
     if (error) {
+      console.log(error);
       res.status(500).json({ error: error.message });
     } else {
+      console.log(data);
       res.status(200).json({ data });
     }
   } else {
-    console.log(data);
+    console.log(error);
     res.status(405).json({ error: "Method not allowed" });
   }
 }
