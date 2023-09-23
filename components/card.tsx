@@ -1,5 +1,4 @@
 import { Box } from "@mui/material";
-import Contact from "./SpecialMoveForm";
 import OpeaiForm from "./openaiForm";
 
 export default function Card(props) {

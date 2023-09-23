@@ -99,8 +99,14 @@ export default function OpeaiForm() {
     return (
       <>
         {inputFormOn ? (
-            <form>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <form>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
               <TextField
                 value={name}
                 onChange={onChangeHandler0}
@@ -112,31 +118,35 @@ export default function OpeaiForm() {
                 onClick={handleClick}
                 variant="contained"
                 size="large"
-                style={{ backgroundColor: "rgb(231, 76, 60)", color: "white", width: "80%" }}
+                style={{
+                  backgroundColor: "rgb(231, 76, 60)",
+                  color: "white",
+                  width: "80%",
+                }}
               >
                 決定
               </Button>
             </div>
           </form>
-        ):(
-            <>
-                <Box
-                    sx={{
-                        // padding: "20px",
-                        margin: "auto",
-                        border: "3px solid black",
-                        fontSize: "20px",
-                    }}
-                >
-                    <p className="text-3xl font-bold underline">【必殺技】</p>
-                    <p className="text-3xl font-bold underline">{name}</p>
-                    <p className="text-3xl font-bold underline">【効果】</p>
-                    <p className="text-3xl font-bold underline"> {output_data}</p>
-                    <p className="text-3xl font-bold underline">
-                    attack score : {attack_score}
-                    </p>
-                </Box>
-            </>
+        ) : (
+          <>
+            <Box
+              sx={{
+                // padding: "20px",
+                margin: "auto",
+                border: "3px solid black",
+                fontSize: "20px",
+              }}
+            >
+              <p className="text-3xl font-bold underline">【必殺技】</p>
+              <p className="text-3xl font-bold underline">{name}</p>
+              <p className="text-3xl font-bold underline">【効果】</p>
+              <p className="text-3xl font-bold underline"> {output_data}</p>
+              <p className="text-3xl font-bold underline">
+                attack score : {attack_score}
+              </p>
+            </Box>
+          </>
         )}
       </>
     );
