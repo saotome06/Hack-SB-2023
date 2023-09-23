@@ -6,12 +6,14 @@ import {
   myCardName,
   myDetail,
   myName,
+  myRarity,
   myScore,
   myScoreAttackName,
   myScoreSmile,
   faceSrc,
 } from "../components/openaiForm";
 
+export let countR = 0;
 export default function MyCard() {
   // 3秒間待機
   setTimeout(() => {
@@ -20,6 +22,7 @@ export default function MyCard() {
 
   console.log("myScoreAttackName:", myScoreAttackName);
   console.log("myScoreSmile:", myScoreSmile);
+  countR = myRarity;
 
   useEffect(() => {
     async function fetchSmileCardRanking() {
@@ -44,13 +47,16 @@ export default function MyCard() {
   }, []);
 
   return (
-    <CardFrame
-      imageURL={imageURL}
-      myCardName={myCardName}
-      cardImage={cardImage}
-      myName={myName}
-      myDetail={myDetail}
-      myScore={myScore}
-    />
+    <>
+      <CardFrame
+        imageURL={imageURL}
+        myCardName={myCardName}
+        cardImage={cardImage}
+        myName={myName}
+        myDetail={myDetail}
+        myScore={myScore}
+        myScoreSmile={myScoreSmile}
+      />
+    </>
   );
 }

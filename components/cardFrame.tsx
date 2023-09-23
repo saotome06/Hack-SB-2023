@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { countR } from "../pages/myCard";
 import Navbar from "../components/Navbar";
 
 export default function CardFrame(props) {
@@ -39,11 +40,24 @@ export default function CardFrame(props) {
             fontWeight: "bold",
           }}
         >
+          <div>
+            {Array.from({ length: countR }).map((_, index) => (
+              <img
+                key={index}
+                style={{
+                  width: "30px",
+                  objectFit: "cover",
+                  borderRadius: "10px",
+                }}
+                src="./rar.svg"
+              />
+            ))}
+          </div>
           <a>{props.myCardName.replace('"', "").replace('"', "")}</a>
         </Box>
         <img
           style={{
-            width: "300px",
+            width: "310px",
             marginTop: "10px",
             height: "250px",
             objectFit: "cover",
@@ -92,7 +106,7 @@ export default function CardFrame(props) {
               }}
             >
               <p className="text-3xl font-bold underline">
-                ATK/{props.myScore}
+                ATK/{props.myScore} 笑顔スコア/{props.myScoreSmile}
               </p>
             </Box>
           </Box>
