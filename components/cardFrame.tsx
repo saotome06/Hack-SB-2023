@@ -1,14 +1,6 @@
-import { cardImage } from "../components/card";
-import {
-  imageURL,
-  myCardName,
-  myDeteil,
-  myName,
-  myScore,
-} from "../components/openaiForm";
 import { Box } from "@mui/material";
 
-export default function MyCard() {
+export default function CardFrame(props) {
   return (
     <Box
       sx={{
@@ -23,7 +15,7 @@ export default function MyCard() {
         padding: "20px",
         borderRadius: "10px",
         boxShadow: "0px 0px 0px 3px white, 0px 0px 0px 4px black",
-        backgroundImage: `url(${imageURL})`,
+        backgroundImage: `url(${props.backgroundURL})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -38,7 +30,7 @@ export default function MyCard() {
           borderRadius: "10px",
           boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
         }}
-        src={cardImage}
+        src={props.imgURL}
       />
       <Box
         sx={{
@@ -72,7 +64,7 @@ export default function MyCard() {
               opacity: 0.8,
             }}
           >
-            <a>{myCardName}</a>
+            <a>{props.cardName}</a>
           </Box>
           <Box
             sx={{
@@ -80,9 +72,9 @@ export default function MyCard() {
             }}
           >
             <p className="text-3xl font-bold underline">【必殺技】</p>
-            <p className="text-3xl font-bold underline">{myName}</p>
+            <p className="text-3xl font-bold underline">{props.deathblow}</p>
             <p className="text-3xl font-bold underline">【効果】</p>
-            <p className="text-3xl font-bold underline"> {myDeteil}</p>
+            <p className="text-3xl font-bold underline"> {props.effect}</p>
           </Box>
           <Box
             sx={{
@@ -90,7 +82,7 @@ export default function MyCard() {
               textAlign: "right",
             }}
           >
-            <p className="text-3xl font-bold underline">ATK/{myScore}</p>
+            <p className="text-3xl font-bold underline">ATK/{props.score}</p>
           </Box>
         </Box>
       </Box>
