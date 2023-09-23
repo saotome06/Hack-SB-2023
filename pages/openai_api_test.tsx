@@ -7,7 +7,7 @@ export default function Home() {
   function Attack_Name_Button() {
     const [name, setname] = useState("ちょうすごいパーンチ");
     const [attack_score_by_name, set_attack_score_by_name] = useState(1000);
-    //const [attack_score, set_attack_score] = useState(1000);
+    const [card_name, set_card_name] = useState("超すごい人");
     const [output_data, set_randomData] = useState(
       "「ちょーすごいパーンチ」は、使用者が蓄積した集中力とエネルギーを一点に絞り、極限まで強化した拳を一瞬で放つ技。力の源は真剣勝負の熱量で、パンチが命中すれば周囲も巻き込むほどの衝撃波を生む。",
     );
@@ -89,7 +89,7 @@ export default function Home() {
       console.log(p);
       setIsLoadingText(true);
       setIsLoadingAttackScore(true);
-      const content = prompt_base + "技名: " + prompt + "";
+      const content = prompt_base + "必殺技名: " + prompt + "";
       const completion = await openai.chat.completions.create({
         messages: [{ role: "user", content: content }],
         model: "gpt-4",
@@ -99,8 +99,29 @@ export default function Home() {
       const answer = completion.choices[0].message?.content;
       console.log(answer);
       setIsLoadingText(false);
-      console.log("end");
       set_randomData(answer);
+
+      const content1 =
+        "必殺技名，必殺技の説明，顔写真の画像の情報があります．これらの情報の特徴をよく表したセンスあるいい感じの名前を考えてください．名前は5文字以上20文字以内です．返答は名前のみ返してください．使う情報は以下のとおりです\n" +
+        "必殺技名: " +
+        prompt +
+        "，必殺技の説明: " +
+        answer;
+      const completion1 = await openai.chat.completions.create({
+        messages: [{ role: "user", content: content1 }],
+        model: "gpt-4",
+      });
+      const answer1 = completion1.choices[0].message?.content;
+      answer1
+        .replace("[", "")
+        .replace("]", "")
+        .replace('"', "")
+        .replace("「", "")
+        .replace("」", "");
+      console.log(answer1);
+      set_card_name(answer1);
+
+      console.log("end");
     }
 
     async function sendPrompt_cal_attack_score(prompt = "") {
@@ -161,6 +182,7 @@ export default function Home() {
     return (
       <>
         <form>
+          <h1 className="text-5xl">card name : {card_name}</h1>
           <div className="text-2xl">
             face mesh:
             <input
@@ -273,7 +295,6 @@ export default function Home() {
 
   return (
     <main>
-      <h1 className="text-5xl">Name</h1>
       <Attack_Name_Button />
     </main>
   );
