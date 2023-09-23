@@ -1,116 +1,19 @@
 import { useRef, useState } from "react";
 import { Box } from "@mui/material";
+import {
+  REF_POINT,
+  MOUTH_INDEX,
+  L_EYE_INDEX,
+  L_MAYU_INDEX,
+  R_EYE_INDEX,
+  R_MAYU_INDEX,
+} from "../common/constants";
 
 let FaceMesh: new (arg0: { locateFile: (file: any) => string }) => any;
 if (typeof window !== "undefined") {
   FaceMesh = require("@mediapipe/face_mesh").FaceMesh;
 }
 
-const REF_POINT = 6;
-const MOUTH = [
-  [80, 81],
-  [311, 310],
-  [178, 87],
-  [181, 84],
-  [181, 84],
-  [82, 13],
-  [87, 14],
-  [39, 37],
-  [310, 415],
-  [267, 269],
-  [61, 146],
-  [317, 402],
-  [78, 191],
-  [191, 80],
-  [375, 291],
-  [37, 0],
-  [84, 17],
-  [314, 405],
-  [13, 312],
-  [270, 409],
-  [312, 311],
-  [318, 324],
-  [324, 308],
-  [61, 185],
-  [78, 95],
-  [91, 181],
-  [321, 375],
-  [0, 267],
-  [409, 291],
-  [14, 317],
-  [88, 178],
-  [95, 88],
-  [40, 39],
-  [17, 314],
-  [415, 308],
-  [185, 40],
-  [81, 82],
-  [269, 270],
-  [405, 321],
-  [146, 91],
-  [402, 318],
-];
-const L_EYE = [
-  [145, 153],
-  [160, 159],
-  [159, 158],
-  [144, 145],
-  [153, 154],
-  [246, 161],
-  [158, 157],
-  [163, 144],
-  [173, 133],
-  [33, 7],
-  [161, 160],
-  [155, 133],
-  [7, 163],
-  [154, 155],
-  [33, 246],
-];
-const L_MAYU = [
-  [105, 66],
-  [52, 65],
-  [46, 53],
-  [66, 107],
-  [157, 173],
-  [63, 105],
-  [53, 52],
-  [65, 55],
-];
-const R_EYE = [
-  [381, 382],
-  [382, 362],
-  [390, 373],
-  [263, 249],
-  [374, 380],
-  [387, 386],
-  [380, 381],
-  [249, 390],
-  [466, 388],
-  [373, 374],
-  [384, 398],
-  [263, 466],
-  [386, 385],
-  [398, 362],
-  [388, 387],
-  [385, 384],
-];
-const R_MAYU = [
-  [283, 282],
-  [300, 293],
-  [282, 295],
-  [296, 336],
-  [334, 296],
-  [276, 283],
-  [293, 334],
-  [295, 285],
-];
-
-const MOUTH_INDEX = Array.from(new Set(MOUTH.flat())).sort((a, b) => a - b);
-const L_EYE_INDEX = Array.from(new Set(L_EYE.flat())).sort((a, b) => a - b);
-const L_MAYU_INDEX = Array.from(new Set(L_MAYU.flat())).sort((a, b) => a - b);
-const R_EYE_INDEX = Array.from(new Set(R_EYE.flat())).sort((a, b) => a - b);
-const R_MAYU_INDEX = Array.from(new Set(R_MAYU.flat())).sort((a, b) => a - b);
 let dataURL = "";
 
 export default function FaceMesher() {
