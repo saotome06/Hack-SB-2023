@@ -9,6 +9,7 @@ import {
   myScore,
   myScoreAttackName,
   myScoreSmile,
+  faceSrc,
 } from "../components/openaiForm";
 
 export default function MyCard() {
@@ -28,6 +29,8 @@ export default function MyCard() {
           special_attack_name: myName,
           description: myDetail,
           attack_power: myScore,
+          background_url: imageURL,
+          face_image_path: faceSrc,
         }),
       });
       console.log(response);
