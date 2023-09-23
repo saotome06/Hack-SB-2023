@@ -10,6 +10,8 @@ import {
 import { Box, Button } from "@mui/material";
 import Card from "../components/card";
 import Navbar from "../components/Navbar";
+import { decode } from "base64-arraybuffer";
+import { createClient } from "@supabase/supabase-js";
 // import {
 //   LandmarkConnectionArray,
 //   drawConnectors,
@@ -30,6 +32,7 @@ if (typeof window !== "undefined") {
 
 let dataURL = "";
 let data_face_mesh = "";
+let faceImageURL = "";
 
 export default function FaceMesher() {
   // const [distances, setDistances] = useState("");
@@ -93,6 +96,50 @@ export default function FaceMesher() {
 
     ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
     dataURL = canvas.toDataURL();
+
+    console.log(`dataURL: ${dataURL}`);
+
+    // 画像をアップロード
+    const api_key = process.env.NEXT_PUBLIC_SUPABASE_KEY;
+
+    const supabase = createClient(
+      "https://zogqrpdjhulkzbvpuwud.supabase.co",
+      api_key,
+    );
+
+    // dataURLを,で分割
+    const dataURL_split = dataURL.split(",");
+    const dataURL_base64 = dataURL_split[1];
+
+    // 文字列をランダムに生成
+    const fileName = Math.random().toString(32).substring(2) + ".png";
+    console.log(`fileName: ${fileName}`);
+    const { data: inputData, error } = await supabase.storage
+      .from("image")
+      .upload(fileName, decode(dataURL_base64), {
+        contentType: "image/png",
+      });
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(inputData);
+
+      const publicURL = await supabase.storage
+        .from("image")
+        .getPublicUrl(fileName);
+
+      const src = publicURL.data.publicUrl;
+      faceImageURL = src;
+      console.log(`FileName: ${fileName}, publicURL: ${src}`);
+
+      // // DBにレコード作成
+      // await supabase.from("sample").insert([
+      //   {
+      //     fileName: fileName,
+      //     src: src,
+      //   },
+      // ]);
+    }
 
     const faceMesh = new FaceMesh({
       locateFile: (file: any) => {
@@ -204,30 +251,35 @@ export default function FaceMesher() {
                   borderRadius: "10px",
                   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
                 }}
-              ></video>
-              <canvas
-                ref={canvasRef}
-                id="output"
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  margin: "auto",
-                  width: "95%",
-                  height: "auto",
-                  display: camButton ? "block" : "none",
-                  borderRadius: "10px",
-                  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
-                }}
-              ></canvas>
-            </div>
-          </Box>
-        ) : (
-          <Card imgSrc={dataURL} data_face_mesh={data_face_mesh} />
-        )}
-      </div>
+              
+            ></video>
+            <canvas
+              ref={canvasRef}
+              id="output"
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                margin: "auto",
+                width: "95%",
+                height: "auto",
+                display: camButton ? "block" : "none",
+                borderRadius: "10px",
+                boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+              }}
+            ></canvas>
+          </div>
+        </Box>
+      ) : (
+        <Card
+          imgSrc={dataURL}
+          data_face_mesh={data_face_mesh}
+          faceSrc={faceImageURL}
+        />
+      )}
+    </div>
     </>
   );
 }
