@@ -2,8 +2,8 @@ import { createClient } from "@supabase/supabase-js";
 const fs = require("fs");
 
 const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY,
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_KEY,
 );
 // supabaseのstorageに画像をアップロードする
 export default async function uploadHandler(req, res) {
