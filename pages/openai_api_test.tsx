@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, TextField } from "@mui/material";
 import OpenAI from "openai";
+import styles from "../styles/loading.module.css";
 
 export default function Home() {
   function Attack_Name_Button() {
@@ -221,7 +222,11 @@ export default function Home() {
         <p className="text-3xl font-bold underline">必殺技名 : {name}</p>
 
         {isLoadingAttackScore ? (
-          <p>Loading...</p>
+          <div className={styles.loopings}>
+            <div className={styles.rhombus}></div>
+            <div className={styles.rhombus}></div>
+            <div className={styles.rhombus}></div>
+          </div>
         ) : (
           <p className="text-3xl font-bold underline">
             attack score : {attack_score}
@@ -229,7 +234,11 @@ export default function Home() {
         )}
 
         {isLoadingText ? (
-          <p>Loading...</p>
+          <div className={styles.loopings}>
+            <div className={styles.rhombus}></div>
+            <div className={styles.rhombus}></div>
+            <div className={styles.rhombus}></div>
+          </div>
         ) : (
           <p className="text-3xl font-bold underline">{output_data}</p>
         )}
