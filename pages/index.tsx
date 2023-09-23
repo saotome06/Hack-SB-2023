@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Box, Button } from "@mui/material";
+import Card from "../components/card";
 // import {
 //   LandmarkConnectionArray,
 //   drawConnectors,
@@ -377,6 +378,7 @@ export default function FaceMesher() {
     <div
       style={{
         width: "100%",
+        maxWidth: "375px",
         margin: "auto",
       }}
     >
@@ -413,13 +415,16 @@ export default function FaceMesher() {
                   width: "100%",
                   backgroundColor: "white",
                   padding: "10px",
+                  margin: "auto",
+                  maxWidth: "375px",
                 }}
               >
                 <Button
                   sx={{
-                    width: "60%",
+                    width: "100%",
                     padding: "10px",
                     margin: "auto",
+                    zIndex: 100,
                   }}
                   variant="contained"
                   color="primary"
@@ -430,70 +435,50 @@ export default function FaceMesher() {
               </Box>
             </>
           )}
-          <video
-            ref={videoRef}
-            width="600"
-            height="400"
-            id="video"
-            autoPlay
-            muted
-            playsInline
+          <div
             style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              margin: "auto",
-              width: "80%",
-              height: "80%",
+              position: "relative",
+              width: "100%",
               display: camButton ? "none" : "block",
             }}
-          ></video>
-          <canvas ref={canvasRef} id="output"></canvas>
+          >
+            <video
+              ref={videoRef}
+              id="video"
+              autoPlay
+              muted
+              playsInline
+              style={{
+                margin: "auto",
+                width: "100%",
+                height: "auto",
+                padding: "10px",
+                maxWidth: "375px",
+                borderRadius: "10px",
+                boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+              }}
+            ></video>
+            <canvas
+              ref={canvasRef}
+              id="output"
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                margin: "auto",
+                width: "95%",
+                height: "auto",
+                display: camButton ? "block" : "none",
+                borderRadius: "10px",
+                boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+              }}
+            ></canvas>
+          </div>
         </Box>
       ) : (
-        <Box
-          sx={{
-            border: "1px solid black",
-            margin: "auto",
-            width: "90%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-            padding: "20px",
-            borderRadius: "10px",
-            boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
-          }}
-        >
-          <img
-            style={{
-              width: "100%",
-              marginTop: "10px",
-              height: "auto",
-              borderRadius: "10px",
-              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
-            }}
-            src={dataURL}
-          />
-          <Box
-            sx={{
-              textAlign: "left",
-              width: "100%",
-              marginTop: "20px",
-            }}
-          >
-            <h1 style={{ fontSize: "24px", marginBottom: "10px" }}>スコア</h1>
-            <p style={{ fontSize: "18px", marginBottom: "20px" }}>
-              1000000000000000000000000000000
-            </p>
-            <h1 style={{ fontSize: "24px", marginBottom: "10px" }}>効果</h1>
-            <p style={{ fontSize: "18px", marginBottom: "20px" }}>
-              ああああああああああああああああああああああ
-            </p>
-          </Box>
-        </Box>
+        <Card imgSrc={dataURL} />
       )}
     </div>
   );

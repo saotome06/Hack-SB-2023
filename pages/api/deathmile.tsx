@@ -1,3 +1,4 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import bodyParser from "body-parser";
 
 export const config = {
@@ -6,7 +7,7 @@ export const config = {
   },
 };
 
-export default function handler(req, res) {
+export default function Handler(req: NextApiRequest, res: NextApiResponse) {
   console.log("API Start");
   console.log(req.body);
   if (req.method === "POST") {
