@@ -171,11 +171,20 @@ export default function FaceMesher() {
       <div
         style={{
           width: "100%",
+          maxWidth: "100%",
+          textAlign: "center",
+          margin: "auto",
+        }}
+      >
+        <h1>笑☆顔☆王</h1>
+      </div>
+      <div
+        style={{
+          width: "100%",
           maxWidth: "80%",
           margin: "auto",
         }}
       >
-        <h1 className="text-5xl font-bold underline">笑☆顔☆王</h1>
         {!flagURL ? (
           <Box>
             {camButton ? (
@@ -206,18 +215,23 @@ export default function FaceMesher() {
                     bottom: 0,
                     display: "flex",
                     justifyContent: "center",
-                    width: "100%",
+                    width: "90%",
                     backgroundColor: "white",
                     padding: "10px",
                     margin: "auto",
-                    maxWidth: "375px",
                   }}
                 >
                   <Button
                     sx={{
-                      width: "100%",
+                      border: "1px solid black",
                       padding: "10px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      textAlign: "center",
                       margin: "auto",
+                      width: "70%",
+                      marginTop: "50%",
                       zIndex: 100,
                     }}
                     variant="contained"
