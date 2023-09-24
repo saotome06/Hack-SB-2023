@@ -145,7 +145,7 @@ export default function CardFrame(props) {
               }}
             >
               <p className="text-3xl font-bold underline">
-                ATK/{props.myScore} 笑顔スコア/{props.myScoreSmile}
+                ATK/{props.myScore} SMILE/{props.myScoreSmile}
               </p>
             </Box>
           </Box>
