@@ -12,7 +12,7 @@ export default function Navbar() {
           <Link href="/myCard">MyCard</Link>
         </li>
         <li>
-          <Link href="/Ranking">Ranking</Link>
+          <Link href="/ranking">Ranking</Link>
         </li>
         <li>
           <Link href="/openai_api_test">test</Link>

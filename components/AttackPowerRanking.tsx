@@ -5,56 +5,37 @@
 // import { set } from "date-fns";
 import { useEffect, useState } from "react";
 export default function AttackPowerRanking() {
-  // const [smileCards, setSmileCards] = useState([]);
-
-  // useEffect(() => {
-  //   async function fetchSmileCardRanking() {
-  //     // get時の処理
-  //     const response = await fetch("/api/smile_card", {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-
-  //     const data = await response.json();
-
-  //     // smileCardsにresponseのデータを格納する
-  //     // 攻撃力の高い順に並び替える
-  //     data.data.sort((a, b) => {
-  //       if (a.attack_power < b.attack_power) {
-  //         return 1;
-  //       } else {
-  //         return -1;
-  //       }
-  //     });
-  //     setSmileCards(data.data);
-  //   }
-  //   fetchSmileCardRanking();
-  // }, []);
   const [smileCards, setSmileCards] = useState([]);
-  setSmileCards([]);
-
   useEffect(() => {
     async function fetchSmileCardRanking() {
       // get時の処理
-      // const response = await fetch("/api/upload_smile_card", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "image/png",
-      //   },
-      //   // req.path,req.fileに値を渡す
-      //   body: JSON.stringify({
-      //     path: "public/image/KanColle-200511-21575695.png",
-      //   }),
-      // });
+      const response = await fetch("/api/smile_card", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+
+      // smileCardsにresponseのデータを格納する
+      // 攻撃力の高い順に並び替える
+      data.data.sort((a, b) => {
+        if (a.smile_score < b.smile_score) {
+          return 1;
+        } else {
+          return -1;
+        }
+      });
+      setSmileCards(data.data);
     }
     fetchSmileCardRanking();
   }, []);
+
   // ランキングを表示する
   return (
     <div>
-      <h1>攻撃力ランキング</h1>
+      <h1>笑顔度ランキング</h1>
       <table>
         <thead>
           <tr>
@@ -62,8 +43,7 @@ export default function AttackPowerRanking() {
             <th>画像</th>
             <th>笑顔度</th>
             <th>必殺技の名前</th>
-            <th>必殺技の強さ</th>
-            <th>特徴的な文章</th>
+            <th>説明</th>
             <th>攻撃力</th>
           </tr>
         </thead>
@@ -75,8 +55,7 @@ export default function AttackPowerRanking() {
                 <img src={smileCard.image_url} alt="smile card" />
               </td>
               <td>{smileCard.smile_score}</td>
-              <td>{smileCard.special_move_name}</td>
-              <td>{smileCard.special_move_strength}</td>
+              <td>{smileCard.special_attack_name}</td>
               <td>{smileCard.description}</td>
               <td>{smileCard.attack_power}</td>
             </tr>
