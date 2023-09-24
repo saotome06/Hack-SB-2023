@@ -5,7 +5,6 @@
 // import { set } from "date-fns";
 import { useEffect, useState } from "react";
 export default function AttackPowerRanking() {
-
   useEffect(() => {
     async function fetchSmileCardRanking() {
       // get時の処理
