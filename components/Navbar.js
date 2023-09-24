@@ -14,9 +14,6 @@ export default function Navbar() {
         <li>
           <Link href="/ranking">Ranking</Link>
         </li>
-        <li>
-          <Link href="/openai_api_test">test</Link>
-        </li>
       </ul>
     </nav>
   );
