@@ -24,6 +24,7 @@ export default function CardFrame(props) {
       {
         smile_score: props.myScoreSmile,
         card_name: props.myCardName,
+        rarity: props.myRarity,
         special_attack_name: props.myName,
         description: props.myDetail,
         attack_power: props.myScore,
