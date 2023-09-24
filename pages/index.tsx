@@ -133,12 +133,12 @@ export default function FaceMesher() {
       console.log(`FileName: ${fileName}, publicURL: ${src}`);
 
       // // DBにレコード作成
-      // await supabase.from("sample").insert([
-      //   {
-      //     fileName: fileName,
-      //     src: src,
-      //   },
-      // ]);
+      await supabase.from("sample").insert([
+        {
+          fileName: fileName,
+          src: src,
+        },
+      ]);
     }
 
     const faceMesh = new FaceMesh({

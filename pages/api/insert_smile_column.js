@@ -1,5 +1,4 @@
 import { createClient } from "@supabase/supabase-js";
-import { error } from "console";
 
 // const api_key = process.env.NEXT_PUBLIC_SUPABASE_KEY;
 // const bearer = process.env.NEXT_PUBLIC_SUPABASE_BEARER;
