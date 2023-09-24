@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import { countR } from "../pages/myCard";
 import Navbar from "../components/Navbar";
 import { createClient } from "@supabase/supabase-js";
+// import { useEffect } from "react";
 
 export default function CardFrame(props) {
   async function insertData() {
@@ -167,7 +168,7 @@ export default function CardFrame(props) {
               }}
             >
               <p className="text-3xl font-bold underline">
-                ATK/{props.myScore} SMILE/{props.myScoreSmile}
+                ATK/{props.myScore} 笑顔スコア/{props.myScoreSmile}
               </p>
             </Box>
           </Box>
