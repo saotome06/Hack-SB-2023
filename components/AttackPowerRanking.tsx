@@ -53,24 +53,25 @@ export default function AttackPowerRanking() {
         <tbody>
           {smileCards.map((smileCard, index) => (
             <tr key={smileCard.id}>
-              <td>
-                <div
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    backgroundColor: index === 0 ? "#ff9900" : "#ccc",
-                    color: "#fff",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontWeight: "bold",
-                    fontSize: "16px",
-                  }}
-                >
-                  {index + 1}
-                </div>
-              </td>
+              <div
+                style={{
+                  width: "30px",
+                  height: "30px",
+                  borderRadius: "50%",
+                  backgroundColor: index === 0 ? "#ff9900" : "#ccc",
+                  color: "#fff",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                  textAlign: "center",
+                  margin: "auto",
+                  padding: "20px",
+                }}
+              >
+                {index + 1}位
+              </div>
               <>{smileCard.image_url}</>
               <Box
                 sx={{
