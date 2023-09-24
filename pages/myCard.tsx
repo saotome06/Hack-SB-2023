@@ -23,24 +23,24 @@ export default function MyCard() {
     async function fetchSmileCardRanking() {
       // 3秒間待機
       setTimeout(() => {
+        const response = fetch("/api/insert_smile_column", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            smile_score: myScoreSmile,
+            card_name: myCardName,
+            special_attack_name: myName,
+            description: myDetail,
+            attack_power: myScore,
+            background_url: imageURL,
+            face_image_path: faceSrc,
+          }),
+        });
+        console.log(response);
         console.log("10秒経過");
       }, 10000);
-      const response = await fetch("/api/insert_smile_column", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          smile_score: myScoreSmile,
-          card_name: myCardName,
-          special_attack_name: myName,
-          description: myDetail,
-          attack_power: myScore,
-          background_url: imageURL,
-          face_image_path: faceSrc,
-        }),
-      });
-      console.log(response);
     }
     fetchSmileCardRanking();
   }, []);
