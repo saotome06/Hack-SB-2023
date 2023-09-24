@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { cardImage } from "../components/card";
 import CardFrame from "../components/cardFrame";
 import {
@@ -19,31 +19,27 @@ export default function MyCard() {
   console.log("myScoreSmile:", myScoreSmile);
   countR = myRarity;
 
-  useEffect(() => {
-    async function fetchSmileCardRanking() {
-      // 5秒間待機
-      setTimeout(() => {
-        const response = fetch("/api/insert_smile_column", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            smile_score: myScoreSmile,
-            card_name: myCardName,
-            special_attack_name: myName,
-            description: myDetail,
-            attack_power: myScore,
-            background_url: imageURL,
-            face_image_path: faceSrc,
-          }),
-        });
-        console.log(response);
-        console.log("10秒経過");
-      }, 5000);
-    }
-    fetchSmileCardRanking();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchSmileCardRanking() {
+  //     const response = fetch("/api/insert_smile_column", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         smile_score: myScoreSmile,
+  //         card_name: myCardName,
+  //         special_attack_name: myName,
+  //         description: myDetail,
+  //         attack_power: myScore,
+  //         background_url: imageURL,
+  //         face_image_path: faceSrc,
+  //       }),
+  //     });
+  //     console.log(response);
+  //   }
+  //   fetchSmileCardRanking();
+  // }, []);
 
   return (
     <>
@@ -55,6 +51,7 @@ export default function MyCard() {
         myDetail={myDetail}
         myScore={myScore}
         myScoreSmile={myScoreSmile}
+        faceImage={faceSrc}
       />
     </>
   );
