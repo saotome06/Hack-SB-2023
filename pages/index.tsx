@@ -175,7 +175,7 @@ export default function FaceMesher() {
           margin: "auto",
         }}
       >
-        <h1 className="text-4xl font-bold underline">笑☆顔☆王</h1>
+        <h1 className="text-5xl font-bold underline">笑☆顔☆王</h1>
         {!flagURL ? (
           <Box>
             {camButton ? (
