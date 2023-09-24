@@ -14,6 +14,9 @@ export default function Navbar() {
         <li>
           <Link href="/ranking">Ranking</Link>
         </li>
+        <li>
+          <Link href="/gacha">Gacha</Link>
+        </li>
       </ul>
     </nav>
   );
