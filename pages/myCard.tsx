@@ -1,4 +1,5 @@
 // import { useEffect } from "react";
+import Navbar from "../components/Navbar";
 import { cardImage } from "../components/card";
 import CardFrame from "../components/cardFrame";
 import {
@@ -43,6 +44,8 @@ export default function MyCard() {
 
   return (
     <>
+      <Navbar />
+      <br></br>
       <CardFrame
         imageURL={imageURL}
         myCardName={myCardName}
@@ -50,9 +53,10 @@ export default function MyCard() {
         myName={myName}
         myDetail={myDetail}
         myScore={myScore}
+        countR={countR}
         myScoreSmile={myScoreSmile}
         faceImage={faceSrc}
-        myRarity={myRarity}
+        myRarity={countR}
       />
     </>
   );

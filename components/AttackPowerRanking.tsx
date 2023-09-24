@@ -4,6 +4,8 @@
 // import axios from "axios";
 // import { set } from "date-fns";
 import { useEffect, useState } from "react";
+import { Box } from "@mui/material";
+import RankingCard from "./rankingCard";
 export default function AttackPowerRanking() {
   const [smileCards, setSmileCards] = useState([]);
   useEffect(() => {
@@ -37,27 +39,28 @@ export default function AttackPowerRanking() {
     <div>
       <h1>笑顔度ランキング</h1>
       <table>
-        <thead>
-          <tr>
-            <th>順位</th>
-            <th>画像</th>
-            <th>笑顔度</th>
-            <th>必殺技の名前</th>
-            <th>説明</th>
-            <th>攻撃力</th>
-          </tr>
-        </thead>
         <tbody>
           {smileCards.map((smileCard, index) => (
             <tr key={smileCard.id}>
               <td>{index + 1}</td>
-              <td>
-                <img src={smileCard.image_url} alt="smile card" />
-              </td>
-              <td>{smileCard.smile_score}</td>
-              <td>{smileCard.special_attack_name}</td>
-              <td>{smileCard.description}</td>
-              <td>{smileCard.attack_power}</td>
+              <>{smileCard.image_url}</>
+              <Box
+                sx={{
+                  padding: "10px",
+                }}
+              >
+                <RankingCard
+                  imageURL={smileCard.background_url}
+                  myCardName={smileCard.card_name}
+                  cardImage={smileCard.face_image_path}
+                  myName={smileCard.special_attack_name}
+                  myDetail={smileCard.description}
+                  myScore={smileCard.attack_power}
+                  myScoreSmile={smileCard.smile_score}
+                  faceImage={smileCard.face_image_path}
+                  rarity={smileCard.rarity}
+                />
+              </Box>
             </tr>
           ))}
         </tbody>
