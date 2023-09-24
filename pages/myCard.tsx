@@ -19,27 +19,27 @@ export default function MyCard() {
   console.log("myScoreSmile:", myScoreSmile);
   countR = myRarity;
 
-  // useEffect(() => {
-  //   async function fetchSmileCardRanking() {
-  //     const response = fetch("/api/insert_smile_column", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         smile_score: myScoreSmile,
-  //         card_name: myCardName,
-  //         special_attack_name: myName,
-  //         description: myDetail,
-  //         attack_power: myScore,
-  //         background_url: imageURL,
-  //         face_image_path: faceSrc,
-  //       }),
-  //     });
-  //     console.log(response);
-  //   }
-  //   fetchSmileCardRanking();
-  // }, []);
+  useEffect(() => {
+    async function fetchSmileCardRanking() {
+      const response = await fetch("https://hack-sb-2023.vercel.app/api/insert_smile_column", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          smile_score: myScoreSmile,
+          card_name: myCardName,
+          special_attack_name: myName,
+          description: myDetail,
+          attack_power: myScore,
+          background_url: imageURL,
+          face_image_path: faceSrc,
+        }),
+      });
+      console.log(response);
+    }
+    fetchSmileCardRanking();
+  }, []);
 
   return (
     <>
