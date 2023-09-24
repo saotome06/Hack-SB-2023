@@ -32,7 +32,7 @@ export default function CardFrame(props) {
     const matchingObject = findObjectWithFaceImage(data_get, props.faceImage);
 
     if (!matchingObject) {
-      console.log("Start store Database")
+      console.log("Start store Database");
       const supabase = createClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL,
         process.env.NEXT_PUBLIC_SUPABASE_KEY,
