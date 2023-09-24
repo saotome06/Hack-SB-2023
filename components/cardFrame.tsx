@@ -5,6 +5,10 @@ import { createClient } from "@supabase/supabase-js";
 // import { useEffect } from "react";
 
 export default function CardFrame(props) {
+  function findObjectWithFaceImage(dataArray, faceImage) {
+    return dataArray.find((item) => item.face_image_path === faceImage);
+  }
+
   async function insertData() {
     console.log("Start insertData");
     console.log(`props.myScoreSmile: ${props.myScoreSmile}`);
@@ -15,29 +19,43 @@ export default function CardFrame(props) {
     console.log(`props.imageURL: ${props.imageURL}`);
     console.log(`props.faceImage: ${props.faceImage}`);
 
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.NEXT_PUBLIC_SUPABASE_KEY,
-    );
+    const url =
+      "https://zogqrpdjhulkzbvpuwud.supabase.co/rest/v1/smile_cards?select=face_image_path";
+    const headers = {
+      apikey: process.env.NEXT_PUBLIC_SUPABASE_KEY,
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_BEARER}`,
+    };
+    const response = await fetch(url, { headers });
+    const data_get = await response.json();
+    // console.log(JSON.stringify(data_get));
 
-    const { data, error } = await supabase.from("smile_cards").insert([
-      {
-        smile_score: props.myScoreSmile,
-        card_name: props.myCardName,
-        rarity: props.myRarity,
-        special_attack_name: props.myName,
-        description: props.myDetail,
-        attack_power: props.myScore,
-        background_url: props.imageURL,
-        face_image_path: props.faceImage,
-      },
-    ]);
-    if (error) {
-      console.log(error);
-    } else {
-      console.log(data);
+    const matchingObject = findObjectWithFaceImage(data_get, props.faceImage);
+
+    if (!matchingObject) {
+      console.log("Start store Database");
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL,
+        process.env.NEXT_PUBLIC_SUPABASE_KEY,
+      );
+
+      const { data, error } = await supabase.from("smile_cards").insert([
+        {
+          smile_score: props.myScoreSmile,
+          card_name: props.myCardName,
+          special_attack_name: props.myName,
+          description: props.myDetail,
+          attack_power: props.myScore,
+          background_url: props.imageURL,
+          face_image_path: props.faceImage,
+        },
+      ]);
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(data);
+      }
+      console.log("End insertData");
     }
-    console.log("End insertData");
 
     // useEffect(() => {
     //   async function fetchSmileCardRanking() {
