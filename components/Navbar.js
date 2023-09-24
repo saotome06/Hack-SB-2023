@@ -9,9 +9,6 @@ export default function Navbar() {
           <Link href="/">Top</Link>
         </li>
         <li>
-          <Link href="/myCard">MyCard</Link>
-        </li>
-        <li>
           <Link href="/ranking">Ranking</Link>
         </li>
         <li>
