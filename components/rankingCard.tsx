@@ -136,7 +136,7 @@ export default function RankingCard(props) {
         </Box>
         <img
           style={{
-            width: "310px",
+            width: "300px",
             marginTop: "10px",
             height: "250px",
             objectFit: "cover",

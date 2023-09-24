@@ -37,18 +37,64 @@ export default function AttackPowerRanking() {
   // ランキングを表示する
   return (
     <div>
-      <h1>笑顔度ランキング</h1>
+      <h1
+        style={{
+          textAlign: "center",
+          fontFamily: "Helvetica, Arial, sans-serif",
+          fontWeight: "bold",
+          fontSize: "36px",
+          color: "#ff9900",
+          textShadow: "1px 1px 2px rgba(0, 0, 0, 0.2)",
+        }}
+      >
+        笑顔度ランキング
+      </h1>
       <table>
         <tbody>
           {smileCards.map((smileCard, index) => (
             <tr key={smileCard.id}>
-              <td>{index + 1}</td>
+              <td>
+                <div
+                  style={{
+                    width: "30px",
+                    height: "30px",
+                    borderRadius: "50%",
+                    backgroundColor: index === 0 ? "#ff9900" : "#ccc",
+                    color: "#fff",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                  }}
+                >
+                  {index + 1}
+                </div>
+              </td>
               <>{smileCard.image_url}</>
               <Box
                 sx={{
-                  padding: "10px",
+                  padding: index === 0 ? "30px" : "10px",
+                  backgroundColor: index === 0 ? "#ff9900" : "#fff",
+                  boxShadow:
+                    index === 0 ? "0px 0px 10px rgba(0, 0, 0, 0.2)" : "none",
+                  borderRadius: "10px",
                 }}
               >
+                {index === 0 ? (
+                  <h2
+                    style={{
+                      textAlign: "center",
+                      fontFamily: "Helvetica, Arial, sans-serif",
+                      fontWeight: "bold",
+                      fontSize: "40px",
+                      color: "white",
+                      textShadow: "1px 1px 2px rgba(0, 0, 0, 0.2)",
+                    }}
+                  >
+                    笑顔王
+                  </h2>
+                ) : null}
                 <RankingCard
                   imageURL={smileCard.background_url}
                   myCardName={smileCard.card_name}
