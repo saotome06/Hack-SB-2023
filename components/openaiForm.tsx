@@ -175,9 +175,12 @@ export default function OpeaiForm(props) {
       const answer = completion.choices[0].message?.content;
       const regex = /[^0-9]/g;
       const result = answer.replace(regex, "");
-      const number = parseInt(result);
+      let number = parseInt(result);
+      if (isNaN(number)) {
+        number = 0;
+      }
+      if (number >= 10000) number = 10000;
       let random_Data =
-        Math.random() * 1000 +
         number +
         number *
           0.1 *
