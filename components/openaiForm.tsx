@@ -201,11 +201,11 @@ export default function OpeaiForm(props) {
     };
 
     const handleClick = async () => {
-      setinputFormOn(false);
       if (name.length == 0) {
         alert("name empty");
         return;
       }
+      setinputFormOn(false);
       console.log(name);
       sendPrompt(name);
       myScore = 0.0;
