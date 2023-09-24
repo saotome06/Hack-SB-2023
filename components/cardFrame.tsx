@@ -1,11 +1,11 @@
 import { Box } from "@mui/material";
 import { countR } from "../pages/myCard";
 import Navbar from "../components/Navbar";
-// import { createClient } from "@supabase/supabase-js";
-import { useEffect } from "react";
+import { createClient } from "@supabase/supabase-js";
+// import { useEffect } from "react";
 
 export default function CardFrame(props) {
-  function insertData() {
+  async function insertData() {
     console.log("Start insertData");
     console.log(`props.myScoreSmile: ${props.myScoreSmile}`);
     console.log(`props.myCardName: ${props.myCardName}`);
@@ -15,27 +15,50 @@ export default function CardFrame(props) {
     console.log(`props.imageURL: ${props.imageURL}`);
     console.log(`props.faceImage: ${props.faceImage}`);
 
-    useEffect(() => {
-      async function fetchSmileCardRanking() {
-        const response = fetch("/api/insert_smile_column", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            smile_score: props.myScoreSmile,
-            card_name: props.myCardName,
-            special_attack_name: props.myName,
-            description: props.myDetail,
-            attack_power: props.myScore,
-            background_url: props.imageURL,
-            face_image_path: props.faceImage,
-          }),
-        });
-        console.log(response);
-      }
-      fetchSmileCardRanking();
-    }, []);
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_KEY,
+    );
+
+    const { data, error } = await supabase.from("smile_cards").insert([
+      {
+        smile_score: props.myScoreSmile,
+        card_name: props.myCardName,
+        special_attack_name: props.myName,
+        description: props.myDetail,
+        attack_power: props.myScore,
+        background_url: props.imageURL,
+        face_image_path: props.faceImage,
+      },
+    ]);
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(data);
+    }
+    console.log("End insertData");
+
+    // useEffect(() => {
+    //   async function fetchSmileCardRanking() {
+    //     const response = fetch("/api/insert_smile_column", {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({
+    //         smile_score: props.myScoreSmile,
+    //         card_name: props.myCardName,
+    //         special_attack_name: props.myName,
+    //         description: props.myDetail,
+    //         attack_power: props.myScore,
+    //         background_url: props.imageURL,
+    //         face_image_path: props.faceImage,
+    //       }),
+    //     });
+    //     console.log(response);
+    //   }
+    //   fetchSmileCardRanking();
+    // }, []);
   }
 
   if (props.imageURL) {
