@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { cardImage } from "../components/card";
 import CardFrame from "../components/cardFrame";
 import {
