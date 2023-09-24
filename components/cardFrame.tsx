@@ -3,7 +3,6 @@ import { countR } from "../pages/myCard";
 import Navbar from "../components/Navbar";
 import { createClient } from "@supabase/supabase-js";
 
-
 export default function CardFrame(props) {
   async function insertData() {
     console.log("Start insertData");
