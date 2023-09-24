@@ -23,7 +23,7 @@ export default function MyCard() {
 
   useEffect(() => {
     async function fetchSmileCardRanking() {
-      const response = await fetch("/api/insert_smile_column", {
+      const response = await fetch("https://hack-sb-2023.vercel.app/api/insert_smile_column", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
