@@ -13,16 +13,15 @@ import {
 } from "../components/openaiForm";
 
 export default function MyCard() {
-  // 3秒間待機
-  setTimeout(() => {
-    console.log("3秒経過");
-  }, 3000);
-
   console.log("myScoreAttackName:", myScoreAttackName);
   console.log("myScoreSmile:", myScoreSmile);
 
   useEffect(() => {
     async function fetchSmileCardRanking() {
+      // 3秒間待機
+      setTimeout(() => {
+        console.log("10秒経過");
+      }, 10000);
       const response = await fetch("/api/insert_smile_column", {
         method: "POST",
         headers: {
