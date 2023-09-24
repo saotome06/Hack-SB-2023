@@ -21,7 +21,7 @@ export default function MyCard() {
 
   useEffect(() => {
     async function fetchSmileCardRanking() {
-      // 3秒間待機
+      // 5秒間待機
       setTimeout(() => {
         const response = fetch("/api/insert_smile_column", {
           method: "POST",
@@ -40,7 +40,7 @@ export default function MyCard() {
         });
         console.log(response);
         console.log("10秒経過");
-      }, 10000);
+      }, 5000);
     }
     fetchSmileCardRanking();
   }, []);
