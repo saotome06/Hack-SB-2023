@@ -52,6 +52,7 @@ export default function MyCard() {
         myScore={myScore}
         myScoreSmile={myScoreSmile}
         faceImage={faceSrc}
+        myRarity={myRarity}
       />
     </>
   );
