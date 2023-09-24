@@ -1,8 +1,65 @@
 import { Box } from "@mui/material";
 import { countR } from "../pages/myCard";
 import Navbar from "../components/Navbar";
+import { createClient } from "@supabase/supabase-js";
+import { useEffect } from "react";
 
 export default function CardFrame(props) {
+  function insertData() {
+    console.log("Start insertData");
+    console.log(`props.myScoreSmile: ${props.myScoreSmile}`);
+    console.log(`props.myCardName: ${props.myCardName}`);
+    console.log(`props.myName: ${props.myName}`);
+    console.log(`props.myDetail: ${props.myDetail}`);
+    console.log(`props.myScore: ${props.myScore}`);
+    console.log(`props.imageURL: ${props.imageURL}`);
+    console.log(`props.faceImage: ${props.faceImage}`);
+
+    // const supabase = createClient(
+    //   process.env.NEXT_PUBLIC_SUPABASE_URL,
+    //   process.env.NEXT_PUBLIC_SUPABASE_KEY,
+    // );
+
+    // // 直接記述する
+    // const response = supabase.from("smile_cards").insert([
+    //   {
+    //     smile_score: props.myScoreSmile,
+    //     card_name: props.myCardName,
+    //     special_attack_name: props.myName,
+    //     description: props.myDetail,
+    //     attack_power: props.myScore,
+    //     background_url: props.imageURL,
+    //     face_image_path: props.faceImage,
+    //   },
+    // ]);
+
+    useEffect(() => {
+      async function fetchSmileCardRanking() {
+        const response = fetch("/api/insert_smile_column", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            smile_score: props.myScoreSmile,
+            card_name: props.myCardName,
+            special_attack_name: props.myName,
+            description: props.myDetail,
+            attack_power: props.myScore,
+            background_url: props.imageURL,
+            face_image_path: props.faceImage,
+          }),
+        });
+        console.log(response);
+      }
+      fetchSmileCardRanking();
+    }, []);
+  }
+
+  if (props.imageURL) {
+    insertData();
+  }
+
   return (
     <>
       <Navbar />
