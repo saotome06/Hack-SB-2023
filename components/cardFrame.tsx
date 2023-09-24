@@ -15,6 +15,9 @@ export default function CardFrame(props) {
     console.log(`props.imageURL: ${props.imageURL}`);
     console.log(`props.faceImage: ${props.faceImage}`);
 
+    
+
+
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
       process.env.NEXT_PUBLIC_SUPABASE_KEY,
