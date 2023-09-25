@@ -57,14 +57,17 @@ export default function FaceMesher() {
   const calculateDistances = (landmarks, canvas) => {
     const refPointX = landmarks[REF_POINT].x * canvas.width;
     const refPointY = landmarks[REF_POINT].y * canvas.height;
+    const refPointZ = landmarks[REF_POINT].z * 100;
 
     // インデックスの配列に基づいて距離を計算する関数
     const computeDistanceForIndices = (indices) => {
       return indices.map((index) => {
         const pointX = landmarks[index].x * canvas.width;
         const pointY = landmarks[index].y * canvas.height;
+        const pointZ = landmarks[index].z * 100;
         return Math.round(
-          Math.sqrt((pointX - refPointX) ** 2 + (pointY - refPointY) ** 2),
+          Math.sqrt((pointX - refPointX) ** 2 + (pointY - refPointZ) ** 2) +
+            (pointZ - refPointY) ** 2,
         );
       });
     };
