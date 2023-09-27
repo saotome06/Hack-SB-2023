@@ -100,59 +100,86 @@ export default function FaceMesher() {
     console.log(`dataURL: ${dataURL}`);
 
     // 画像をアップロード
-    const api_key = process.env.NEXT_PUBLIC_SUPABASE_KEY;
+    // const api_key = process.env.NEXT_PUBLIC_SUPABASE_KEY;
 
-    const supabase = createClient(
-      "https://zogqrpdjhulkzbvpuwud.supabase.co",
-      api_key,
-    );
+    // const supabase = createClient(
+    //   "https://zogqrpdjhulkzbvpuwud.supabase.co",
+    //   api_key,
+    // );
 
-    // dataURLを,で分割
-    const dataURL_split = dataURL.split(",");
-    const dataURL_base64 = dataURL_split[1];
+    // // dataURLを,で分割
+    // const dataURL_split = dataURL.split(",");
+    // const dataURL_base64 = dataURL_split[1];
 
-    // 文字列をランダムに生成
-    const fileName = Math.random().toString(32).substring(2) + ".png";
-    console.log(`fileName: ${fileName}`);
-    const { data: inputData, error } = await supabase.storage
-      .from("image")
-      .upload(fileName, decode(dataURL_base64), {
-        contentType: "image/png",
-      });
-    if (error) {
-      console.log(error);
-    } else {
-      console.log(inputData);
+    // // 文字列をランダムに生成
+    // const fileName = Math.random().toString(32).substring(2) + ".png";
+    // console.log(`fileName: ${fileName}`);
+    // const { data: inputData, error } = await supabase.storage
+    //   .from("image")
+    //   .upload(fileName, decode(dataURL_base64), {
+    //     contentType: "image/png",
+    //   });
+    // if (error) {
+    //   console.log(error);
+    // } else {
+    //   console.log(inputData);
 
-      const publicURL = await supabase.storage
-        .from("image")
-        .getPublicUrl(fileName);
+    //   const publicURL = await supabase.storage
+    //     .from("image")
+    //     .getPublicUrl(fileName);
 
-      const src = publicURL.data.publicUrl;
-      faceImageURL = src;
-      console.log(`FileName: ${fileName}, publicURL: ${src}`);
+    //   const src = publicURL.data.publicUrl;
+    //   faceImageURL = src;
+    //   console.log(`FileName: ${fileName}, publicURL: ${src}`);
 
-      // // DBにレコード作成
-      await supabase.from("sample").insert([
-        {
-          fileName: fileName,
-          src: src,
-        },
-      ]);
-    }
+    //   // // DBにレコード作成
+    //   await supabase.from("sample").insert([
+    //     {
+    //       fileName: fileName,
+    //       src: src,
+    //     },
+    //   ]);
+    // }
 
-    const faceMesh = new FaceMesh({
-      locateFile: (file: any) => {
-        return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
-      },
-    });
+    // const faceMesh = new FaceMesh({
+    //   locateFile: (file: any) => {
+    //     return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
+    //   },
+    // });
 
-    faceMesh.onResults((results: { multiFaceLandmarks: any }) => {
+    const faceMesh = new FaceMesh({ locateFile: (file: any) => {
+      return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
+    }});
+
+    // faceMesh.onResults((results: { multiFaceLandmarks: any }) => {
+    //   if (results.multiFaceLandmarks) {
+    //     for (const landmarks of results.multiFaceLandmarks) {
+    //       data_face_mesh = calculateDistances(landmarks, canvas);
+    //       // setDistances(distancesStr);
+    //       // console.log(data_face_mesh);
+    //     }
+    //   }
+    // });
+    const base_point = 6;
+    faceMesh.onResults((results: { multiFaceLandmarks: any; }) => {
       if (results.multiFaceLandmarks) {
         for (const landmarks of results.multiFaceLandmarks) {
-          data_face_mesh = calculateDistances(landmarks, canvas);
-          // setDistances(distancesStr);
-          // console.log(data_face_mesh);
+          const ctx = canvasRef.current.getContext('2d');
+
+          ctx.arc(landmarks[base_point].x * canvas.width, landmarks[base_point].y * canvas.height, 2, 0, 2 * Math.PI);
+          ctx.fillStyle = '#00FF00';
+          ctx.fill();
+
+          // 各インデックス配列をループして特徴点を描画
+          // for (const index of [...left_eye_indices, ...right_eye_indices, ...mouth_indices, ...eyebrow_indices]) {
+          for (const index of [...MOUTH_INDEX, ...L_EYE_INDEX, ...R_EYE_INDEX, ...L_MAYU_INDEX, ...R_MAYU_INDEX]) {
+            const point = landmarks[index];
+            ctx.beginPath();
+            //ctx.arc(point.x, point.y, 2, 0, 2 * Math.PI);
+            ctx.arc(point.x * canvas.width, point.y * canvas.height, 2, 0, 2 * Math.PI);
+            ctx.fillStyle = '#FF0000';
+            ctx.fill();
+          }
         }
       }
     });
@@ -162,7 +189,7 @@ export default function FaceMesher() {
     } catch (error) {
       console.error("Error processing the image:", error);
     }
-    setflagURL(true);
+    // setflagURL(true);
   };
 
   return (
@@ -171,11 +198,20 @@ export default function FaceMesher() {
       <div
         style={{
           width: "100%",
+          maxWidth: "100%",
+          textAlign: "center",
+          margin: "auto",
+        }}
+      >
+        <h1>笑☆顔☆王</h1>
+      </div>
+      <div
+        style={{
+          width: "100%",
           maxWidth: "80%",
           margin: "auto",
         }}
       >
-        <h1 className="text-5xl font-bold underline">笑☆顔☆王</h1>
         {!flagURL ? (
           <Box>
             {camButton ? (
@@ -206,18 +242,23 @@ export default function FaceMesher() {
                     bottom: 0,
                     display: "flex",
                     justifyContent: "center",
-                    width: "100%",
+                    width: "90%",
                     backgroundColor: "white",
                     padding: "10px",
                     margin: "auto",
-                    maxWidth: "375px",
                   }}
                 >
                   <Button
                     sx={{
-                      width: "100%",
+                      border: "1px solid black",
                       padding: "10px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      textAlign: "center",
                       margin: "auto",
+                      width: "70%",
+                      marginTop: "50%",
                       zIndex: 100,
                     }}
                     variant="contained"
@@ -257,14 +298,14 @@ export default function FaceMesher() {
                 id="output"
                 style={{
                   position: "absolute",
-                  top: 0,
+                  top: 500,
                   left: 0,
                   right: 0,
                   bottom: 0,
                   margin: "auto",
                   width: "95%",
                   height: "auto",
-                  display: camButton ? "block" : "none",
+                  // display: camButton ? "block" : "none",
                   borderRadius: "10px",
                   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
                 }}
@@ -272,11 +313,29 @@ export default function FaceMesher() {
             </div>
           </Box>
         ) : (
-          <Card
-            imgSrc={dataURL}
-            data_face_mesh={data_face_mesh}
-            faceSrc={faceImageURL}
-          />
+          // <Card
+          //   imgSrc={dataURL}
+          //   data_face_mesh={data_face_mesh}
+          //   faceSrc={faceImageURL}
+          //   canvasRef={canvasRef}
+          // />
+          <canvas
+            ref={canvasRef}
+            id="output"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              margin: "auto",
+              width: "95%",
+              height: "auto",
+              // display: camButton ? "block" : "none",
+              borderRadius: "10px",
+              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+            }}
+          ></canvas>
         )}
       </div>
     </>
