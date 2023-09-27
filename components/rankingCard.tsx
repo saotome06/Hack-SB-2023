@@ -3,7 +3,7 @@ import { countR } from "../pages/myCard";
 import { createClient } from "@supabase/supabase-js";
 // import { useEffect } from "react";
 
-export default function CardFrame(props) {
+export default function RankingCard(props) {
   function findObjectWithFaceImage(dataArray, faceImage) {
     return dataArray.find((item) => item.face_image_path === faceImage);
   }
@@ -120,7 +120,7 @@ export default function CardFrame(props) {
           }}
         >
           <div>
-            {Array.from({ length: countR }).map((_, index) => (
+            {Array.from({ length: props.rarity }).map((_, index) => (
               <img
                 key={index}
                 style={{
@@ -136,7 +136,7 @@ export default function CardFrame(props) {
         </Box>
         <img
           style={{
-            width: "310px",
+            width: "300px",
             marginTop: "10px",
             height: "250px",
             objectFit: "cover",

@@ -9,13 +9,10 @@ export default function Navbar() {
           <Link href="/">Top</Link>
         </li>
         <li>
-          <Link href="/myCard">MyCard</Link>
-        </li>
-        <li>
           <Link href="/ranking">Ranking</Link>
         </li>
         <li>
-          <Link href="/openai_api_test">test</Link>
+          <Link href="/gacha">Gacha</Link>
         </li>
       </ul>
     </nav>
