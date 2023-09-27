@@ -1,6 +1,6 @@
 // import { useEffect } from "react";
+import { faceImageURL } from ".";
 import Navbar from "../components/Navbar";
-import { cardImage } from "../components/card";
 import CardFrame from "../components/cardFrame";
 import {
   imageURL,
@@ -19,6 +19,8 @@ export default function MyCard() {
   console.log("myScoreAttackName:", myScoreAttackName);
   console.log("myScoreSmile:", myScoreSmile);
   countR = myRarity;
+  console.log(faceImageURL);
+  console.log(faceSrc);
 
   // useEffect(() => {
   //   async function fetchSmileCardRanking() {
@@ -49,7 +51,7 @@ export default function MyCard() {
       <CardFrame
         imageURL={imageURL}
         myCardName={myCardName}
-        cardImage={cardImage}
+        cardImage={faceImageURL}
         myName={myName}
         myDetail={myDetail}
         myScore={myScore}
