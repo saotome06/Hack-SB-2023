@@ -12,6 +12,8 @@ import Navbar from "../components/Navbar";
 import { decode } from "base64-arraybuffer";
 import { createClient } from "@supabase/supabase-js";
 import OpeaiForm from "../components/openaiForm";
+import Animation from "../components/animation";
+import TextAnimation from "../components/textAnimation";
 const card_font = "ヒラギノ明朝 ProN";
 // import {
 //   LandmarkConnectionArray,
@@ -208,7 +210,11 @@ export default function FaceMesher() {
   };
 
   return (
-    <>
+    <div style={{ position: "relative" }}>
+      <div style={{ position: "absolute", bottom: -500, left: 50, zIndex: -1 }}>
+        <Animation />
+        <TextAnimation />
+      </div>
       <Navbar />
       <div
         style={{
@@ -257,7 +263,6 @@ export default function FaceMesher() {
                   left: 0,
                   justifyContent: "center",
                   width: "100%",
-                  backgroundColor: "white",
                   margin: "auto",
                 }}
               >
@@ -358,6 +363,6 @@ export default function FaceMesher() {
           </div>
         </Box>
       </div>
-    </>
+    </div>
   );
 }
