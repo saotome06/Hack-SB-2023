@@ -1,5 +1,5 @@
 // import { useEffect } from "react";
-import { faceImageURL } from ".";
+import { faceImageURL } from "./createCard";
 import Navbar from "../components/Navbar";
 import CardFrame from "../components/cardFrame";
 import {

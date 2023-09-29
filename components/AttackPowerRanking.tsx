@@ -39,6 +39,8 @@ export default function AttackPowerRanking() {
     <div
       style={{
         width: "100%",
+        maxWidth: "350px",
+        margin: "auto",
       }}
     >
       <h1
