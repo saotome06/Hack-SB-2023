@@ -1,14 +1,33 @@
 import { Box } from "@mui/material";
 import Navbar from "../components/Navbar";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import RankingCard from "../components/rankingCard";
+import confetti from "canvas-confetti";
 
 //TODO 変数入れ
 export default function Gacha() {
   const [smileCards, setSmileCards] = useState([]);
 
+  const launchConfetti = (particle_cnt) => {
+    confetti({
+      particleCount: particle_cnt,
+      spread: 70,
+      origin: { y: 1.0 },
+    });
+  };
+
   useEffect(() => {
+    async function effect_card(num) {
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src =
+        "https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2/dist/confetti.browser.min.js";
+      script.async = true;
+      document.body.appendChild(script);
+      launchConfetti(5 * num * num);
+    }
+
     async function fetchSmileCardRanking() {
       // get時の処理
       const response = await fetch("/api/smile_card", {
@@ -20,7 +39,11 @@ export default function Gacha() {
 
       const data = await response.json();
       const idx = await Math.floor(Math.random() * data.data.length);
+
       await setSmileCards([data.data[idx]]);
+      console.log(data.data[idx].rarity);
+      effect_card(data.data[idx].rarity);
+      return data.data[idx].rarity;
     }
     fetchSmileCardRanking();
   }, []);
@@ -29,7 +52,16 @@ export default function Gacha() {
     <>
       <Navbar />
       <div>
-        <h1>笑顔度ガチャ</h1>
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "100%",
+            textAlign: "center",
+            margin: "auto",
+          }}
+        >
+          <h1>笑顔度ガチャ</h1>
+        </div>
         <table>
           <tbody>
             {smileCards.map((smileCard) => (
