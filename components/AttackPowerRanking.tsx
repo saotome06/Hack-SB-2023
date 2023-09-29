@@ -36,7 +36,11 @@ export default function AttackPowerRanking() {
 
   // ランキングを表示する
   return (
-    <div>
+    <div
+      style={{
+        width: "100%",
+      }}
+    >
       <h1
         style={{
           textAlign: "center",
@@ -72,10 +76,9 @@ export default function AttackPowerRanking() {
               >
                 {index + 1}位
               </div>
-              <>{smileCard.image_url}</>
               <Box
                 sx={{
-                  padding: index === 0 ? "30px" : "10px",
+                  // padding: index === 0 ? "30px" : "10px",
                   backgroundColor: index === 0 ? "#ff9900" : "#fff",
                   boxShadow:
                     index === 0 ? "0px 0px 10px rgba(0, 0, 0, 0.2)" : "none",
