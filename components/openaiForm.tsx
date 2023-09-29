@@ -100,7 +100,6 @@ export default function OpeaiForm(props) {
       myScore += 0.2 * Math.round(random_Data);
       myScore = Math.floor(myScore);
       myScoreSmile = Math.round(random_Data);
-      console.log(answer, number, random_Data);
     }
 
     async function sendPrompt(prompt = "") {

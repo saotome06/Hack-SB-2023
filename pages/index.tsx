@@ -1,11 +1,11 @@
 import { useRef, useState } from "react";
 import {
-  // REF_POINT,
   MOUTH_INDEX,
   L_EYE_INDEX,
   L_MAYU_INDEX,
   R_EYE_INDEX,
   R_MAYU_INDEX,
+  REF_POINT,
 } from "../common/constants";
 import { Box, Button } from "@mui/material";
 import Navbar from "../components/Navbar";
@@ -34,7 +34,7 @@ if (typeof window !== "undefined") {
 }
 
 let dataURL = "";
-const data_face_mesh = "";
+let data_face_mesh = "";
 export let faceImageURL = "";
 
 export default function FaceMesher() {
@@ -57,37 +57,37 @@ export default function FaceMesher() {
     setcamButton(false);
   };
 
-  // const calculateDistances = (landmarks, canvas) => {
-  //   const refPointX = landmarks[REF_POINT].x * canvas.width;
-  //   const refPointY = landmarks[REF_POINT].y * canvas.height;
+  const calculateDistances = (landmarks, canvas) => {
+    const refPointX = landmarks[REF_POINT].x * canvas.width;
+    const refPointY = landmarks[REF_POINT].y * canvas.height;
 
-  //   // インデックスの配列に基づいて距離を計算する関数
-  //   const computeDistanceForIndices = (indices) => {
-  //     return indices.map((index) => {
-  //       const pointX = landmarks[index].x * canvas.width;
-  //       const pointY = landmarks[index].y * canvas.height;
-  //       return Math.round(
-  //         Math.sqrt((pointX - refPointX) ** 2 + (pointY - refPointY) ** 2),
-  //       );
-  //     });
-  //   };
+    // インデックスの配列に基づいて距離を計算する関数
+    const computeDistanceForIndices = (indices) => {
+      return indices.map((index) => {
+        const pointX = landmarks[index].x * canvas.width;
+        const pointY = landmarks[index].y * canvas.height;
+        return Math.round(
+          Math.sqrt((pointX - refPointX) ** 2 + (pointY - refPointY) ** 2),
+        );
+      });
+    };
 
-  //   const mouthDistances = computeDistanceForIndices(MOUTH_INDEX);
-  //   const lEyeDistances = computeDistanceForIndices(L_EYE_INDEX);
-  //   const rEyeDistances = computeDistanceForIndices(R_EYE_INDEX);
-  //   const lMayuDistances = computeDistanceForIndices(L_MAYU_INDEX);
-  //   const rMayuDistances = computeDistanceForIndices(R_MAYU_INDEX);
+    const mouthDistances = computeDistanceForIndices(MOUTH_INDEX);
+    const lEyeDistances = computeDistanceForIndices(L_EYE_INDEX);
+    const rEyeDistances = computeDistanceForIndices(R_EYE_INDEX);
+    const lMayuDistances = computeDistanceForIndices(L_MAYU_INDEX);
+    const rMayuDistances = computeDistanceForIndices(R_MAYU_INDEX);
 
-  //   return `{MOUTH:[${mouthDistances.join(
-  //     ", ",
-  //   )}], LEFT_EYE:[${lEyeDistances.join(
-  //     ", ",
-  //   )}], RIGHT_EYE:[${rEyeDistances.join(
-  //     ", ",
-  //   )}] LEFT_MAYU:[${lMayuDistances.join(
-  //     ", ",
-  //   )}], RIGHT_MAYU:[${rMayuDistances.join(", ")}]}`;
-  // };
+    return `{MOUTH:[${mouthDistances.join(
+      ", ",
+    )}], LEFT_EYE:[${lEyeDistances.join(
+      ", ",
+    )}], RIGHT_EYE:[${rEyeDistances.join(
+      ", ",
+    )}] LEFT_MAYU:[${lMayuDistances.join(
+      ", ",
+    )}], RIGHT_MAYU:[${rMayuDistances.join(", ")}]}`;
+  };
 
   const processCameraFrame = async () => {
     const canvas = canvasRef.current;
@@ -99,8 +99,6 @@ export default function FaceMesher() {
 
     ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
     dataURL = canvas.toDataURL();
-
-    console.log(`dataURL: ${dataURL}`);
 
     // 画像をアップロード
     const api_key = process.env.NEXT_PUBLIC_SUPABASE_KEY;
@@ -116,7 +114,6 @@ export default function FaceMesher() {
 
     // 文字列をランダムに生成
     const fileName = Math.random().toString(32).substring(2) + ".png";
-    console.log(`fileName: ${fileName}`);
     const { data: inputData, error } = await supabase.storage
       .from("image")
       .upload(fileName, decode(dataURL_base64), {
@@ -133,7 +130,6 @@ export default function FaceMesher() {
 
       const src = publicURL.data.publicUrl;
       faceImageURL = src;
-      console.log(`FileName: ${fileName}, publicURL: ${src}`);
 
       // // DBにレコード作成
       await supabase.from("sample").insert([
@@ -164,6 +160,7 @@ export default function FaceMesher() {
       if (results.multiFaceLandmarks) {
         for (const landmarks of results.multiFaceLandmarks) {
           const ctx = canvasRef.current.getContext("2d");
+          data_face_mesh = calculateDistances(landmarks, canvas);
 
           ctx.arc(
             landmarks[base_point].x * canvas.width,
