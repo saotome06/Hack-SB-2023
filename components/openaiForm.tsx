@@ -17,6 +17,7 @@ export let faceSrc = "";
 
 export default function OpeaiForm(props) {
   faceSrc = props.faceSrc;
+  console.log("faceSrc:", faceSrc);
   function Attack_Name_Button() {
     const [name, setname] = useState("");
     const [card_name, set_card_name] = useState("お待ちください");
@@ -99,7 +100,6 @@ export default function OpeaiForm(props) {
       myScore += 0.2 * Math.round(random_Data);
       myScore = Math.floor(myScore);
       myScoreSmile = Math.round(random_Data);
-      console.log(answer, number, random_Data);
     }
 
     async function sendPrompt(prompt = "") {
@@ -286,7 +286,13 @@ export default function OpeaiForm(props) {
                   onChange={onChangeHandler0}
                   label="必殺技を入力してください"
                   variant="outlined"
-                  style={{ marginBottom: "10px", width: "80%", color: "white" }}
+                  style={{
+                    marginBottom: "10px",
+                    width: "80%",
+                    color: "white",
+                    backgroundColor: "white",
+                    opacity: "0.7",
+                  }}
                   placeholder="必殺技名を入力してください"
                 />
                 <Button
