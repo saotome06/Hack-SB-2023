@@ -20,6 +20,7 @@
     "base64-arraybuffer": "^1.0.2",
     "body-parser": "^1.20.2",
     "bootstrap": "^5.3.2",
+    "canvas-confetti": "^1.6.1",
     "date-fns": "^2.30.0",
     "fs": "^0.0.1-security",
     "gray-matter": "^4.0.3",
