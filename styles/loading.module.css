@@ -66,8 +66,7 @@
   list-style: none;
   /* 余白の自動調整 （上下の余白は0、左右は自動調整）*/
   margin: 0 auto;
-  /* 高さを50pxに指定 */
-  height: 40px;
+  height: 60px;
   display: flex;
   list-style: none;
   /* justify-content: center; */
