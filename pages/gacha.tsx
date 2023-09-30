@@ -19,6 +19,7 @@ export default function Gacha() {
 
   useEffect(() => {
     async function effect_card(num) {
+      if (num <= 3) return;
       const script = document.createElement("script");
       script.type = "text/javascript";
       script.src =

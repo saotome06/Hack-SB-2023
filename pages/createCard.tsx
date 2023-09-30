@@ -242,7 +242,7 @@ export default function FaceMesher() {
                 textAlign: "center",
                 margin: "auto",
                 width: "70%",
-                marginTop: "50%",
+                marginTop: "70%",
                 zIndex: 100,
               }}
               color="primary"
@@ -256,7 +256,7 @@ export default function FaceMesher() {
               <Box
                 sx={{
                   position: "fixed",
-                  bottom: 20,
+                  bottom: 100,
                   left: 0,
                   justifyContent: "center",
                   width: "100%",
@@ -273,7 +273,7 @@ export default function FaceMesher() {
                     textAlign: "center",
                     margin: "auto",
                     width: "70%",
-                    marginTop: "50%",
+                    marginTop: "30%",
                     zIndex: 100,
                   }}
                   variant="contained"
