@@ -59,6 +59,7 @@ export default function Gacha() {
             maxWidth: "100%",
             textAlign: "center",
             margin: "auto",
+            fontFamily: "Helvetica, Arial, sans-serif",
           }}
         >
           <h1>笑顔度ガチャ</h1>

@@ -8,7 +8,12 @@ export default function Navbar() {
   console.log(router.pathname);
 
   return (
-    <nav className={styles.nav}>
+    <nav
+      className={styles.nav}
+      style={{
+        fontFamily: "Helvetica, Arial, sans-serif",
+      }}
+    >
       <ul>
         <li>
           <Link
