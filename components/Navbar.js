@@ -29,7 +29,7 @@ export default function Navbar() {
                 : styles.nav_type1
             }
           >
-            RANKING
+            RANK
           </Link>
         </li>
         <li>
