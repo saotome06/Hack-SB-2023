@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import React, { useEffect, useState } from "react";
 import RankingCard from "../components/rankingCard";
 import confetti from "canvas-confetti";
+import Header from "../components/header";
 
 //TODO 変数入れ
 export default function Gacha() {
@@ -53,7 +54,7 @@ export default function Gacha() {
     <>
       <Navbar />
       <div>
-        <div
+        {/* <div
           style={{
             width: "100%",
             maxWidth: "100%",
@@ -63,7 +64,8 @@ export default function Gacha() {
           }}
         >
           <h1>笑顔度ガチャ</h1>
-        </div>
+        </div> */}
+        <Header />
         <table>
           <tbody>
             {smileCards.map((smileCard) => (

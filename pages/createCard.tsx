@@ -9,6 +9,7 @@ import {
 } from "../common/constants";
 import { Box, Button } from "@mui/material";
 import Navbar from "../components/Navbar";
+import Header from "../components/header";
 import { decode } from "base64-arraybuffer";
 import { createClient } from "@supabase/supabase-js";
 import OpeaiForm from "../components/openaiForm";
@@ -208,12 +209,13 @@ export default function FaceMesher() {
 
   return (
     <div style={{ position: "relative" }}>
+      <Header />
       <div style={{ position: "absolute", bottom: -500, left: 50, zIndex: -1 }}>
         <Animation />
         <TextAnimation />
       </div>
       <Navbar />
-      <div
+      {/* <div
         style={{
           width: "100%",
           maxWidth: "100%",
@@ -222,7 +224,7 @@ export default function FaceMesher() {
         }}
       >
         <h1>笑☆顔☆王</h1>
-      </div>
+      </div> */}
       <div
         style={{
           width: "100%",
