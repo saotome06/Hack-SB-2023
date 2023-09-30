@@ -22,7 +22,7 @@ export default function Navbar() {
               router.pathname == "/" ? styles.nav_type0 : styles.nav_type1
             }
           >
-            HOME
+            ホーム
           </Link>
         </li>
         <li>
@@ -34,7 +34,7 @@ export default function Navbar() {
                 : styles.nav_type1
             }
           >
-            RANK
+            ランキング
           </Link>
         </li>
         <li>
@@ -44,7 +44,7 @@ export default function Navbar() {
               router.pathname == "/gacha" ? styles.nav_type0 : styles.nav_type1
             }
           >
-            GACHA
+            ガチャ
           </Link>
         </li>
       </ul>

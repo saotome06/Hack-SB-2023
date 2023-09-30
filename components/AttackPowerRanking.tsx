@@ -6,6 +6,8 @@
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import RankingCard from "./rankingCard";
+import Header from "../components/header";
+
 export default function AttackPowerRanking() {
   const [smileCards, setSmileCards] = useState([]);
   useEffect(() => {
@@ -43,7 +45,7 @@ export default function AttackPowerRanking() {
         margin: "auto",
       }}
     >
-      <h1
+      {/* <h1
         style={{
           textAlign: "center",
           fontFamily: "Helvetica, Arial, sans-serif",
@@ -54,7 +56,8 @@ export default function AttackPowerRanking() {
         }}
       >
         笑顔度ランキング
-      </h1>
+      </h1> */}
+      <Header />
       <table>
         <tbody>
           {smileCards.map((smileCard, index) => (
@@ -84,6 +87,7 @@ export default function AttackPowerRanking() {
                   backgroundColor: index === 0 ? "#ff9900" : "#fff",
                   boxShadow:
                     index === 0 ? "0px 0px 10px rgba(0, 0, 0, 0.2)" : "none",
+                  // backgroundColor: index === 0 ? "#FFD700" : index === 1 ? "#808080" : "#ccc",
                   borderRadius: "10px",
                 }}
               >
