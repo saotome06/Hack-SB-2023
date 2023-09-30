@@ -17,7 +17,7 @@ export default function Navbar() {
               router.pathname == "/" ? styles.nav_type0 : styles.nav_type1
             }
           >
-            HOMT
+            HOME
           </Link>
         </li>
         <li>
@@ -29,7 +29,7 @@ export default function Navbar() {
                 : styles.nav_type1
             }
           >
-            RANKING
+            RANK
           </Link>
         </li>
         <li>
