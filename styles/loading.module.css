@@ -45,36 +45,62 @@
   }
 }
 
+
 /*navbar*/
 .nav {
   /* 背景色設定 */
-  background-color: #666;
+  background-color: #080808;
+  position: fixed;
+  bottom: 0;
+  z-index: 99999;
+  width: 105%;
+  left: -5%;
+  justify-content: center;
+  opacity: 0.7;
 }
 
 .nav ul {
   /* 表示幅を90%に */
-  width: 90%;
-  /* フレックスボックス化 */
-  display: flex;
+  width: 80%;
   /* 先頭のポチをなくす */
   list-style: none;
   /* 余白の自動調整 （上下の余白は0、左右は自動調整）*/
   margin: 0 auto;
   /* 高さを50pxに指定 */
-  height: 50px;
+  height: 40px;
+  display: flex;
+  list-style: none;
+  /* justify-content: center; */
+  justify-content: space-between;
 }
 
-.nav a {
+.nav_type1 {
   /* アンダーライン削除 */
   text-decoration: none;
-  /* 文字色設定 */
-  color: #fff;
-  /* 内側余白を上右下左の順で設定 */
-  padding: 10px 20px 10px 0px;
-  /*ブロックにする */
+  color: #ffffff;
+  font-weight: lighter;
+  /* u r d l */
+  padding: 5px 10px 2px 10px;
   display: block;
-  /* 文字を大き目に設定 */
   font-size: large;
+  border-bottom: 2px solid rgb(255, 255, 255);
+  opacity: 1.0;
+}
+.nav_type0 {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 140%;
+  /* u r d l */
+  padding: 0px 10px 0.2px 10px;
+  display: block;
+  border-bottom: 5px solid rgb(255, 255, 255);
+  /* border-top: 1px solid rgb(0, 0, 0);
+  border-left: 1px solid rgb(0, 0, 0);
+  border-right: 1px solid rgb(0, 0, 0);
+  opacity: 0.9;
+  background-color: #f9f9f9;
+  border-radius: 0%; */
 }
 
 .nav a:hover {

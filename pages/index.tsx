@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import Navbar from "../components/Navbar";
 import Header from "../components/header";
 import MenuTab from "../components/menuTab";
 import { useRouter } from "next/router";
@@ -21,6 +22,7 @@ export default function Top() {
 
   return (
     <>
+      <Navbar />
       <Header />
       <Box
         sx={{
