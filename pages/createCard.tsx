@@ -228,31 +228,28 @@ export default function FaceMesher() {
       <div
         style={{
           width: "100%",
-          maxWidth: "80%",
+          // maxWidth: "80%",
           margin: "auto",
         }}
       >
         <Box>
           {camButton ? (
-            <Button
+            <img
               style={{
-                border: "1px solid black",
-                padding: "10px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                textAlign: "center",
+                width: "50%",
                 margin: "auto",
-                width: "70%",
-                marginTop: "70%",
+                marginTop: "40%",
+                height: "auto",
+                maxWidth: "375px",
+                display: "block",
+                borderRadius: "10px",
+                boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
                 zIndex: 100,
+                backgroundColor: "orange",
               }}
-              color="primary"
-              variant="contained"
+              src="./cam.png"
               onClick={startCamera}
-            >
-              カメラを起動
-            </Button>
+            />
           ) : (
             <>
               <Box
