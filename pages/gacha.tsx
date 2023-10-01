@@ -23,7 +23,7 @@ export default function Gacha() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowCard(true);
-    }, 4000);
+    }, 3500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -44,7 +44,7 @@ export default function Gacha() {
         launchConfetti(300 * num * num);
         document.body.style.background =
           "linear-gradient(to right, #ff00ff, #00ffff)";
-      }, 4000);
+      }, 3500);
     }
 
     async function fetchSmileCardRanking() {
@@ -88,6 +88,7 @@ export default function Gacha() {
                         textAlign: "center",
                         width: "100%",
                         margin: "auto",
+                        maxWidth: "350px",
                       }}
                     >
                       <p className={styles.flowing}>
