@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import Navbar from "../components/Navbar";
+import styles from "../styles/rarityEffect.module.css";
 
 import React, { useEffect, useState } from "react";
 import RankingCard from "../components/rankingCard";
@@ -9,6 +10,7 @@ import Header from "../components/header";
 //TODO 変数入れ
 export default function Gacha() {
   const [smileCards, setSmileCards] = useState([]);
+  const [showCard, setShowCard] = useState(false);
 
   const launchConfetti = (particle_cnt) => {
     confetti({
@@ -19,15 +21,30 @@ export default function Gacha() {
   };
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowCard(true);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     async function effect_card(num) {
-      if (num <= 3) return;
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src =
-        "https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2/dist/confetti.browser.min.js";
-      script.async = true;
-      document.body.appendChild(script);
-      launchConfetti(5 * num * num);
+      document.body.style.background = "none";
+      if (num <= 3) {
+        setShowCard(true);
+        return;
+      }
+      setTimeout(() => {
+        const script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src =
+          "https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2/dist/confetti.browser.min.js";
+        script.async = true;
+        document.body.appendChild(script);
+        launchConfetti(300 * num * num);
+        document.body.style.background =
+          "linear-gradient(to right, #ff00ff, #00ffff)";
+      }, 4000);
     }
 
     async function fetchSmileCardRanking() {
@@ -54,17 +71,6 @@ export default function Gacha() {
     <>
       <Navbar />
       <div>
-        {/* <div
-          style={{
-            width: "100%",
-            maxWidth: "100%",
-            textAlign: "center",
-            margin: "auto",
-            fontFamily: "Helvetica, Arial, sans-serif",
-          }}
-        >
-          <h1>笑顔度ガチャ</h1>
-        </div> */}
         <Header />
         <table>
           <tbody>
@@ -76,17 +82,36 @@ export default function Gacha() {
                     padding: "10px",
                   }}
                 >
-                  <RankingCard
-                    imageURL={smileCard.background_url}
-                    myCardName={smileCard.card_name}
-                    cardImage={smileCard.face_image_path}
-                    myName={smileCard.special_attack_name}
-                    myDetail={smileCard.description}
-                    myScore={smileCard.attack_power}
-                    myScoreSmile={smileCard.smile_score}
-                    faceImage={smileCard.face_image_path}
-                    rarity={smileCard.rarity}
-                  />
+                  {!showCard ? (
+                    <Box
+                      sx={{
+                        textAlign: "center",
+                        width: "100%",
+                        margin: "auto",
+                      }}
+                    >
+                      <p className={styles.flowing}>
+                        {smileCard.special_attack_name}
+                      </p>
+                      {smileCard.rarity == 5 ? (
+                        <img src="./r5smile.png" className={styles.flowing} />
+                      ) : (
+                        <img src="./smile.png" className={styles.flowing} />
+                      )}
+                    </Box>
+                  ) : (
+                    <RankingCard
+                      imageURL={smileCard.background_url}
+                      myCardName={smileCard.card_name}
+                      cardImage={smileCard.face_image_path}
+                      myName={smileCard.special_attack_name}
+                      myDetail={smileCard.description}
+                      myScore={smileCard.attack_power}
+                      myScoreSmile={smileCard.smile_score}
+                      faceImage={smileCard.face_image_path}
+                      rarity={smileCard.rarity}
+                    />
+                  )}
                 </Box>
               </tr>
             ))}

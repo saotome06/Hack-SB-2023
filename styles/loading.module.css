@@ -45,9 +45,6 @@
   }
 }
 
-
-
-
 /*header*/
 .head {
   background-color: #ffffff;
@@ -60,7 +57,6 @@
   left: 0%;
   opacity: 0.9;
 }
-
 
 /*navbar*/
 .nav {
@@ -100,7 +96,7 @@
   display: block;
   /* font-size: large; */
   border-bottom: 3px solid #ffffff;
-  opacity: 1.0;
+  opacity: 1;
   font: Arial;
 }
 .nav_type0 {
