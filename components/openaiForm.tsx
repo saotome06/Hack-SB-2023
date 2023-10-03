@@ -60,10 +60,10 @@ export default function OpeaiForm(props) {
   console.log("faceSrc:", faceSrc);
   function Attack_Name_Button() {
     const [name, setname] = useState("");
-    const [card_name, set_card_name] = useState("お待ちください");
+    const [card_name, set_card_name] = useState("");
     const [attack_score, set_attack_score] = useState(1000);
     const [inputFormOn, setinputFormOn] = useState(true);
-    const [output_data, set_randomData] = useState("お待ちください");
+    const [output_data, set_randomData] = useState("");
     const [rarity, setrarity] = useState(10);
     const router = useRouter();
     const goMyCard = () => {
@@ -294,7 +294,9 @@ export default function OpeaiForm(props) {
         );
         if (response.data && response.data.data) {
           imageURL = await uploadImage(response.data.data[0].b64_json);
-          myRarity != 10 ? goMyCard() : console.log("wait");
+          myRarity != 10 && output_data != "" && card_name != ""
+            ? goMyCard()
+            : console.log("wait");
         }
       } catch (error) {
         console.error(error);
