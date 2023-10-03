@@ -18,8 +18,6 @@ export let myRarity = 10;
 export let faceSrc = "";
 
 async function uploadImage(dataURL_base64): Promise<string> {
-  console.log(`uploadImage: ${dataURL_base64}`);
-
   // 画像をアップロード
   const api_key = process.env.NEXT_PUBLIC_SUPABASE_KEY;
 
@@ -295,11 +293,6 @@ export default function OpeaiForm(props) {
           },
         );
         if (response.data && response.data.data) {
-          console.log(
-            `response.data.data[0].url: ${JSON.stringify(
-              response.data.data[0].b64_json,
-            )}`,
-          );
           imageURL = await uploadImage(response.data.data[0].b64_json);
           myRarity != 10 ? goMyCard() : console.log("wait");
         }
