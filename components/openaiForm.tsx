@@ -294,7 +294,9 @@ export default function OpeaiForm(props) {
         );
         if (response.data && response.data.data) {
           imageURL = await uploadImage(response.data.data[0].b64_json);
-          myRarity != 10 && output_data != "" && card_name != "" ? goMyCard() : console.log("wait");
+          myRarity != 10 && output_data != "" && card_name != ""
+            ? goMyCard()
+            : console.log("wait");
         }
       } catch (error) {
         console.error(error);
