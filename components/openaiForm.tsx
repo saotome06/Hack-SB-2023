@@ -18,6 +18,8 @@ export let myRarity = 10;
 export let faceSrc = "";
 
 async function uploadImage(dataURL_base64): Promise<string> {
+  console.log(`uploadImage: ${dataURL_base64}`);
+
   // 画像をアップロード
   const api_key = process.env.NEXT_PUBLIC_SUPABASE_KEY;
 
