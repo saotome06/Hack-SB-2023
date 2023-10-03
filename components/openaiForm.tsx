@@ -4,6 +4,8 @@ import OpenAI from "openai";
 import axios from "axios";
 import { useRouter } from "next/router";
 import styles from "../styles/loading.module.css";
+import { decode } from "base64-arraybuffer";
+import { createClient } from "@supabase/supabase-js";
 
 export let imageURL = "";
 export let myName = "";
@@ -14,6 +16,44 @@ export let myScoreAttackName = 0;
 export let myScoreSmile = 0;
 export let myRarity = 10;
 export let faceSrc = "";
+
+async function uploadImage(dataURL_base64): Promise<string> {
+  // 画像をアップロード
+  const api_key = process.env.NEXT_PUBLIC_SUPABASE_KEY;
+
+  const supabase = createClient(
+    "https://zogqrpdjhulkzbvpuwud.supabase.co",
+    api_key,
+  );
+
+  // 文字列をランダムに生成
+  const fileName = Math.random().toString(32).substring(2) + ".png";
+  const { data: inputData, error } = await supabase.storage
+    .from("image")
+    .upload(fileName, decode(dataURL_base64), {
+      contentType: "image/png",
+    });
+  if (error) {
+    console.log(error);
+  } else {
+    console.log(inputData);
+
+    const publicURL = await supabase.storage
+      .from("image")
+      .getPublicUrl(fileName);
+
+    const src = publicURL.data.publicUrl;
+
+    // // DBにレコード作成
+    await supabase.from("sample").insert([
+      {
+        fileName: fileName,
+        src: src,
+      },
+    ]);
+    return src;
+  }
+}
 
 export default function OpeaiForm(props) {
   faceSrc = props.faceSrc;
@@ -253,7 +293,7 @@ export default function OpeaiForm(props) {
           },
         );
         if (response.data && response.data.data) {
-          imageURL = response.data.data[0].url;
+          imageURL = await uploadImage(response.data.data[0].url);
           myRarity != 10 ? goMyCard() : console.log("wait");
         }
       } catch (error) {
