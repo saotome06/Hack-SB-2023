@@ -285,7 +285,7 @@ export default function OpeaiForm(props) {
             prompt: content,
             size: "256x256",
             num_images: 1,
-            response_format: "url",
+            response_format: "b64_json",
           },
           {
             headers: {
