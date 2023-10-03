@@ -295,7 +295,11 @@ export default function OpeaiForm(props) {
           },
         );
         if (response.data && response.data.data) {
-          console.log(`response.data.data[0].url: ${JSON.stringify(response.data.data[0].b64_json)}`);
+          console.log(
+            `response.data.data[0].url: ${JSON.stringify(
+              response.data.data[0].b64_json,
+            )}`,
+          );
           imageURL = await uploadImage(response.data.data[0].b64_json);
           myRarity != 10 ? goMyCard() : console.log("wait");
         }
