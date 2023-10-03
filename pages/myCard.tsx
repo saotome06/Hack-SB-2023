@@ -1,6 +1,6 @@
 // import { useEffect } from "react";
+import { faceImageURL } from "./createCard";
 import Navbar from "../components/Navbar";
-import { cardImage } from "../components/card";
 import CardFrame from "../components/cardFrame";
 import {
   imageURL,
@@ -13,12 +13,33 @@ import {
   myScoreSmile,
   faceSrc,
 } from "../components/openaiForm";
+import confetti from "canvas-confetti";
+import React, { useEffect } from "react";
 
 export let countR = 0;
 export default function MyCard() {
   console.log("myScoreAttackName:", myScoreAttackName);
   console.log("myScoreSmile:", myScoreSmile);
   countR = myRarity;
+  console.log(faceImageURL);
+  console.log(faceSrc);
+
+  useEffect(() => {
+    const launchConfetti = (particle_cnt) => {
+      confetti({
+        particleCount: particle_cnt,
+        spread: 70,
+        origin: { y: 1.0 },
+      });
+    };
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src =
+      "https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2/dist/confetti.browser.min.js";
+    script.async = true;
+    document.body.appendChild(script);
+    launchConfetti(100);
+  });
 
   // useEffect(() => {
   //   async function fetchSmileCardRanking() {
@@ -49,7 +70,7 @@ export default function MyCard() {
       <CardFrame
         imageURL={imageURL}
         myCardName={myCardName}
-        cardImage={cardImage}
+        cardImage={faceImageURL}
         myName={myName}
         myDetail={myDetail}
         myScore={myScore}

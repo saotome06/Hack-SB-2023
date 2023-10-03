@@ -1,0 +1,21 @@
+.flowing {
+  margin: 0;
+  font-size: 35px;
+  font-weight: bold;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: flowing-anim 3s;
+  text-align: center;
+  margin: auto;
+  max-width: 350px;
+}
+
+@keyframes flowing-anim {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}

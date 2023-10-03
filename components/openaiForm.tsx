@@ -4,6 +4,8 @@ import OpenAI from "openai";
 import axios from "axios";
 import { useRouter } from "next/router";
 import styles from "../styles/loading.module.css";
+import { decode } from "base64-arraybuffer";
+import { createClient } from "@supabase/supabase-js";
 
 export let imageURL = "";
 export let myName = "";
@@ -15,8 +17,47 @@ export let myScoreSmile = 0;
 export let myRarity = 10;
 export let faceSrc = "";
 
+async function uploadImage(dataURL_base64): Promise<string> {
+  // 画像をアップロード
+  const api_key = process.env.NEXT_PUBLIC_SUPABASE_KEY;
+
+  const supabase = createClient(
+    "https://zogqrpdjhulkzbvpuwud.supabase.co",
+    api_key,
+  );
+
+  // 文字列をランダムに生成
+  const fileName = Math.random().toString(32).substring(2) + ".png";
+  const { data: inputData, error } = await supabase.storage
+    .from("image")
+    .upload(fileName, decode(dataURL_base64), {
+      contentType: "image/png",
+    });
+  if (error) {
+    console.log(error);
+  } else {
+    console.log(inputData);
+
+    const publicURL = await supabase.storage
+      .from("image")
+      .getPublicUrl(fileName);
+
+    const src = publicURL.data.publicUrl;
+
+    // // DBにレコード作成
+    await supabase.from("sample").insert([
+      {
+        fileName: fileName,
+        src: src,
+      },
+    ]);
+    return src;
+  }
+}
+
 export default function OpeaiForm(props) {
   faceSrc = props.faceSrc;
+  console.log("faceSrc:", faceSrc);
   function Attack_Name_Button() {
     const [name, setname] = useState("");
     const [card_name, set_card_name] = useState("お待ちください");
@@ -99,7 +140,6 @@ export default function OpeaiForm(props) {
       myScore += 0.2 * Math.round(random_Data);
       myScore = Math.floor(myScore);
       myScoreSmile = Math.round(random_Data);
-      console.log(answer, number, random_Data);
     }
 
     async function sendPrompt(prompt = "") {
@@ -243,7 +283,7 @@ export default function OpeaiForm(props) {
             prompt: content,
             size: "256x256",
             num_images: 1,
-            response_format: "url",
+            response_format: "b64_json",
           },
           {
             headers: {
@@ -253,7 +293,7 @@ export default function OpeaiForm(props) {
           },
         );
         if (response.data && response.data.data) {
-          imageURL = response.data.data[0].url;
+          imageURL = await uploadImage(response.data.data[0].b64_json);
           myRarity != 10 ? goMyCard() : console.log("wait");
         }
       } catch (error) {
@@ -286,7 +326,13 @@ export default function OpeaiForm(props) {
                   onChange={onChangeHandler0}
                   label="必殺技を入力してください"
                   variant="outlined"
-                  style={{ marginBottom: "10px", width: "80%", color: "white" }}
+                  style={{
+                    marginBottom: "10px",
+                    width: "80%",
+                    color: "white",
+                    backgroundColor: "white",
+                    opacity: "0.7",
+                  }}
                   placeholder="必殺技名を入力してください"
                 />
                 <Button
